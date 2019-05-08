@@ -23,6 +23,7 @@ Podcast PWA
 - [ ] - Subscribed Podcasts Page
 
 ### 1.x Incremental Updates
+- [ ] - Timer
 - [ ] - Discovery Page (most listened)
 - [ ] - Rich discovery page (seach by year, categories and language)
 - [ ] - Multimedia controls on Locked Screen

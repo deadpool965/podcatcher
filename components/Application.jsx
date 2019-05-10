@@ -1,15 +1,14 @@
 import PropTypes from 'prop-types';
 import Head from './Head';
 import Container from './Container';
+import Header from './Header';
 
 function Application({ title, children }) {
   return (
     <div className="app">
       <Head title={title} />
       <Container>
-        <header className="header">
-          <h1 className="header__title">PODCATCHER</h1>
-        </header>
+        <Header />
       </Container>
       <Container>
         <main className="app__main">
@@ -38,11 +37,6 @@ function Application({ title, children }) {
 
             .app * {
               font-family: 'Roboto', sans-serif;
-            }
-
-            .header__title {
-              font-family: 'Bungee', cursive !important;
-              color: var(--accent-color);
             }
           `}
       </style>

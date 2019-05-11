@@ -17,19 +17,24 @@ function Application({ title, children }) {
       </Container>
       <style jsx global>
         {`
-            .app {
+            body {
               --main-bg-color: #232F34;
               --accent-bg-color: #4A6572;
               --accent-color: #F9AA33;
               --text-color: #FFF;
               --mute-color: #8C9CA4;
-  
+
+              background-color: var(--main-bg-color);
+            }
+
+            .app {
               display: block;
               position: absolute;
               top: 0px;
               left: 0px;
               width: 100%;
               height: 100%;
+              overflow: auto;
               color: var(--text-color);
               background-color: var(--main-bg-color);
               font-family: 'Roboto', sans-serif;

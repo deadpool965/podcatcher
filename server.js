@@ -1,7 +1,10 @@
 const express = require('express');
 const axios = require('axios');
+const dotenv = require('dotenv');
 const { readFileSync } = require('fs');
 const NodeCache = require('node-cache');
+
+dotenv.config();
 
 const cache = new NodeCache({
   stdTTL: 60 * 60, // hourly
@@ -9,9 +12,6 @@ const cache = new NodeCache({
   deleteOnExpire: true,
 });
 const app = express();
-
-const PORT = process.env.ENVIROMENT === 'production'
-  ? 80 : 3001;
 
 const indexFile = (() => readFileSync('./build/index.html', { encoding: 'utf-8' }))();
 
@@ -48,4 +48,4 @@ app.get('/api/topcharts', topCharts);
 app.use(express.static('./build'));
 app.get('*', (req, res) => res.send(indexFile));
 
-app.listen(PORT, () => console.log(`Ready on ${PORT}`));
+app.listen(process.env.SERVER_PORT, () => console.log(`Ready on ${process.env.SERVER_PORT}`));

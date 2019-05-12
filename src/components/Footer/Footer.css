@@ -1,0 +1,12 @@
+.footer {
+  margin-top: 16px;
+  padding: 32px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.footer__link {
+  color: var(--accent-color);
+  text-decoration: none;
+  margin: 0px 4px;
+}

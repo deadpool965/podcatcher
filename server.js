@@ -13,6 +13,11 @@ const cache = new NodeCache({
 });
 const app = express();
 
+const cors = (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+};
+
 const indexFile = (() => readFileSync('./build/index.html', { encoding: 'utf-8' }))();
 
 const fetch = async (url) => {
@@ -42,9 +47,9 @@ const topCharts = async (req, res) => {
   }
 };
 
-app.get('/api/lookup', lookup);
-app.get('/api/search', search);
-app.get('/api/topcharts', topCharts);
+app.get('/api/lookup', cors, lookup);
+app.get('/api/search', cors, search);
+app.get('/api/topcharts', cors, topCharts);
 app.use(express.static('./build'));
 app.get('*', (req, res) => res.send(indexFile));
 

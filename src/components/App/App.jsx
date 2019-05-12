@@ -2,6 +2,7 @@ import React from 'react';
 import Container from '../Container/Container';
 import Header from '../Header/Header';
 import DiscoveryPage from '../../pages/Discovery/Discovery';
+import Footer from '../Footer/Footer';
 import './App.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <DiscoveryPage />
         </main>
       </Container>
+      <Footer />
     </div>
   );
 }

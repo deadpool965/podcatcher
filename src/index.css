@@ -1,7 +1,9 @@
 body {
   --main-bg-color: #232F34;
   --accent-bg-color: #4A6572;
+  --accent-bg-color-light: #76919e;
   --accent-color: #F9AA33;
+  --accent-color-light: #ffbf5d;
   --text-color: #FFF;
   --mute-color: #8C9CA4;
 

@@ -9,6 +9,10 @@
   outline: none;
 }
 
+.button:focus {
+  background-color: var(--accent-color-light);
+}
+
 .button--full-width {
   width: 100%;
   color: var(--main-bg-color);

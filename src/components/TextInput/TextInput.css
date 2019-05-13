@@ -9,10 +9,18 @@
   border: 0px;
   padding: 16px;
   box-sizing: border-box;
-  outline-style: none;
+  outline: none;
   background-color: var(--accent-bg-color);
   color: var(--text-color);
   font-size: 16px;
+}
+
+.text-input__input:focus {
+  background-color: var(--accent-bg-color-light);
+}
+
+.text-input__input:focus::placeholder {
+  color: #CCC;
 }
 
 .text-input__input::placeholder {

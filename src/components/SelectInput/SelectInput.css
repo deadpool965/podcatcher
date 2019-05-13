@@ -16,6 +16,10 @@
   border-radius: 8px;
 }
 
+.select-input__input:focus {
+  background-color: var(--accent-bg-color-light);
+}
+
 .select-input__icon {
   position: absolute;
   top: 50%;

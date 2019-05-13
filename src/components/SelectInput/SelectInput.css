@@ -1,0 +1,26 @@
+.select-input {
+  display: block;
+  position: relative;
+}
+
+.select-input__input {
+  width: 100%;
+  height: 40px;
+  background-color: var(--accent-bg-color);
+  color: var(--text-color);
+  appearance: none;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding: 0px 16px;
+  border-radius: 8px;
+}
+
+.select-input__icon {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 20px;
+}

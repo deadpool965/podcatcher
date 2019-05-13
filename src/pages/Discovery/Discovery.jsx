@@ -1,6 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import TextInput from '../../components/TextInput/TextInput';
 import PodcastLinkGrid from '../../components/PodcastLinkGrid/PodcastLinkGrid';
+import SelectInput from '../../components/SelectInput/SelectInput';
+import CATEGORIES from '../../libs/categories';
+import COUNTRIES from '../../libs/countries';
+import MY_CONTRY from '../../libs/myCountry';
+import './Discovery.css';
+import Button from '../../components/Button/Button';
 
 function Discovery() {
   const [q, setQ] = useState('');
@@ -30,10 +36,10 @@ function Discovery() {
     }
     return genPodcasts;
   }
-  const [topChartsPodcasts, setTopChartsPodcasts] = useState(generatePodcastPlaceholders(50));
+  const [topChartsPodcasts, setTopChartsPodcasts] = useState(generatePodcastPlaceholders(30));
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}topcharts`)
+    fetch(`${process.env.REACT_APP_API}topcharts?limit=30&country=${MY_CONTRY}`)
       .then(result => result.json())
       .then(data => setTopChartsPodcasts(data));
   }, []);
@@ -51,6 +57,35 @@ function Discovery() {
           ariaLabel="Search"
           defaultValue={q}
         />
+        <div className="discovery-page__inner-form">
+          <div className="discovery-page__inner-form__field-wrapper">
+            <SelectInput
+              name="category"
+              placeholder="All Categories"
+              ariaLabel="Search"
+              options={[
+                {
+                  label: 'All Categories',
+                  value: '',
+                },
+                ...CATEGORIES,
+              ]}
+            />
+            <SelectInput
+              name="country"
+              placeholder="All Countries"
+              ariaLabel="Search"
+              defaultValue={MY_CONTRY}
+              options={COUNTRIES}
+            />
+          </div>
+          <div>
+            <Button fullWidth>
+              <i className="icon ion-md-search" style={{ marginRight: '8px' }} />
+              Search
+            </Button>
+          </div>
+        </div>
       </form>
       <h2>Popular Podcasts</h2>
       <PodcastLinkGrid

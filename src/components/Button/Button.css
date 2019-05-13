@@ -1,0 +1,15 @@
+.button {
+  height: 40px;
+  background-color: var(--accent-color);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  padding: 0px 16px;
+  cursor: pointer;
+  outline: none;
+}
+
+.button--full-width {
+  width: 100%;
+  color: var(--main-bg-color);
+}

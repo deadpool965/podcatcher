@@ -5,7 +5,7 @@ Podcast PWA
 ## Roadmap
 
 ### 1.0 MVP
-- [ ] - Seach
+- [x] - Seach
 - [ ] - Podcast Page
 - [ ] - Podcast Episode Page
 - [ ] - Player

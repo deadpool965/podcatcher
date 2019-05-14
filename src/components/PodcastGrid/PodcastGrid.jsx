@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './PodcastLinkGrid.css';
+import './PodcastGrid.css';
 
-function PodcastLinkGrid({ podcasts }) {
+function PodcastGrid({ podcasts }) {
   function onImageLoad(e) {
     const image = e.target;
     image.className += ' podcast-link-item__img--loaded';
@@ -36,7 +36,7 @@ function PodcastLinkGrid({ podcasts }) {
   );
 }
 
-PodcastLinkGrid.propTypes = {
+PodcastGrid.propTypes = {
   podcasts: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -46,4 +46,4 @@ PodcastLinkGrid.propTypes = {
   ).isRequired,
 };
 
-export default PodcastLinkGrid;
+export default PodcastGrid;

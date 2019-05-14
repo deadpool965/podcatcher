@@ -1,11 +1,43 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import TextInput from '../../components/TextInput/TextInput';
-import PodcastLinkGrid from '../../components/PodcastLinkGrid/PodcastLinkGrid';
+import PodcastGrid from '../../components/PodcastGrid/PodcastGrid';
+import Button from '../../components/Button/Button';
+import Spinner from '../../components/Spinner/Spinner';
 import MY_CONTRY from '../../libs/myCountry';
 import queryParser from '../../libs/queryParser';
 import './Discovery.css';
-import Button from '../../components/Button/Button';
+
+
+function PodcastResults({ searchResults }) {
+  if (searchResults === null) {
+    return <Spinner />;
+  }
+
+  if (searchResults.length === 0) {
+    return <span>No results found.</span>;
+  }
+
+  return (
+    <PodcastGrid
+      podcasts={searchResults}
+    />
+  );
+}
+
+PodcastResults.propTypes = {
+  searchResults: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      artworkUrl100: PropTypes.string,
+    }),
+  ),
+};
+
+PodcastResults.defaultProps = {
+  searchResults: null,
+};
 
 function Discovery({ history, location }) {
   const query = queryParser(location.search);
@@ -42,18 +74,17 @@ function Discovery({ history, location }) {
 
   const [topChartsPodcasts, setTopChartsPodcasts] = useState(generatePodcastPlaceholders(30));
   useEffect(() => {
-    if (query.q) return;
     fetch(`${process.env.REACT_APP_API}topcharts?limit=30&country=${MY_CONTRY}`)
       .then(result => result.json())
       .then(data => setTopChartsPodcasts(data));
-  });
+  }, []);
 
   useEffect(() => {
     if (!query.q) return;
+    setSearchResults(null);
     fetch(`${process.env.REACT_APP_API}search?term=${query.q}&limit=30&media=podcast`)
       .then(result => result.json())
       .then((data) => {
-        setSearchResults([]);
         setSearchResults(
           data
             .results
@@ -98,18 +129,20 @@ function Discovery({ history, location }) {
       {query.q
         ? (
           <Fragment>
-            <h2>
+            <h2 className="discovery-page__title">
               {`Results for "${query.q}"`}
             </h2>
-            <PodcastLinkGrid
-              podcasts={searchResults}
-            />
+            {
+              <PodcastResults
+                searchResults={searchResults}
+              />
+            }
           </Fragment>
         )
         : (
           <Fragment>
-            <h2>Popular Podcasts</h2>
-            <PodcastLinkGrid
+            <h2 className="discovery-page__title">Popular Podcasts</h2>
+            <PodcastGrid
               podcasts={topChartsPodcasts}
             />
           </Fragment>

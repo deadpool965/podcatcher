@@ -3,3 +3,9 @@
   grid-gap: 8px;
   grid-template-columns: auto 60px;
 }
+
+.discovery-page__title {
+  margin-top: 32px;
+  margin-bottom: 16px;
+  font-weight: 100;
+}

@@ -17,6 +17,7 @@ function SelectInput({
             <optgroup
               label={label}
               value={value}
+              key={value}
             >
               {mapOptions(group)}
             </optgroup>

@@ -1,19 +1,5 @@
-.discovery-page__inner-form {
+.discovery-page__form {
   display: grid;
-  width: 100%;
-  grid-gap: 16px;
-  margin: 16px 0px;
-  box-sizing: border-box;
-}
-
-.discovery-page__inner-form__field-wrapper {
-  display: grid;
-  grid-gap: 16px;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-@media (min-width: 600px) {
-  .discovery-page__inner-form {
-    grid-template-columns: 2fr 1fr;
-  }
+  grid-gap: 8px;
+  grid-template-columns: auto 60px;
 }

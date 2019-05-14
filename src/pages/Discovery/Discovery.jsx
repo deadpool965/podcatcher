@@ -1,27 +1,31 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import TextInput from '../../components/TextInput/TextInput';
 import PodcastLinkGrid from '../../components/PodcastLinkGrid/PodcastLinkGrid';
-import SelectInput from '../../components/SelectInput/SelectInput';
-import CATEGORIES from '../../libs/categories';
-import COUNTRIES from '../../libs/countries';
 import MY_CONTRY from '../../libs/myCountry';
+import queryParser from '../../libs/queryParser';
 import './Discovery.css';
 import Button from '../../components/Button/Button';
 
-function Discovery() {
-  const [q, setQ] = useState('');
-  const form = useRef();
-  const title = q
-    ? `Results for "${q}"`
-    : 'PodCatcher';
+function Discovery({ history, location }) {
+  const query = queryParser(location.search);
+  const [q, setQ] = useState(query.q || '');
+  const [searchResults, setSearchResults] = useState([]);
+
+  function handleChange({ target }) {
+    setQ(target.value);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
-    const { value: query } = form.current.q;
-    setQ(query);
-    window
-      .history
-      .pushState({}, title, `/?q=${encodeURI(query)}`);
+    setSearchResults([]);
+    history.push(`/?q=${q}`);
+  }
+
+  function resetForm() {
+    setQ('');
+    setSearchResults([]);
+    history.push('/');
   }
 
   function generatePodcastPlaceholders(number) {
@@ -31,68 +35,96 @@ function Discovery() {
         id: `${Math.random()}`,
         name: '',
         artworkUrl100: '',
-        placeholder: true,
       });
     }
     return genPodcasts;
   }
-  const [topChartsPodcasts, setTopChartsPodcasts] = useState(generatePodcastPlaceholders(30));
 
+  const [topChartsPodcasts, setTopChartsPodcasts] = useState(generatePodcastPlaceholders(30));
   useEffect(() => {
+    if (query.q) return;
     fetch(`${process.env.REACT_APP_API}topcharts?limit=30&country=${MY_CONTRY}`)
       .then(result => result.json())
       .then(data => setTopChartsPodcasts(data));
-  }, []);
+  });
+
+  useEffect(() => {
+    if (!query.q) return;
+    fetch(`${process.env.REACT_APP_API}search?term=${query.q}&limit=30&media=podcast`)
+      .then(result => result.json())
+      .then((data) => {
+        setSearchResults([]);
+        setSearchResults(
+          data
+            .results
+            .map((r) => {
+              const podcast = {
+                id: `${r.collectionId}`,
+                name: r.collectionName,
+                artworkUrl100: r.artworkUrl100,
+              };
+              return podcast;
+            }),
+        );
+      });
+  }, [query.q]);
 
   return (
     <div className="discovery-page">
       <form
         onSubmit={handleSubmit}
-        ref={form}
+        className="discovery-page__form"
       >
         <TextInput
           name="q"
           placeholder="Search"
-          icon="search"
           ariaLabel="Search"
           defaultValue={q}
+          onChange={handleChange}
+          clearButton
+          onClear={resetForm}
         />
-        <div className="discovery-page__inner-form">
-          <div className="discovery-page__inner-form__field-wrapper">
-            <SelectInput
-              name="category"
-              placeholder="All Categories"
-              ariaLabel="Search"
-              options={[
-                {
-                  label: 'All Categories',
-                  value: '',
-                },
-                ...CATEGORIES,
-              ]}
-            />
-            <SelectInput
-              name="country"
-              placeholder="All Countries"
-              ariaLabel="Search"
-              defaultValue={MY_CONTRY}
-              options={COUNTRIES}
-            />
-          </div>
-          <div>
-            <Button fullWidth>
-              <i className="icon ion-md-search" style={{ marginRight: '8px' }} />
-              Search
-            </Button>
-          </div>
-        </div>
+        <Button
+          fullWidth
+          onClick={handleSubmit}
+          ariaLabel="Search"
+        >
+          <i
+            className="icon ion-md-search"
+            aria-hidden
+          />
+        </Button>
       </form>
-      <h2>Popular Podcasts</h2>
-      <PodcastLinkGrid
-        podcasts={topChartsPodcasts}
-      />
+      {query.q
+        ? (
+          <Fragment>
+            <h2>
+              {`Results for "${query.q}"`}
+            </h2>
+            <PodcastLinkGrid
+              podcasts={searchResults}
+            />
+          </Fragment>
+        )
+        : (
+          <Fragment>
+            <h2>Popular Podcasts</h2>
+            <PodcastLinkGrid
+              podcasts={topChartsPodcasts}
+            />
+          </Fragment>
+        )}
     </div>
   );
 }
+
+Discovery.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }).isRequired,
+};
 
 export default Discovery;

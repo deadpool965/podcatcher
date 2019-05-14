@@ -25,7 +25,7 @@ function PodcastLinkGrid({ podcasts }) {
               <img
                 className="podcast-link-item__img"
                 src={artworkUrl100}
-                alt={name}
+                alt={name || 'Loading'}
                 onLoad={onImageLoad}
               />
               <span className="podcast-link-item__hidden-text">{name}</span>

@@ -33,7 +33,21 @@ const fetch = async (url) => {
 };
 
 const lookup = (req, res) => res.send('lookup');
-const search = (req, res) => res.send('search');
+const search = async (req, res) => {
+  try {
+    const searchParams = `${Object
+      .keys(req.query)
+      .map(k => `${k}=${encodeURI(req.query[k])}`)
+      .join('&')}`;
+    console.log(`https://itunes.apple.com/search?${searchParams}`);
+    const data = await fetch(`https://itunes.apple.com/search?${searchParams}`);
+    res.send(data);
+  } catch (e) {
+    res
+      .status(500)
+      .send(e);
+  }
+};
 const topCharts = async (req, res) => {
   try {
     const country = req.query.country || 'us';

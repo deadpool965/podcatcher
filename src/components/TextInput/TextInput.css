@@ -35,3 +35,25 @@
   transform: translateY(-50%);
   pointer-events: none;
 }
+
+.text-input__clear-btn {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 40px;
+  height: 40px;
+  margin: 0px;
+  padding: 0px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  border-radius: 0px 8px 8px 0px;
+  color: var(--main-bg-color);
+  outline: none;
+}
+
+.text-input__clear-btn:hover,
+.text-input__clear-btn:focus {
+  background-color: rgba(255, 255, 255, .3);
+}

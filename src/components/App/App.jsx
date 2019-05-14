@@ -18,7 +18,7 @@ function App() {
             <Route
               path="/"
               exact
-              render={(props) => <DiscoveryPage {...props} />}
+              render={props => <DiscoveryPage {...props} />}
             />
           </main>
         </Container>

@@ -1,12 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './PodcastGrid.css';
 
+function onImageLoad(e) {
+  const image = e.target;
+  image.className += ' podcast-link-item__img--loaded';
+}
+
+const observerCallback = (entries) => {
+  entries
+    .forEach(({
+      intersectionRatio,
+      target,
+    }) => {
+      const image = target;
+      if (image.src || intersectionRatio <= 0) return;
+      image.onload = onImageLoad;
+      image.setAttribute('src', image.getAttribute('data-src'));
+    });
+};
+
+const observer = new IntersectionObserver(observerCallback, {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.1,
+});
+
 function PodcastGrid({ podcasts }) {
-  function onImageLoad(e) {
-    const image = e.target;
-    image.className += ' podcast-link-item__img--loaded';
-  }
+  useEffect(() => {
+    Array.from(
+      document
+        .querySelectorAll('.podcast-link-grid .podcast-link-item__img'),
+    )
+      .forEach($img => observer.observe($img));
+  }, [podcasts]);
 
   return (
     <div className="podcast-link-grid">
@@ -24,9 +51,8 @@ function PodcastGrid({ podcasts }) {
             >
               <img
                 className="podcast-link-item__img"
-                src={artworkUrl100}
+                data-src={artworkUrl100}
                 alt={name || 'Loading'}
-                onLoad={onImageLoad}
               />
               <span className="podcast-link-item__hidden-text">{name}</span>
             </a>

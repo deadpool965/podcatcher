@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import './PodcastGrid.css';
 
 function onImageLoad(e) {
@@ -44,9 +45,9 @@ function PodcastGrid({ podcasts }) {
             name,
             artworkUrl100,
           }) => (
-            <a
+            <Link
               key={id}
-              href={`/${id}`}
+              to={`/${id}`}
               className="podcast-link-item"
             >
               <img
@@ -55,7 +56,7 @@ function PodcastGrid({ podcasts }) {
                 alt={name || 'Loading'}
               />
               <span className="podcast-link-item__hidden-text">{name}</span>
-            </a>
+            </Link>
           ))
       }
     </div>

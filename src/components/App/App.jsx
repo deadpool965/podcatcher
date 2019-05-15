@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Container from '../Container/Container';
 import Header from '../Header/Header';
 import DiscoveryPage from '../../pages/Discovery/Discovery';
+import PodcastPage from '../../pages/Podcast/Podcast';
 import Footer from '../Footer/Footer';
 import './App.css';
 
@@ -19,6 +20,11 @@ function App() {
               path="/"
               exact
               render={props => <DiscoveryPage {...props} />}
+            />
+            <Route
+              path="/:id"
+              exact
+              render={props => <PodcastPage {...props} />}
             />
           </main>
         </Container>

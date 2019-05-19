@@ -106,3 +106,15 @@
 .podcast-page__episode__description a {
   color: var(--accent-color);
 }
+
+.podcast-page__form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 16px;
+}
+
+.podcast-page__form__control__label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}

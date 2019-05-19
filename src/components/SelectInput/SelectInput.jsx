@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './SelectInput.css';
 
 function SelectInput({
+  id,
   name,
   onChange,
   options,
@@ -35,6 +36,7 @@ function SelectInput({
   return (
     <div className="select-input">
       <select
+        id={id}
         className="select-input__input"
         name={name}
         aria-label={ariaLabel}
@@ -49,6 +51,7 @@ function SelectInput({
 }
 
 SelectInput.propTypes = {
+  id: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,

@@ -1,40 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { render } from 'react-dom';
-import Linkify from 'react-linkify';
+import React, { useEffect, useState } from 'react';
 import Spinner from '../../components/Spinner/Spinner';
 import './Podcast.css';
-
-const observer = new IntersectionObserver((entries) => {
-  entries
-    .map(({
-      target,
-      intersectionRatio,
-    }) => {
-      const parsed = target.getAttribute('parsed');
-      if (intersectionRatio === 0 || parsed) return;
-      target.setAttribute('parsed', 1);
-      requestAnimationFrame(() => {
-        render(<Linkify>{target.textContent}</Linkify>, target);
-      });
-    });
-}, {
-  threshold: 0.001,
-});
-
-function Description({ text }) {
-  const [data, setData] = useState(text);
-  const item = useRef();
-
-  useEffect(() => {
-    observer.observe(item.current);
-  }, []);
-
-  return (
-    <div ref={item} className="podcast-page__episode__description">
-      {data}
-    </div>
-  );
-}
+import EpisodeDescription from '../../components/EpisodeDescription/EpisodeDescription';
 
 function PodcastPage({ match }) {
   const { id } = match.params;
@@ -105,7 +72,9 @@ function PodcastPage({ match }) {
                     <h3 className="podcast-page__episode__title">
                       {title}
                     </h3>
-                    <Description text={description} />
+                    <EpisodeDescription
+                      text={description}
+                    />
                   </li>
                 ))}
           </ul>

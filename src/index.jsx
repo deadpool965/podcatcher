@@ -9,7 +9,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 window.addEventListener('load', () => {
   const styles = [
-    'https://fonts.googleapis.com/css?family=Bungee',
+    'https://fonts.googleapis.com/css?family=Bungee&font-display=swap',
     'https://unpkg.com/ionicons@4.5.5/dist/css/ionicons.min.css',
   ];
   styles.forEach((src) => {

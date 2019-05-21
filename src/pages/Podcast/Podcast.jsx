@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Spinner from '../../components/Spinner/Spinner';
 import EpisodeDescription from '../../components/EpisodeDescription/EpisodeDescription';
 import SelectInput from '../../components/SelectInput/SelectInput';
+import TextInput from '../../components/TextInput/TextInput';
+import Grid from '../../components/Grid/Grid';
 import './Podcast.css';
 
 const ORDER_OPTIONS = [
@@ -22,12 +24,21 @@ const LIMIT_OPTIONS = [
   { label: '1000', value: '1000' },
 ];
 
+const EQUALIZER_REG_EXP = /[^a-zA-Z0-9 ]/gi;
+
 function PodcastPage({ match }) {
   const { id } = match.params;
+  const [search, setSearch] = useState('');
   const [data, setData] = useState({});
   const [episodes, setEpisodes] = useState([]);
   const [order, setOrder] = useState('DESC');
   const [limit, setLimit] = useState(50);
+
+  const searchQuery = search
+    .replace(EQUALIZER_REG_EXP, '')
+    .normalize('NFD')
+    .toLowerCase()
+    .trim();
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API}podcast/${id}`)
@@ -45,6 +56,11 @@ function PodcastPage({ match }) {
     image.className += ' podcast-page__summary__image-wrapper__image--loaded';
   }
 
+  function handleSearchChange({ target }) {
+    const { value } = target;
+    setSearch(value);
+  }
+
   function handleOrderChange({ target }) {
     const { value } = target;
     setOrder(value);
@@ -53,6 +69,10 @@ function PodcastPage({ match }) {
   function handleLimitChange({ target }) {
     const { value } = target;
     setLimit(parseInt(value, 10));
+  }
+
+  function handleSearchClear() {
+    setSearch('');
   }
 
   return (
@@ -75,40 +95,53 @@ function PodcastPage({ match }) {
       <div className="podcast-page__episodes">
         <div className="podcast-page__episodes__side" />
         <div className="podcast-page__episodes__content">
-          <div className="podcast-page__form">
-          <div className="podcast-page__form__control">
-              <label
-                htmlFor="limit"
-                className="podcast-page__form__control__label"
-              >
-                Limit:
-              </label>
-              <SelectInput
-                id="limit"
-                name="limit"
-                ariaLabel="Limit"
-                defaultValue={`${limit}`}
-                options={LIMIT_OPTIONS}
-                onChange={handleLimitChange}
-              />
-            </div>
-            <div className="podcast-page__form__control">
-              <label
-                htmlFor="order"
-                className="podcast-page__form__control__label"
-              >
-                Order:
-              </label>
-              <SelectInput
-                id="order"
-                name="order"
-                ariaLabel="Order"
-                defaultValue={order}
-                options={ORDER_OPTIONS}
-                onChange={handleOrderChange}
-              />
-            </div>
-          </div>
+          <Grid rows="auto auto">
+            <TextInput
+              id="q"
+              name="q"
+              ariaLabel="Search Episode"
+              icon="search"
+              placeholder="Search Episode"
+              defaultValue={search}
+              onChange={handleSearchChange}
+              clearButton
+              onClear={handleSearchClear}
+            />
+            <Grid columns="1fr 1fr">
+              <div className="podcast-page__form-control">
+                <label
+                  htmlFor="limit"
+                  className="podcast-page__form-control__label"
+                >
+                  Limit:
+                </label>
+                <SelectInput
+                  id="limit"
+                  name="limit"
+                  ariaLabel="Limit"
+                  defaultValue={`${limit}`}
+                  options={LIMIT_OPTIONS}
+                  onChange={handleLimitChange}
+                />
+              </div>
+              <div className="podcast-page__form-control">
+                <label
+                  htmlFor="order"
+                  className="podcast-page__form-control__label"
+                >
+                  Order:
+                </label>
+                <SelectInput
+                  id="order"
+                  name="order"
+                  ariaLabel="Order"
+                  defaultValue={order}
+                  options={ORDER_OPTIONS}
+                  onChange={handleOrderChange}
+                />
+              </div>
+            </Grid>
+          </Grid>
           <ul className="podcast-page__episode-list">
             {episodes.length === 0
               ? <Spinner />
@@ -123,24 +156,39 @@ function PodcastPage({ match }) {
 
                   return createdB - createdA;
                 })
+                .filter((e) => {
+                  if (search === '') return true;
+
+                  const title = e.title
+                    .normalize('NFD')
+                    .replace(EQUALIZER_REG_EXP, '')
+                    .toLowerCase()
+                    .trim();
+
+                  if (title.indexOf(searchQuery) !== -1) {
+                    return true;
+                  }
+
+                  return false;
+                })
                 .filter((e, i) => i < limit)
                 .map(({
                   title,
                   created,
                   description,
                 }) => (
-                  <li className="podcast-page__episode" key={title}>
-                    <div className="podcast-page__episode__release-date">
-                      {(new Date(created)).toGMTString()}
-                    </div>
-                    <h3 className="podcast-page__episode__title">
-                      {title}
-                    </h3>
-                    <EpisodeDescription
-                      text={description}
-                    />
-                  </li>
-                ))}
+                    <li className="podcast-page__episode" key={title}>
+                      <div className="podcast-page__episode__release-date">
+                        {(new Date(created)).toGMTString()}
+                      </div>
+                      <h3 className="podcast-page__episode__title">
+                        {title}
+                      </h3>
+                      <EpisodeDescription
+                        text={description}
+                      />
+                    </li>
+                  ))}
           </ul>
         </div>
       </div>

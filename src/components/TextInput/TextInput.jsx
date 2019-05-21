@@ -18,6 +18,17 @@ function TextInput({
     onClear();
   }
 
+  let lastInputDate = new Date();
+  function handleChange(event) {
+    event.persist();
+    lastInputDate = new Date();
+    setTimeout(() => {
+      const delay = new Date() - lastInputDate;
+      if (delay < 1000) return;
+      onChange(event);
+    }, 1000);
+  }
+
   return (
     <div className="text-input">
       <input
@@ -25,7 +36,7 @@ function TextInput({
         type="text"
         name={name}
         placeholder={placeholder}
-        onChange={onChange}
+        onChange={handleChange}
         aria-label={ariaLabel}
         defaultValue={defaultValue}
         ref={$input}
@@ -45,7 +56,9 @@ function TextInput({
           </button>
         )
         : null}
-      {icon ? <i className={`text-input__icon icon ion-md-${icon}`} /> : null}
+      {(icon && !clearButton) || (icon && clearButton && !defaultValue)
+        ? <i className={`text-input__icon icon ion-md-${icon}`} />
+        : null}
     </div>
   );
 }

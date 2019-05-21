@@ -1,27 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Spinner from '../../components/Spinner/Spinner';
 import EpisodeDescription from '../../components/EpisodeDescription/EpisodeDescription';
-import SelectInput from '../../components/SelectInput/SelectInput';
 import TextInput from '../../components/TextInput/TextInput';
 import Grid from '../../components/Grid/Grid';
 import './Podcast.css';
 
-const ORDER_OPTIONS = [
-  { label: 'Ascending', value: 'ASC' },
-  { label: 'Descending', value: 'DESC' },
-];
-
 const LIMIT_OPTIONS = [
-  { label: '10', value: '10' },
-  { label: '25', value: '25' },
-  { label: '50', value: '50' },
-  { label: '75', value: '75' },
-  { label: '100', value: '100' },
-  { label: '150', value: '150' },
-  { label: '200', value: '200' },
-  { label: '250', value: '250' },
-  { label: '500', value: '500' },
-  { label: '1000', value: '1000' },
+  10,
+  50,
+  100,
+  'All',
 ];
 
 const EQUALIZER_REG_EXP = /[^a-zA-Z0-9 ]/gi;
@@ -33,6 +21,7 @@ function PodcastPage({ match }) {
   const [episodes, setEpisodes] = useState([]);
   const [order, setOrder] = useState('DESC');
   const [limit, setLimit] = useState(50);
+  const [showLimitMenu, setShowLimitMenu] = useState(false);
 
   const searchQuery = search
     .replace(EQUALIZER_REG_EXP, '')
@@ -51,24 +40,39 @@ function PodcastPage({ match }) {
       .then(res => setEpisodes(res));
   }, [id]);
 
+  const limitMenu = useRef();
+  useEffect(() => {
+    if (showLimitMenu === false) return;
+    limitMenu.current.focus();
+  }, [showLimitMenu]);
+
   function onImageLoad({ target }) {
     const image = target;
     image.className += ' podcast-page__summary__image-wrapper__image--loaded';
   }
 
+  function toggleOrder() {
+    setOrder(order === 'DESC' ? 'ASC' : 'DESC');
+  }
+
+  function changeLimit(l) {
+    setShowLimitMenu(false);
+    // Rendering a bunch of episodes
+    // causes the browser to freeze for a couple
+    // seconds. So we hide the menu first
+    // and request an animation frame twice
+    // to make sure the menu is hidden
+    // before rendering the episodes
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setLimit(l);
+      });
+    });
+  }
+
   function handleSearchChange({ target }) {
     const { value } = target;
     setSearch(value);
-  }
-
-  function handleOrderChange({ target }) {
-    const { value } = target;
-    setOrder(value);
-  }
-
-  function handleLimitChange({ target }) {
-    const { value } = target;
-    setLimit(parseInt(value, 10));
   }
 
   function handleSearchClear() {
@@ -77,6 +81,34 @@ function PodcastPage({ match }) {
 
   return (
     <div className="podcast-page">
+      {showLimitMenu
+        ? (
+          <div
+            ref={limitMenu}
+            className="podcast-page__limit-menu"
+          >
+            <h2
+              className="podcast-page__limit-menu__title"
+            >
+              Select Limit
+            </h2>
+            {
+              LIMIT_OPTIONS
+                .map(l => (
+                  <button
+                    key={l}
+                    type="button"
+                    className="podcast-page__limit-menu__option"
+                    onClick={() => changeLimit(l)}
+                  >
+                    {l}
+                  </button>
+                ))
+            }
+          </div>
+        )
+        : null
+      }
       <div className="podcast-page__summary">
         <div className="podcast-page__summary__image-wrapper">
           <img
@@ -89,13 +121,15 @@ function PodcastPage({ match }) {
         <div className="podcast-page__summary__content">
           <h2 className="podcast-page__summary__content__title">{data.collectionName || ''}</h2>
           <div className="podcast-page__summary__content__artist">{data.artistName || ''}</div>
-          <div className="podcast-page__summary__content__genre">{data.genres ? data.genres[0] : 'Loading...'}</div>
+          <div className="podcast-page__summary__content__genre">
+            {data.genres ? data.genres[0] : 'Loading...'}
+          </div>
         </div>
       </div>
       <div className="podcast-page__episodes">
         <div className="podcast-page__episodes__side" />
         <div className="podcast-page__episodes__content">
-          <Grid rows="auto auto">
+          <Grid columns="auto min-content">
             <TextInput
               id="q"
               name="q"
@@ -107,40 +141,33 @@ function PodcastPage({ match }) {
               clearButton
               onClear={handleSearchClear}
             />
-            <Grid columns="1fr 1fr">
-              <div className="podcast-page__form-control">
-                <label
-                  htmlFor="limit"
-                  className="podcast-page__form-control__label"
-                >
-                  Limit:
-                </label>
-                <SelectInput
-                  id="limit"
-                  name="limit"
-                  ariaLabel="Limit"
-                  defaultValue={`${limit}`}
-                  options={LIMIT_OPTIONS}
-                  onChange={handleLimitChange}
+            <div className="podcast-page__search-tools">
+              <button
+                type="button"
+                className="podcast-page__search-tools__limit-btn"
+                aria-label="Limit"
+                onClick={() => setShowLimitMenu(true)}
+              >
+                {limit}
+              </button>
+              <button
+                className="podcast-page__search-tools__order-btn"
+                type="button"
+                onClick={toggleOrder}
+                aria-label={`Order ${
+                  order === 'DESC'
+                    ? 'Ascending'
+                    : 'Descending'
+                }`}
+              >
+                <i
+                  className={
+                    'icon '
+                    + `ion-md-arrow-round-${order === 'DESC' ? 'down' : 'up'}`
+                  }
                 />
-              </div>
-              <div className="podcast-page__form-control">
-                <label
-                  htmlFor="order"
-                  className="podcast-page__form-control__label"
-                >
-                  Order:
-                </label>
-                <SelectInput
-                  id="order"
-                  name="order"
-                  ariaLabel="Order"
-                  defaultValue={order}
-                  options={ORDER_OPTIONS}
-                  onChange={handleOrderChange}
-                />
-              </div>
-            </Grid>
+              </button>
+            </div>
           </Grid>
           <ul className="podcast-page__episode-list">
             {episodes.length === 0
@@ -171,24 +198,27 @@ function PodcastPage({ match }) {
 
                   return false;
                 })
-                .filter((e, i) => i < limit)
+                .filter((e, i) => {
+                  if (limit === 'All') return true;
+                  return i < limit;
+                })
                 .map(({
                   title,
                   created,
                   description,
                 }) => (
-                    <li className="podcast-page__episode" key={title}>
-                      <div className="podcast-page__episode__release-date">
-                        {(new Date(created)).toGMTString()}
-                      </div>
-                      <h3 className="podcast-page__episode__title">
-                        {title}
-                      </h3>
-                      <EpisodeDescription
-                        text={description}
-                      />
-                    </li>
-                  ))}
+                  <li className="podcast-page__episode" key={title}>
+                    <div className="podcast-page__episode__release-date">
+                      {(new Date(created)).toGMTString()}
+                    </div>
+                    <h3 className="podcast-page__episode__title">
+                      {title}
+                    </h3>
+                    <EpisodeDescription
+                      text={description}
+                    />
+                  </li>
+                ))}
           </ul>
         </div>
       </div>

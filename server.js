@@ -2,6 +2,8 @@ const express = require('express');
 const axios = require('axios');
 const dotenv = require('dotenv');
 const rss2json = require('rss-to-json');
+const compression = require('compression');
+const zlib = require('zlib');
 const {
   readFileSync,
   writeFileSync,
@@ -38,6 +40,14 @@ const cache = {
 };
 
 const app = express();
+
+app.use(
+  compression(
+    {
+      level: zlib.Z_BEST_COMPRESSION,
+    }
+  )
+);
 
 const cors = (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');

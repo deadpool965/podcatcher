@@ -1,6 +1,15 @@
 .header__title {
-  font-family: 'Bungee', 'Impact' !important;
   color: var(--accent-color);
+  text-decoration: none;
+}
+
+.header__title:hover,
+.header__title:focus {
+  color: var(--accent-color-light);
+}
+
+.header__title__h1 {
+  font-family: 'Bungee', 'Impact' !important;
   margin: 0px;
   line-height: 75px;
 }

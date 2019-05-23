@@ -2,6 +2,5 @@
   font-family: 'Bungee', 'Impact' !important;
   color: var(--accent-color);
   margin: 0px;
-  height: 100px;
-  line-height: 100px;
+  line-height: 75px;
 }

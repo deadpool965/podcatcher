@@ -91,8 +91,7 @@
 .podcast-page__episode__title {
   font-weight: bold;
   margin: 0px;
-  margin-top: 8px;
-  margin-bottom: 16px;
+  margin-top: 4px;
   color: var(--accent-color);
 }
 
@@ -106,6 +105,12 @@
 
 .podcast-page__episode__description a {
   color: var(--accent-color);
+}
+
+.podcast-page__episode__play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .podcast-page__form-control__label {

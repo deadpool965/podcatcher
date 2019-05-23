@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import Spinner from '../../components/Spinner/Spinner';
 import EpisodeDescription from '../../components/EpisodeDescription/EpisodeDescription';
 import TextInput from '../../components/TextInput/TextInput';
 import Grid from '../../components/Grid/Grid';
+import MiniPlayButton from '../../components/MiniPlayButton/MiniPlayButton';
 import './Podcast.css';
 
 const LIMIT_OPTIONS = [
@@ -202,28 +204,48 @@ function PodcastPage({ match }) {
                   if (limit === 'All') return true;
                   return i < limit;
                 })
-                .map(({
-                  title,
-                  created,
-                  description,
-                }) => (
-                  <li className="podcast-page__episode" key={title}>
-                    <div className="podcast-page__episode__release-date">
-                      {(new Date(created)).toGMTString()}
-                    </div>
-                    <h3 className="podcast-page__episode__title">
-                      {title}
-                    </h3>
-                    <EpisodeDescription
-                      text={description}
-                    />
-                  </li>
-                ))}
+                .map((episode) => {
+                  const {
+                    title,
+                    created,
+                    description,
+                  } = episode;
+                  return (
+                    <li className="podcast-page__episode" key={title}>
+                      <Grid rows="auto auto">
+                        <Grid columns="35px auto">
+                          <div className="podcast-page__episode__play">
+                            <MiniPlayButton episode={episode} />
+                          </div>
+                          <div>
+                            <div className="podcast-page__episode__release-date">
+                              {(new Date(created)).toGMTString()}
+                            </div>
+                            <h3 className="podcast-page__episode__title">
+                              {title}
+                            </h3>
+                          </div>
+                        </Grid>
+                        <EpisodeDescription
+                          text={description}
+                        />
+                      </Grid>
+                    </li>
+                  );
+                })}
           </ul>
         </div>
       </div>
     </div>
   );
 }
+
+PodcastPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+};
 
 export default PodcastPage;

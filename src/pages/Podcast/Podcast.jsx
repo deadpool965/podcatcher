@@ -131,46 +131,48 @@ function PodcastPage({ match }) {
       <div className="podcast-page__episodes">
         <div className="podcast-page__episodes__side" />
         <div className="podcast-page__episodes__content">
-          <Grid columns="auto min-content">
-            <TextInput
-              id="q"
-              name="q"
-              ariaLabel="Search Episode"
-              icon="search"
-              placeholder="Search Episode"
-              defaultValue={search}
-              onChange={handleSearchChange}
-              clearButton
-              onClear={handleSearchClear}
-            />
-            <div className="podcast-page__search-tools">
-              <button
-                type="button"
-                className="podcast-page__search-tools__limit-btn"
-                aria-label="Limit"
-                onClick={() => setShowLimitMenu(true)}
-              >
-                {limit}
-              </button>
-              <button
-                className="podcast-page__search-tools__order-btn"
-                type="button"
-                onClick={toggleOrder}
-                aria-label={`Order ${
-                  order === 'DESC'
-                    ? 'Ascending'
-                    : 'Descending'
-                }`}
-              >
-                <i
-                  className={
-                    'icon '
-                    + `ion-md-arrow-round-${order === 'DESC' ? 'down' : 'up'}`
-                  }
-                />
-              </button>
-            </div>
-          </Grid>
+          <div style={{ marginBottom: '32px' }}>
+            <Grid columns="auto min-content">
+              <TextInput
+                id="q"
+                name="q"
+                ariaLabel="Search Episode"
+                icon="search"
+                placeholder="Search Episode"
+                defaultValue={search}
+                onChange={handleSearchChange}
+                clearButton
+                onClear={handleSearchClear}
+              />
+              <div className="podcast-page__search-tools">
+                <button
+                  type="button"
+                  className="podcast-page__search-tools__limit-btn"
+                  aria-label="Limit"
+                  onClick={() => setShowLimitMenu(true)}
+                >
+                  {limit}
+                </button>
+                <button
+                  className="podcast-page__search-tools__order-btn"
+                  type="button"
+                  onClick={toggleOrder}
+                  aria-label={`Order ${
+                    order === 'DESC'
+                      ? 'Ascending'
+                      : 'Descending'
+                  }`}
+                >
+                  <i
+                    className={
+                      'icon '
+                      + `ion-md-arrow-round-${order === 'DESC' ? 'down' : 'up'}`
+                    }
+                  />
+                </button>
+              </div>
+            </Grid>
+          </div>
           <ul className="podcast-page__episode-list">
             {episodes.length === 0
               ? <Spinner />

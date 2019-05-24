@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Spinner from '../../components/Spinner/Spinner';
 import EpisodeDescription from '../../components/EpisodeDescription/EpisodeDescription';
@@ -16,14 +17,19 @@ const LIMIT_OPTIONS = [
 
 const EQUALIZER_REG_EXP = /[^a-zA-Z0-9 ]/gi;
 
-function PodcastPage({ match }) {
+function PodcastPage({
+  match,
+  history,
+}) {
   const { id } = match.params;
   const [search, setSearch] = useState('');
   const [data, setData] = useState({});
   const [episodes, setEpisodes] = useState([]);
   const [order, setOrder] = useState('DESC');
-  const [limit, setLimit] = useState(50);
   const [showLimitMenu, setShowLimitMenu] = useState(false);
+  const limit = match.params.limit || '50';
+  const displayShowMoreButton = Number.isNaN(limit)
+    || episodes.length > parseInt(limit, 10);
 
   const searchQuery = search
     .replace(EQUALIZER_REG_EXP, '')
@@ -58,18 +64,8 @@ function PodcastPage({ match }) {
   }
 
   function changeLimit(l) {
+    history.push(`/${id}/${l}`);
     setShowLimitMenu(false);
-    // Rendering a bunch of episodes
-    // causes the browser to freeze for a couple
-    // seconds. So we hide the menu first
-    // and request an animation frame twice
-    // to make sure the menu is hidden
-    // before rendering the episodes
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setLimit(l);
-      });
-    });
   }
 
   function handleSearchChange({ target }) {
@@ -203,8 +199,8 @@ function PodcastPage({ match }) {
                   return false;
                 })
                 .filter((e, i) => {
-                  if (limit === 'All') return true;
-                  return i < limit;
+                  if (Number.isNaN(limit)) return true;
+                  return i < parseInt(limit, 10);
                 })
                 .map((episode) => {
                   const {
@@ -236,6 +232,19 @@ function PodcastPage({ match }) {
                   );
                 })}
           </ul>
+          {displayShowMoreButton
+            ? (
+              <div className="podcast-page__read-more">
+                <Link
+                  to={`/${id}/${parseInt(limit, 10) + 50}`}
+                  className="podcast-page__read-more__button"
+                >
+                  Show More Episodes
+                  <i className="podcast-page__read-more__button__icon icon ion-md-arrow-dropdown" />
+                </Link>
+              </div>
+            )
+            : null}
         </div>
       </div>
     </div>
@@ -247,6 +256,9 @@ PodcastPage.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
   }).isRequired,
 };
 

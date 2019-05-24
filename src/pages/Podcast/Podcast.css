@@ -205,3 +205,19 @@
 .podcast-page__limit-menu__option:focus {
   background-color: var(--accent-color-light);
 }
+
+.podcast-page__read-more {
+  text-align: center;
+}
+
+.podcast-page__read-more__button {
+  padding: 8px 16px;
+  border-radius: 16px;
+  color: var(--main-bg-color);
+  background-color: var(--accent-color);
+  text-decoration: none;
+}
+
+.podcast-page__read-more__button__icon {
+  margin-left: 8px;
+}

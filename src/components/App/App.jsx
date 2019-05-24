@@ -24,7 +24,7 @@ function App() {
                 render={props => <DiscoveryPage {...props} />}
               />
               <Route
-                path="/:id"
+                path="/:id/:limit?"
                 exact
                 render={props => <PodcastPage {...props} />}
               />

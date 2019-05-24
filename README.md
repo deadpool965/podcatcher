@@ -6,11 +6,11 @@ Podcast PWA
 
 ### 1.0 MVP
 - [x] - Seach
-- [ ] - Podcast Page
-- [ ] - Podcast Episode Page
+- [x] - Podcast Page
+- [x] - Podcast Episode List
 - [ ] - Player
 - [ ] - Playback proxy alternative
-- [ ] - Cache
+- [x] - Cache
 - [ ] - Google Ads
 - [ ] - Google Analytics
 - [ ] - Dynamic Sitemap (SEO)

@@ -35,6 +35,7 @@ function Episode({ episode }) {
       threshold: 0.001,
     });
     observer.observe(wrapper.current);
+    return () => observer.disconnect();
   }, []);
 
   return (

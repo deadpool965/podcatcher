@@ -1,17 +1,14 @@
 .episode-description {
   text-align: justify;
   word-break: break-all;
-}
-
-.episode-description a {
-  color: var(--accent-color);
-}
-
-.episode-description--overflow {
   display: block;
   position: relative;
   max-height: 100px;
   overflow: hidden;
+}
+
+.episode-description a {
+  color: var(--accent-color);
 }
 
 .episode-description--expanded {

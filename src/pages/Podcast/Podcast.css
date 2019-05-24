@@ -71,48 +71,6 @@
   margin-top: 16px;
 }
 
-@media (min-width: 600px) {
-  .podcast-page__episodes {
-    grid-gap: 16px;
-    grid-template-columns: 1fr 2fr;
-  }
-}
-
-.podcast-page__episode {
-  margin-bottom: 32px;
-}
-
-.podcast-page__episode__release-date {
-  font-size: 14px;
-  color: var(--mute-color);
-  font-weight: bold;
-}
-
-.podcast-page__episode__title {
-  font-weight: bold;
-  margin: 0px;
-  margin-top: 4px;
-  color: var(--accent-color);
-}
-
-.podcast-page__episode__description {
-  max-width: 100%;
-  height: 100px;
-  text-align: justify;
-  overflow: hidden;
-  font-size: 14px;
-}
-
-.podcast-page__episode__description a {
-  color: var(--accent-color);
-}
-
-.podcast-page__episode__play {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .podcast-page__form-control__label {
   display: block;
   font-weight: bold;

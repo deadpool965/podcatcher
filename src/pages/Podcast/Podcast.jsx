@@ -2,10 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Spinner from '../../components/Spinner/Spinner';
-import EpisodeDescription from '../../components/EpisodeDescription/EpisodeDescription';
+import Episode from '../../components/Episode/Episode';
 import TextInput from '../../components/TextInput/TextInput';
 import Grid from '../../components/Grid/Grid';
-import MiniPlayButton from '../../components/MiniPlayButton/MiniPlayButton';
 import './Podcast.css';
 
 const LIMIT_OPTIONS = [
@@ -125,7 +124,6 @@ function PodcastPage({
         </div>
       </div>
       <div className="podcast-page__episodes">
-        <div className="podcast-page__episodes__side" />
         <div className="podcast-page__episodes__content">
           <div style={{ marginBottom: '32px' }}>
             <Grid columns="auto min-content">
@@ -199,35 +197,14 @@ function PodcastPage({
                   return false;
                 })
                 .filter((e, i) => {
-                  if (Number.isNaN(limit)) return true;
+                  if (Number.isNaN(parseFloat(limit))) return true;
                   return i < parseInt(limit, 10);
                 })
                 .map((episode) => {
-                  const {
-                    title,
-                    created,
-                    description,
-                  } = episode;
+                  const { title } = episode;
                   return (
-                    <li className="podcast-page__episode" key={title}>
-                      <Grid rows="auto auto">
-                        <Grid columns="35px auto">
-                          <div className="podcast-page__episode__play">
-                            <MiniPlayButton episode={episode} />
-                          </div>
-                          <div>
-                            <div className="podcast-page__episode__release-date">
-                              {(new Date(created)).toGMTString()}
-                            </div>
-                            <h3 className="podcast-page__episode__title">
-                              {title}
-                            </h3>
-                          </div>
-                        </Grid>
-                        <EpisodeDescription
-                          text={description}
-                        />
-                      </Grid>
+                    <li key={title}>
+                      <Episode episode={episode} />
                     </li>
                   );
                 })}

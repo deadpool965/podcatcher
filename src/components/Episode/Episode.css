@@ -1,0 +1,46 @@
+.episode {
+  display: block;
+  margin-bottom: 32px;
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity .3s ease-in-out;
+}
+
+.episode--visible {
+  opacity: 1;
+}
+
+.episode--placeholder {
+  height: 480px;
+}
+
+.episode__release-date {
+  font-size: 14px;
+  color: var(--mute-color);
+  font-weight: bold;
+}
+
+.episode__title {
+  font-weight: bold;
+  margin: 0px;
+  margin-top: 4px;
+  color: var(--accent-color);
+}
+
+.episode__description {
+  max-width: 100%;
+  height: 100px;
+  text-align: justify;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+.episode__description a {
+  color: var(--accent-color);
+}
+
+.episode__play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

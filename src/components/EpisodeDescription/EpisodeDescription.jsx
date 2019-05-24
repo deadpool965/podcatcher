@@ -5,7 +5,6 @@ import React, {
   useRef,
 } from 'react';
 import PropTypes from 'prop-types';
-import Linkify from '../Linkify/Linkify';
 import './EpisodeDescription.css';
 
 function EpisodeDescription({
@@ -27,18 +26,16 @@ function EpisodeDescription({
 
   return (
     <div
-      ref={wrapper}
       className={`episode-description ${
-        overflow
-          ? 'episode-description--overflow'
-          : ''
-      } ${
         expanded
           ? 'episode-description--expanded'
           : ''
       }`}
     >
-      <Linkify text={text} />
+      <div
+        ref={wrapper}
+        dangerouslySetInnerHTML={{ __html: text }}
+      />
       {overflow && expanded === false
         ? (
           <Fragment>

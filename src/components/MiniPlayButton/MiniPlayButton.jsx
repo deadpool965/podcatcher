@@ -1,6 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { PlaybackContext } from '../../libs/Store';
+import {
+  PlaybackContext,
+  PLAYBACK_ACTION_TYPE,
+  PLAYBACK_STATUS,
+} from '../../libs/Store';
 import './MiniPlayButton.css';
 
 function MiniPlayButton({
@@ -9,24 +13,35 @@ function MiniPlayButton({
   const { title } = episode;
   const [playback, dispatchPlayback] = useContext(PlaybackContext);
 
-  const isEpisodePlaying = playback.episode
-    && playback.episode.title === title
-    && playback.status === 'playing';
-  const icon = isEpisodePlaying
+  const isMyEpisode = playback.episode
+    && playback.episode.title === title;
+
+  const isPlaying = playback.status
+    === PLAYBACK_STATUS.PLAYING;
+
+  const icon = isMyEpisode && isPlaying
     ? 'pause'
     : 'play';
 
   function onClick() {
-    if (isEpisodePlaying) {
+    if (isMyEpisode) {
+      if (isPlaying) {
+        dispatchPlayback({
+          type: PLAYBACK_ACTION_TYPE.REQUEST_PAUSE,
+        });
+        return;
+      }
+
       dispatchPlayback({
-        type: 'pause',
+        type: PLAYBACK_ACTION_TYPE.REQUEST_PLAY,
       });
-    } else {
-      dispatchPlayback({
-        type: 'play',
-        payload: episode,
-      });
+      return;
     }
+
+    dispatchPlayback({
+      type: PLAYBACK_ACTION_TYPE.REQUEST_LOAD,
+      payload: episode,
+    });
   }
 
   return (

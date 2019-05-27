@@ -32,6 +32,7 @@ const defaultPlayback = {
   currentTime: 0,
   playbackRate: 1,
   duration: 0,
+  protocolOverride: false,
 };
 
 export const PlaybackContext = createContext(defaultPlayback);
@@ -48,6 +49,10 @@ const playbackReducer = (state, action) => {
       return {
         ...state,
         episode: action.payload,
+        protocolOverride: /^http:\/\//.test(action
+          .payload
+          .enclosures[0]
+          .url),
       };
 
     case PLAYBACK_ACTION_TYPE.REQUEST_PLAY:

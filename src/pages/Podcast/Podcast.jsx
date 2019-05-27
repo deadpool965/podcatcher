@@ -137,6 +137,7 @@ function PodcastPage({
                 onChange={handleSearchChange}
                 clearButton
                 onClear={handleSearchClear}
+                delayChange
               />
               <div className="podcast-page__search-tools">
                 <button

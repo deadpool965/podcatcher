@@ -11,6 +11,7 @@ function TextInput({
   defaultValue,
   clearButton,
   onClear,
+  delayChange,
 }) {
   const $input = useRef();
   function clearInput() {
@@ -21,12 +22,18 @@ function TextInput({
   let lastInputDate = new Date();
   function handleChange(event) {
     event.persist();
-    lastInputDate = new Date();
-    setTimeout(() => {
-      const delay = new Date() - lastInputDate;
-      if (delay < 1000) return;
-      onChange(event);
-    }, 1000);
+
+    if (delayChange) {
+      lastInputDate = new Date();
+      setTimeout(() => {
+        const delay = new Date() - lastInputDate;
+        if (delay < 1000) return;
+        onChange(event);
+      }, 1000);
+      return;
+    }
+
+    onChange(event);
   }
 
   return (
@@ -72,6 +79,7 @@ TextInput.propTypes = {
   defaultValue: PropTypes.string,
   clearButton: PropTypes.bool,
   onClear: PropTypes.func,
+  delayChange: PropTypes.bool,
 };
 
 TextInput.defaultProps = {
@@ -81,6 +89,7 @@ TextInput.defaultProps = {
   defaultValue: '',
   clearButton: false,
   onClear: () => {},
+  delayChange: false,
 };
 
 export default TextInput;

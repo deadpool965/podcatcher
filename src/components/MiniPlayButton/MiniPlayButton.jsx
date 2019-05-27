@@ -23,7 +23,9 @@ function MiniPlayButton({
     ? 'pause'
     : 'play';
 
-  function onClick() {
+  function onClick(e) {
+    e.preventDefault();
+
     if (isMyEpisode) {
       if (isPlaying) {
         dispatchPlayback({
@@ -45,14 +47,14 @@ function MiniPlayButton({
   }
 
   return (
-    <button
-      type="button"
+    <a
+      href={episode.enclosures[0].url}
       className="mini-play-button"
       onClick={onClick}
       aria-label={`Play ${title}`}
     >
       <i className={`icon ion-md-${icon}`} />
-    </button>
+    </a>
   );
 }
 

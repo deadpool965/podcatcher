@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '../Grid/Grid';
 import MiniPlayButton from '../MiniPlayButton/MiniPlayButton';
@@ -12,59 +12,26 @@ function Episode({ episode }) {
     description,
   } = episode;
 
-  const [visible, setVisible] = useState(false);
-  const wrapper = useRef();
-
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries
-        .forEach(({
-          intersectionRatio,
-          target,
-        }) => {
-          if (intersectionRatio > 0) {
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                setVisible(true);
-              });
-            });
-            observer.unobserve(target);
-          }
-        });
-    }, {
-      threshold: 0.001,
-    });
-    observer.observe(wrapper.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div
-      className={`episode ${visible ? 'episode--visible' : 'episode--placeholder'}`}
-      ref={wrapper}
-    >
-      {visible
-        ? (
-          <Grid rows="auto auto">
-            <Grid columns="35px auto">
-              <div className="episode__play">
-                <MiniPlayButton episode={episode} />
-              </div>
-              <div>
-                <div className="episode__release-date">
-                  {(new Date(created)).toGMTString()}
-                </div>
-                <h3 className="episode__title">
-                  {title}
-                </h3>
-              </div>
-            </Grid>
-            <EpisodeDescription
-              text={description}
-            />
-          </Grid>
-        )
-        : null}
+    <div className="episode">
+      <Grid rows="auto auto">
+        <Grid columns="35px auto">
+          <div className="episode__play">
+            <MiniPlayButton episode={episode} />
+          </div>
+          <div>
+            <div className="episode__release-date">
+              {(new Date(created)).toGMTString()}
+            </div>
+            <h3 className="episode__title">
+              {title}
+            </h3>
+          </div>
+        </Grid>
+        <EpisodeDescription
+          text={description}
+        />
+      </Grid>
     </div>
   );
 }

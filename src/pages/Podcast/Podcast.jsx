@@ -9,9 +9,9 @@ import './Podcast.css';
 
 const LIMIT_OPTIONS = [
   10,
+  25,
   50,
   100,
-  'All',
 ];
 
 const EQUALIZER_REG_EXP = /[^a-zA-Z0-9 ]/gi;
@@ -26,7 +26,7 @@ function PodcastPage({
   const [episodes, setEpisodes] = useState([]);
   const [order, setOrder] = useState('DESC');
   const [showLimitMenu, setShowLimitMenu] = useState(false);
-  const limit = match.params.limit || '50';
+  const limit = match.params.limit || '25';
   const displayShowMoreButton = Number.isNaN(limit)
     || episodes.length > parseInt(limit, 10);
 

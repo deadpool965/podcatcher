@@ -1,17 +1,6 @@
 .episode {
   display: block;
   margin-bottom: 32px;
-  opacity: 0;
-  will-change: opacity;
-  transition: opacity .3s ease-in-out;
-}
-
-.episode--visible {
-  opacity: 1;
-}
-
-.episode--placeholder {
-  height: 480px;
 }
 
 .episode__release-date {

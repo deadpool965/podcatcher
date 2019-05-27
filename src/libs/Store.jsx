@@ -42,7 +42,8 @@ const playbackReducer = (state, action) => {
       playbackAudio.src = action
         .payload
         .enclosures[0]
-        .url;
+        .url
+        .replace(/^http:\/\//, 'https://');
       playbackAudio.play();
       return {
         ...state,

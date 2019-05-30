@@ -50,7 +50,6 @@ function PlayButton({
 
   function onPressSpace(evt) {
     evt.persist();
-    evt.preventDefault();
     if (evt.key !== ' ') return;
     onClick(evt);
   }

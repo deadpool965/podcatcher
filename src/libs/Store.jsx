@@ -22,6 +22,8 @@ export const PLAYBACK_ACTION_TYPE = {
   UPDATE_CURRENT_TIME: 'update-current-time',
   UPDATE_RATE: 'update-rate',
   UPDATE_DURATION: 'update-duration',
+  SET_TIMER: 'set-timer',
+  UNSET_TIMER: 'unset-timer',
 };
 
 const playbackAudio = new Audio();
@@ -33,6 +35,7 @@ const defaultPlayback = {
   playbackRate: 1,
   duration: 0,
   protocolOverride: false,
+  timer: null,
 };
 
 export const PlaybackContext = createContext(defaultPlayback);
@@ -93,6 +96,28 @@ const playbackReducer = (state, action) => {
       return {
         ...state,
         duration: action.payload,
+      };
+
+    case PLAYBACK_ACTION_TYPE.SET_TIMER:
+      if (state.timer) {
+        clearTimeout(state.timer);
+      }
+
+      return {
+        ...state,
+        timer: setTimeout(() => {
+          playbackAudio.pause();
+        }, action.payload * 1000 * 60),
+      };
+
+    case PLAYBACK_ACTION_TYPE.UNSET_TIMER:
+      if (state.timer) {
+        clearTimeout(state.timer);
+      }
+
+      return {
+        ...state,
+        timer: null,
       };
 
     default:

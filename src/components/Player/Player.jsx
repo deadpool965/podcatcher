@@ -8,6 +8,7 @@ import Modal from '../Modal/Modal';
 import './Player.css';
 
 const TIMER_OPTIONS = [
+  0,
   15,
   30,
   45,
@@ -15,21 +16,16 @@ const TIMER_OPTIONS = [
 ];
 
 const SPEED_OPTIONS = [
-  .25,
-  .5,
-  .75,
   1,
-  1.25,
   1.5,
   1.75,
   2,
-  2.25,
-  2.5
 ];
 
 function Player() {
   const [expanded, setExpanded] = useState(false);
   const [showTimerDialog, setShowTimerDialog] = useState(false);
+  const [showPlaybackRateDialog, setShowPlaybackRateDialog] = useState(false);
   const [playback, dispatchPlayback] = useContext(PlaybackContext);
 
   function formatTimeOutput(s) {
@@ -74,13 +70,36 @@ function Player() {
     });
   }
 
-  function showPlaybackRateMenu() {
-
-  }
-
   function hideTimerDialog() {
     setShowTimerDialog(false);
     document.getElementById('timer-btn').focus();
+  }
+
+  function setTimer(time) {
+    if (time === 0) {
+      dispatchPlayback({
+        type: PLAYBACK_ACTION_TYPE.UNSET_TIMER,
+      });
+    } else {
+      dispatchPlayback({
+        type: PLAYBACK_ACTION_TYPE.SET_TIMER,
+        payload: time,
+      });
+    }
+
+    hideTimerDialog();
+  }
+
+  function hidePlaybackRateDialog() {
+    setShowPlaybackRateDialog(false);
+    document.getElementById('playback-rate-btn').focus();
+  }
+
+  function setPlaybackRate(speed) {
+    dispatchPlayback({
+      type: PLAYBACK_ACTION_TYPE.REQUEST_RATE_CHANGE,
+      payload: speed,
+    });
   }
 
   if (!playback.episode) return null;
@@ -88,19 +107,45 @@ function Player() {
   return (
     <div className="player">
       <Modal
-        title="Timer"
+        title="Set Timer"
         open={showTimerDialog}
         onClose={hideTimerDialog}
       >
         <ul className="player__styleless-list">
           {TIMER_OPTIONS
             .map((time) => {
-              const label = `${time} minutes`;
+              const label = time === 0
+                ? 'Off'
+                : `${time} minutes`;
               return (
                 <li key={time}>
                   <Button
                     fullWidth
                     ariaLabel={label}
+                    onClick={() => setTimer(time)}
+                  >
+                    {label}
+                  </Button>
+                </li>
+              );
+            })}
+        </ul>
+      </Modal>
+      <Modal
+        title="Set Playback Rate"
+        open={showPlaybackRateDialog}
+        onClose={hidePlaybackRateDialog}
+      >
+        <ul className="player__styleless-list">
+          {SPEED_OPTIONS
+            .map((speed) => {
+              const label = `${speed}x`;
+              return (
+                <li key={speed}>
+                  <Button
+                    fullWidth
+                    ariaLabel={label}
+                    onClick={() => setPlaybackRate(speed)}
                   >
                     {label}
                   </Button>
@@ -177,8 +222,9 @@ function Player() {
                 </div>
                 <div>
                   <Button
+                    id="playback-rate-btn"
                     ariaLabel="Change playback rate"
-                    onClick={showPlaybackRateMenu}
+                    onClick={() => setShowPlaybackRateDialog(true)}
                   >
                     <b>
                       {playback.playbackRate}

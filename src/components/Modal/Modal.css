@@ -42,6 +42,11 @@
   cursor: pointer;
 }
 
+.modal__body {
+  max-height: 235px;
+  overflow-y: auto;
+}
+
 .modal__tab-trap {
   display: block;
   width: 0px;

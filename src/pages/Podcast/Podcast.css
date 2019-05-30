@@ -96,8 +96,7 @@
   border-radius: 100%;
 }
 
-.podcast-page__search-tools__order-btn:hover,
-.podcast-page__search-tools__order-btn:focus {
+.podcast-page__search-tools__order-btn:hover {
   background-color: var(--mute-color);
 }
 

@@ -88,9 +88,8 @@ function PodcastPage({
           {
             LIMIT_OPTIONS
               .map(l => (
-                <li>
+                <li key={l}>
                   <Button
-                    key={l}
                     type="button"
                     onClick={() => changeLimit(l)}
                     fullWidth
@@ -200,9 +199,9 @@ function PodcastPage({
                   return i < parseInt(limit, 10);
                 })
                 .map((episode) => {
-                  const { title } = episode;
+                  const { title, created } = episode;
                   return (
-                    <li key={title}>
+                    <li key={created || title}>
                       <Episode episode={episode} />
                     </li>
                   );

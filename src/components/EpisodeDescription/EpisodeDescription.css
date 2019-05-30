@@ -41,7 +41,6 @@
   color: var(--main-bg-color);
 }
 
-.episode-description__read-more-btn:hover,
-.episode-description__read-more-btn:focus {
+.episode-description__read-more-btn:hover {
   background-color: #CCC;
 }

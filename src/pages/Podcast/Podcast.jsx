@@ -5,6 +5,8 @@ import Spinner from '../../components/Spinner/Spinner';
 import Episode from '../../components/Episode/Episode';
 import TextInput from '../../components/TextInput/TextInput';
 import Grid from '../../components/Grid/Grid';
+import Modal from '../../components/Modal/Modal';
+import Button from '../../components/Button/Button';
 import './Podcast.css';
 
 const LIMIT_OPTIONS = [
@@ -47,12 +49,6 @@ function PodcastPage({
       .then(res => setEpisodes(res));
   }, [id]);
 
-  const limitMenu = useRef();
-  useEffect(() => {
-    if (showLimitMenu === false) return;
-    limitMenu.current.focus();
-  }, [showLimitMenu]);
-
   function onImageLoad({ target }) {
     const image = target;
     image.className += ' podcast-page__summary__image-wrapper__image--loaded';
@@ -60,11 +56,6 @@ function PodcastPage({
 
   function toggleOrder() {
     setOrder(order === 'DESC' ? 'ASC' : 'DESC');
-  }
-
-  function changeLimit(l) {
-    history.push(`/${id}/${l}`);
-    setShowLimitMenu(false);
   }
 
   function handleSearchChange({ target }) {
@@ -76,36 +67,42 @@ function PodcastPage({
     setSearch('');
   }
 
+  function onLimitDialogClose() {
+    setShowLimitMenu(false);
+    document.getElementById('limit-btn').focus();
+  }
+
+  function changeLimit(l) {
+    history.push(`/${id}/${l}`);
+    onLimitDialogClose();
+  }
+
   return (
     <div className="podcast-page">
-      {showLimitMenu
-        ? (
-          <div
-            ref={limitMenu}
-            className="podcast-page__limit-menu"
-          >
-            <h2
-              className="podcast-page__limit-menu__title"
-            >
-              Select Limit
-            </h2>
-            {
-              LIMIT_OPTIONS
-                .map(l => (
-                  <button
+      <Modal
+        title="Select Limit"
+        onClose={onLimitDialogClose}
+        open={showLimitMenu}
+      >
+        <ul className="podcast-page__limit-list">
+          {
+            LIMIT_OPTIONS
+              .map(l => (
+                <li>
+                  <Button
                     key={l}
                     type="button"
-                    className="podcast-page__limit-menu__option"
                     onClick={() => changeLimit(l)}
+                    fullWidth
+                    ariaLabel={`Show ${l} results`}
                   >
                     {l}
-                  </button>
-                ))
-            }
-          </div>
-        )
-        : null
-      }
+                  </Button>
+                </li>
+              ))
+          }
+        </ul>
+      </Modal>
       <div className="podcast-page__summary">
         <div className="podcast-page__summary__image-wrapper">
           <img
@@ -141,6 +138,7 @@ function PodcastPage({
               />
               <div className="podcast-page__search-tools">
                 <button
+                  id="limit-btn"
                   type="button"
                   className="podcast-page__search-tools__limit-btn"
                   aria-label="Limit"

@@ -5,10 +5,12 @@ import {
   PLAYBACK_ACTION_TYPE,
   PLAYBACK_STATUS,
 } from '../../libs/Store';
-import './MiniPlayButton.css';
+import './PlayButton.css';
 
-function MiniPlayButton({
+function PlayButton({
   episode,
+  theme,
+  large,
 }) {
   const { title } = episode;
   const [playback, dispatchPlayback] = useContext(PlaybackContext);
@@ -49,7 +51,15 @@ function MiniPlayButton({
   return (
     <a
       href={episode.enclosures[0].url}
-      className="mini-play-button"
+      className={
+        `mini-play-button
+        ${theme === 'dark'
+          ? ' mini-play-button--dark'
+          : ''}
+        ${large
+            ? ' mini-play-button--large'
+            : ''}
+      `}
       onClick={onClick}
       aria-label={`Play ${title}`}
     >
@@ -58,10 +68,17 @@ function MiniPlayButton({
   );
 }
 
-MiniPlayButton.propTypes = {
+PlayButton.propTypes = {
   episode: PropTypes.shape({
     title: PropTypes.string,
   }).isRequired,
+  theme: PropTypes.oneOf(['light', 'dark']),
+  large: PropTypes.bool,
 };
 
-export default MiniPlayButton;
+PlayButton.defaultProps = {
+  theme: 'light',
+  large: false,
+};
+
+export default PlayButton;

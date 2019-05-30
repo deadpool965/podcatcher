@@ -9,6 +9,7 @@
 }
 
 .header__title__h1 {
+  display: inline-block;
   font-family: 'Bungee', 'Impact' !important;
   margin: 0px;
   line-height: 75px;

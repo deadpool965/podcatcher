@@ -1,0 +1,22 @@
+.player {
+  background-color: var(--accent-color);
+  color: var(--main-bg-color);
+  box-sizing: border-box;
+  padding: 8px 0px;
+}
+
+.player__title {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bolder;
+}
+
+.player__styleless-list {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  display: grid;
+  grid-gap: 8px;
+}

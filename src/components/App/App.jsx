@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
+import Player from '../Player/Player';
 import Container from '../Container/Container';
 import Header from '../Header/Header';
 import DiscoveryPage from '../../pages/Discovery/Discovery';
@@ -13,6 +14,7 @@ function App() {
     <BrowserRouter>
       <Store>
         <div className="app">
+          <Player />
           <Container>
             <Header />
           </Container>

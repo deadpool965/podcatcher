@@ -11,9 +11,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.mini-play-button--dark {
+  border: solid 2px var(--main-bg-color);
+  color: var(--main-bg-color);
 }
 
 .mini-play-button:hover,
 .mini-play-button:focus {
   background-color: rgba(255, 255, 255, .1);
+}
+
+.mini-play-button--large {
+  width: 45px;
+  height: 45px;
 }

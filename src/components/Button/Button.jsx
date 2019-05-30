@@ -7,9 +7,11 @@ function Button({
   onClick,
   fullWidth,
   ariaLabel,
+  id,
 }) {
   return (
     <button
+      id={id}
       className={`button ${fullWidth ? 'button--full-width' : ''}`}
       type="button"
       onClick={onClick}
@@ -25,11 +27,13 @@ Button.propTypes = {
   onClick: PropTypes.func,
   fullWidth: PropTypes.bool,
   ariaLabel: PropTypes.string.isRequired,
+  id: PropTypes.string,
 };
 
 Button.defaultProps = {
-  onClick: () => {},
+  onClick: () => { },
   fullWidth: false,
+  id: null,
 };
 
 export default Button;

@@ -6,20 +6,22 @@ function Grid({
   children,
   columns,
   rows,
+  style,
 }) {
-  const style = {};
+  const gridStyle = { ...style };
+
   if (columns) {
-    style.gridTemplateColumns = columns;
+    gridStyle.gridTemplateColumns = columns;
   }
 
   if (rows) {
-    style.gridTemplateRows = rows;
+    gridStyle.gridTemplateRows = rows;
   }
 
   return (
     <div
       className="grid"
-      style={style}
+      style={gridStyle}
     >
       {children}
     </div>
@@ -30,11 +32,14 @@ Grid.propTypes = {
   children: PropTypes.node.isRequired,
   columns: PropTypes.string,
   rows: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
+  style: PropTypes.object,
 };
 
 Grid.defaultProps = {
   columns: null,
   rows: null,
+  style: {},
 };
 
 export default Grid;

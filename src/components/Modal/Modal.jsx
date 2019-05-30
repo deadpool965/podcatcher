@@ -49,7 +49,7 @@ function Modal({
     return () => {
       window.removeEventListener('keydown', onPressEsc);
     };
-  }, [open]);
+  }, [open, onClose]);
 
   if (!open) return null;
 

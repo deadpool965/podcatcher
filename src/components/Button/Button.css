@@ -4,12 +4,13 @@
   border: none;
   border-radius: 8px;
   font-size: 16px;
-  padding: 0px 16px;
+  padding: 0px 8px;
   cursor: pointer;
   outline: none;
+  color: var(--main-bg-color);
 }
 
-.button:focus {
+.button:hover {
   background-color: var(--accent-color-light);
 }
 

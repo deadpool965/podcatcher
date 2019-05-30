@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '../Grid/Grid';
-import MiniPlayButton from '../MiniPlayButton/MiniPlayButton';
+import PlayButton from '../PlayButton/PlayButton';
 import EpisodeDescription from '../EpisodeDescription/EpisodeDescription';
 import './Episode.css';
 
@@ -17,7 +17,7 @@ function Episode({ episode }) {
       <Grid rows="auto auto">
         <Grid columns="35px auto">
           <div className="episode__play">
-            <MiniPlayButton episode={episode} />
+            <PlayButton episode={episode} />
           </div>
           <div>
             <div className="episode__release-date">

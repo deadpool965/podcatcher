@@ -48,6 +48,13 @@ function PlayButton({
     });
   }
 
+  function onPressSpace(evt) {
+    evt.persist();
+    evt.preventDefault();
+    if (evt.key !== ' ') return;
+    onClick(evt);
+  }
+
   return (
     <a
       href={episode.enclosures[0].url}
@@ -61,7 +68,9 @@ function PlayButton({
             : ''}
       `}
       onClick={onClick}
+      onKeyDown={onPressSpace}
       aria-label={`Play ${title}`}
+      role="button"
     >
       <i className={`icon ion-md-${icon}`} />
     </a>

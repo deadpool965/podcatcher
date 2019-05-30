@@ -94,7 +94,6 @@
   cursor: pointer;
   font-size: 16px;
   border-radius: 100%;
-  outline: none;
 }
 
 .podcast-page__search-tools__order-btn:hover,
@@ -111,7 +110,6 @@
   cursor: pointer;
   font-size: 14px;
   border-radius: 100%;
-  outline: none;
   margin: 0px;
   padding: 0px;
   display: flex;

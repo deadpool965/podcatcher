@@ -100,6 +100,7 @@ function Player() {
       type: PLAYBACK_ACTION_TYPE.REQUEST_RATE_CHANGE,
       payload: speed,
     });
+    hidePlaybackRateDialog();
   }
 
   if (!playback.episode) return null;

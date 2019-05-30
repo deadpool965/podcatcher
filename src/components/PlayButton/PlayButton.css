@@ -7,7 +7,6 @@
   background-color: transparent;
   color: var(--accent-color);
   cursor: pointer;
-  outline: none;
   display: flex;
   align-items: center;
   justify-content: center;

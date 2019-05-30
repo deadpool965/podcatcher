@@ -50,7 +50,6 @@
   background: transparent;
   border-radius: 0px 8px 8px 0px;
   color: var(--main-bg-color);
-  outline: none;
 }
 
 .text-input__clear-btn:hover,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Player from '../Player/Player';
 import Container from '../Container/Container';
@@ -10,10 +10,34 @@ import Store from '../../libs/Store';
 import './App.css';
 
 function App() {
+  const [tabNavigation, setTabNavigation] = useState(false);
+
+  useEffect(() => {
+    function enableTabNavigation({ key }) {
+      if (key !== 'Tab' || tabNavigation === true) return;
+      setTabNavigation(true);
+    }
+
+    function disableTabNavigation() {
+      if (tabNavigation === false) return;
+      setTabNavigation(false);
+    }
+
+    document.addEventListener('keydown', enableTabNavigation);
+    document.addEventListener('mousemove', disableTabNavigation);
+    document.addEventListener('touchstart', disableTabNavigation);
+
+    return () => {
+      document.removeEventListener('keydown', enableTabNavigation);
+      document.removeEventListener('mousemove', disableTabNavigation);
+      document.removeEventListener('touchstart', disableTabNavigation);
+    };
+  }, [tabNavigation]);
+
   return (
     <BrowserRouter>
       <Store>
-        <div className="app">
+        <div className={`app ${tabNavigation ? '' : 'app--no-outline'}`}>
           <Player />
           <Container>
             <Header />

@@ -9,3 +9,7 @@
 .app * {
   font-family: 'Arial';
 }
+
+.app.app--no-outline *:focus {
+  outline: none;
+}

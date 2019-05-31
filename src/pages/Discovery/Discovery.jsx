@@ -4,6 +4,7 @@ import TextInput from '../../components/TextInput/TextInput';
 import PodcastGrid from '../../components/PodcastGrid/PodcastGrid';
 import Button from '../../components/Button/Button';
 import Spinner from '../../components/Spinner/Spinner';
+import Metadata from '../../components/Metadata/Metadata';
 import MY_CONTRY from '../../libs/myCountry';
 import queryParser from '../../libs/queryParser';
 import './Discovery.css';
@@ -102,6 +103,10 @@ function Discovery({ history, location }) {
 
   return (
     <div className="discovery-page">
+      <Metadata
+        title="PodCatcher"
+        description="PodCatcher is a free podcast player for the web. Listen to podcasts on or phone or desktop."
+      />
       <form
         onSubmit={handleSubmit}
         className="discovery-page__form"

@@ -7,6 +7,7 @@ import TextInput from '../../components/TextInput/TextInput';
 import Grid from '../../components/Grid/Grid';
 import Modal from '../../components/Modal/Modal';
 import Button from '../../components/Button/Button';
+import Metadata from '../../components/Metadata/Metadata';
 import './Podcast.css';
 
 const LIMIT_OPTIONS = [
@@ -79,6 +80,14 @@ function PodcastPage({
 
   return (
     <div className="podcast-page">
+      {data.collectionName && episodes.length > 0
+        ? (
+          <Metadata
+            title={`PodCatcher - ${data.collectionName}`}
+            description={`Listen to ${episodes.length} episodes of ${data.collectionName} on PodCatcher`}
+          />
+        )
+        : null}
       <Modal
         title="Select Limit"
         onClose={onLimitDialogClose}
@@ -107,7 +116,7 @@ function PodcastPage({
           <img
             className="podcast-page__summary__image-wrapper__image"
             src={data.artworkUrl600 || ''}
-            alt={data.title || 'Loading'}
+            alt={data.collectionName || 'Loading'}
             onLoad={onImageLoad}
           />
         </div>

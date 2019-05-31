@@ -41,10 +41,14 @@ function Range({
     function onMouseMove(evt) {
       if (!isBrowsing) return;
 
+      const isTouch = Boolean(evt.changedTouches);
+
       const pathRect = path
         .current
         .getBoundingClientRect();
-      const mouseX = evt.screenX;
+      const mouseX = isTouch
+        ? evt.changedTouches[0].clientX
+        : evt.clientX;
 
       let pos = mouseX - pathRect.x;
       if (pos < 0) pos = 0;

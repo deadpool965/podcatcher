@@ -25,8 +25,13 @@ function PlayButton({
     ? 'pause'
     : 'play';
 
+  const waiting = isMyEpisode && playback.status
+    === PLAYBACK_STATUS.WAITING;
+
   function onClick(e) {
     e.preventDefault();
+
+    if (waiting) return;
 
     if (isMyEpisode) {
       if (isPlaying) {
@@ -59,17 +64,15 @@ function PlayButton({
       href={episode.enclosures[0].url}
       className={
         `mini-play-button
-        ${theme === 'dark'
-          ? ' mini-play-button--dark'
-          : ''}
-        ${large
-            ? ' mini-play-button--large'
-            : ''}
+        ${theme === 'dark' ? ' mini-play-button--dark' : ''}
+        ${large ? ' mini-play-button--large' : ''}
+        ${waiting ? ' mini-play-button--disabled' : ''}
       `}
       onClick={onClick}
       onKeyDown={onPressSpace}
       aria-label={`Play ${title}`}
       role="button"
+      tabIndex={waiting ? '-1' : '0'}
     >
       <i className={`icon ion-md-${icon}`} />
     </a>

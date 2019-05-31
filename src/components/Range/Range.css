@@ -1,0 +1,25 @@
+.range {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.range__path {
+  width: 100%;
+  border: solid thin #000;
+}
+
+.range__handle {
+  display: block;
+  position: absolute;
+  top: calc(50% - 10px);
+  left: 0px;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  border: 0px;
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, .3);
+  background-color: var(--text-color);
+  cursor: pointer;
+}

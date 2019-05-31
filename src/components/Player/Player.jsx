@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, Fragment } from 'react';
 import { PlaybackContext, PLAYBACK_ACTION_TYPE } from '../../libs/Store';
 import Button from '../Button/Button';
 import Container from '../Container/Container';
 import Grid from '../Grid/Grid';
 import PlayButton from '../PlayButton/PlayButton';
 import Modal from '../Modal/Modal';
+import Range from '../Range/Range';
 import './Player.css';
 
 const TIMER_OPTIONS = [
@@ -103,6 +104,24 @@ function Player() {
     hidePlaybackRateDialog();
   }
 
+  function onProgressChange(payload) {
+    dispatchPlayback({
+      type: PLAYBACK_ACTION_TYPE.REQUEST_PAUSE,
+      payload,
+    });
+    dispatchPlayback({
+      type: PLAYBACK_ACTION_TYPE.UPDATE_CURRENT_TIME,
+      payload,
+    });
+    dispatchPlayback({
+      type: PLAYBACK_ACTION_TYPE.REQUEST_SEEK,
+      payload,
+    });
+    dispatchPlayback({
+      type: PLAYBACK_ACTION_TYPE.REQUEST_PLAY,
+    });
+  }
+
   if (!playback.episode) return null;
 
   return (
@@ -158,7 +177,7 @@ function Player() {
       <Container>
         <Grid
           style={{ gridGap: '8px' }}
-          rows={`min-content ${expanded ? 'min-content' : ''}`}
+          rows={`min-content ${expanded ? 'repeat(2, min-content)' : ''}`}
         >
           <Grid
             columns="min-content auto min-content"
@@ -186,55 +205,82 @@ function Player() {
           </Grid>
           {expanded
             ? (
-              <Grid
-                style={{ alignItems: 'center' }}
-                columns="auto repeat(5, min-content) auto"
-              >
-                <div />
-                <div>
-                  <Button
-                    id="timer-btn"
-                    ariaLabel="Timer"
-                    onClick={() => setShowTimerDialog(true)}
-                  >
-                    <i className="icon ion-md-timer" />
-                  </Button>
-                </div>
-                <div>
-                  <Button
-                    ariaLabel="Rewind 15 seconds"
-                    onClick={rewind}
-                  >
-                    <i className="icon ion-md-rewind" />
-                  </Button>
-                </div>
-                <PlayButton
-                  episode={playback.episode}
-                  theme="dark"
-                  large
-                />
-                <div>
-                  <Button
-                    ariaLabel="Fastforward 15 seconds"
-                    onClick={fastforward}
-                  >
-                    <i className="icon ion-md-fastforward" />
-                  </Button>
-                </div>
-                <div>
-                  <Button
-                    id="playback-rate-btn"
-                    ariaLabel="Change playback rate"
-                    onClick={() => setShowPlaybackRateDialog(true)}
-                  >
-                    <b>
-                      {playback.playbackRate}
-                      x
-                    </b>
-                  </Button>
-                </div>
-                <div />
-              </Grid>
+              <Fragment>
+                <Grid
+                  style={{ alignItems: 'center' }}
+                  columns="min-content auto min-content"
+                >
+                  <div>
+                    <div className="player__time-display">
+                      {currentTime}
+                    </div>
+                  </div>
+                  <div>
+                    <Range
+                      value={playback.currentTime}
+                      min={0}
+                      max={playback.duration}
+                      step={15}
+                      label="Progress Bar"
+                      onChange={onProgressChange}
+                    />
+                  </div>
+                  <div>
+                    <div className="player__time-display">
+                      {duration}
+                    </div>
+                  </div>
+                </Grid>
+                <Grid
+                  style={{ alignItems: 'center' }}
+                  columns="auto repeat(5, min-content) auto"
+                >
+                  <div />
+                  <div>
+                    <Button
+                      id="timer-btn"
+                      ariaLabel="Timer"
+                      onClick={() => setShowTimerDialog(true)}
+                    >
+                      <i className="icon ion-md-timer" />
+                    </Button>
+                  </div>
+                  <div>
+                    <Button
+                      ariaLabel="Rewind 15 seconds"
+                      onClick={rewind}
+                    >
+                      <i className="icon ion-md-rewind" />
+                    </Button>
+                  </div>
+                  <PlayButton
+                    episode={playback.episode}
+                    theme="dark"
+                    large
+                  />
+                  <div>
+                    <Button
+                      ariaLabel="Fastforward 15 seconds"
+                      onClick={fastforward}
+                    >
+                      <i className="icon ion-md-fastforward" />
+                    </Button>
+                  </div>
+                  <div>
+                    <Button
+                      id="playback-rate-btn"
+                      ariaLabel="Change playback rate"
+                      onClick={() => setShowPlaybackRateDialog(true)}
+                    >
+                      <b>
+                        {playback.playbackRate}
+                        x
+                      </b>
+                    </Button>
+                  </div>
+                  <div />
+                </Grid>
+              </Fragment>
             )
             : null}
         </Grid>

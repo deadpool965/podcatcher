@@ -8,7 +8,7 @@ Podcast PWA
 - [x] - Seach
 - [x] - Podcast Page
 - [x] - Podcast Episode List
-- [ ] - Player
+- [x] - Player
 - [ ] - Playback proxy alternative
 - [x] - Cache
 - [ ] - Google Ads

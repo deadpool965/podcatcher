@@ -6,6 +6,7 @@ import Button from '../../components/Button/Button';
 import Spinner from '../../components/Spinner/Spinner';
 import Metadata from '../../components/Metadata/Metadata';
 import MY_CONTRY from '../../libs/myCountry';
+import countries from '../../libs/countries';
 import queryParser from '../../libs/queryParser';
 import './Discovery.css';
 
@@ -44,6 +45,7 @@ function Discovery({ history, location }) {
   const query = queryParser(location.search);
   const [q, setQ] = useState(query.q || '');
   const [searchResults, setSearchResults] = useState([]);
+  const [countryName, setCountryName] = useState(null);
 
   function handleChange({ target }) {
     setQ(target.value);
@@ -75,10 +77,17 @@ function Discovery({ history, location }) {
 
   const [topChartsPodcasts, setTopChartsPodcasts] = useState(generatePodcastPlaceholders(30));
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}topcharts?limit=30&country=${MY_CONTRY}`)
+    fetch(`${process.env.REACT_APP_API}topcharts?limit=30&country=${query.country || MY_CONTRY}`)
       .then(result => result.json())
       .then(data => setTopChartsPodcasts(data));
-  }, []);
+
+      const code = query.country || MY_CONTRY;
+      const country = countries
+        .find(c => c.value === code);
+      if (country) {
+        setCountryName(country.label);
+      }
+  }, [query.country]);
 
   useEffect(() => {
     if (!query.q) return;
@@ -104,7 +113,7 @@ function Discovery({ history, location }) {
   return (
     <div className="discovery-page">
       <Metadata
-        title="PodCatcher"
+        title={`PodCatcher ${countryName ? ` (${countryName})` : ''}`}
         description="PodCatcher is a free podcast player for the web. Listen to podcasts on or phone or desktop."
       />
       <form
@@ -146,7 +155,8 @@ function Discovery({ history, location }) {
         )
         : (
           <Fragment>
-            <h2 className="discovery-page__title">Popular Podcasts</h2>
+            <h2 className="discovery-page__title">
+              {`Popular Podcasts in ${countryName}`}</h2>
             <PodcastGrid
               podcasts={topChartsPodcasts}
             />

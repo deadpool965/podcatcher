@@ -1,5 +1,14 @@
-import React, { useContext, useState, Fragment } from 'react';
-import { PlaybackContext, PLAYBACK_ACTION_TYPE } from '../../libs/Store';
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  Fragment,
+} from 'react';
+import {
+  PlaybackContext,
+  PLAYBACK_ACTION_TYPE,
+  PLAYBACK_STATUS,
+} from '../../libs/Store';
 import Button from '../Button/Button';
 import Container from '../Container/Container';
 import Grid from '../Grid/Grid';
@@ -93,7 +102,8 @@ function Player() {
 
   function hidePlaybackRateDialog() {
     setShowPlaybackRateDialog(false);
-    document.getElementById('playback-rate-btn').focus();
+    const btn = document.getElementById('playback-rate-btn');
+    if (btn) btn.focus();
   }
 
   function setPlaybackRate(speed) {
@@ -121,6 +131,57 @@ function Player() {
       type: PLAYBACK_ACTION_TYPE.REQUEST_PLAY,
     });
   }
+
+  useEffect(() => {
+    if (!playback.episode) {
+      return () => {};
+    }
+
+    function shortcutsPressed({ key, target }) {
+      const ignoreTargets = ['INPUT', 'SELECT', 'TEXTAREA'];
+      const { tagName } = target;
+      if (ignoreTargets.indexOf(tagName) > -1) return;
+      switch (key) {
+        case 'P':
+        case 'p':
+          if (playback.status === PLAYBACK_STATUS.PLAYING) {
+            dispatchPlayback({
+              type: PLAYBACK_ACTION_TYPE.REQUEST_PAUSE,
+            });
+          } else if (playback.status === PLAYBACK_STATUS.PAUSED) {
+            dispatchPlayback({
+              type: PLAYBACK_ACTION_TYPE.REQUEST_PLAY,
+            });
+          }
+          break;
+        case ',':
+          rewind();
+          break;
+        case '.':
+          fastforward();
+          break;
+        case '1':
+          setPlaybackRate(1);
+          break;
+        case '2':
+          setPlaybackRate(1.25);
+          break;
+        case '3':
+          setPlaybackRate(1.75);
+          break;
+        case '4':
+          setPlaybackRate(2);
+          break;
+        default:
+          break;
+      }
+    }
+
+    window.addEventListener('keydown', shortcutsPressed);
+    return () => {
+      window.removeEventListener('keydown', shortcutsPressed);
+    };
+  }, [playback.episode, playback.status]);
 
   if (!playback.episode) return null;
 
@@ -219,7 +280,6 @@ function Player() {
                   <div>
                     <div
                       className="player__time-display"
-                      aria-label="Current Time"
                     >
                       {currentTime}
                     </div>
@@ -237,7 +297,6 @@ function Player() {
                   <div>
                     <div
                       className="player__time-display"
-                      aria-label="Duration"
                     >
                       {duration}
                     </div>

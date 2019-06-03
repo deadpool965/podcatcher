@@ -22,7 +22,6 @@
 .podcast-link-item:hover,
 .podcast-link-item:focus {
   opacity: .7;
-  outline: none;
 }
 
 .podcast-link-item__img {

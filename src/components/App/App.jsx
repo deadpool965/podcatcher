@@ -46,7 +46,6 @@ function App() {
             <main
               className="app__main"
               role="main"
-              aria-label="Content"
             >
               <Route
                 path="/"

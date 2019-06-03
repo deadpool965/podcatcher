@@ -196,10 +196,7 @@ function Player() {
                 style={{ fontSize: '24px' }}
               />
             </Button>
-            <div
-              className="player__title"
-              aria-label="Playing"
-            >
+            <div className="player__title">
               {playback.episode.title}
             </div>
             {expanded

@@ -31,7 +31,6 @@ function EpisodeDescription({
           ? 'episode-description--expanded'
           : ''
       }`}
-      aria-label="Episode Description"
     >
       <div
         ref={wrapper}

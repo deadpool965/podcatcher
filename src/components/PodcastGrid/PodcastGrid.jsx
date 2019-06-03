@@ -56,8 +56,9 @@ function PodcastGrid({ podcasts }) {
                 className="podcast-link-item__img"
                 data-src={artworkUrl100}
                 alt={name || 'Loading'}
+                aria-hidden
               />
-              <span className="podcast-link-item__hidden-text">{name}</span>
+              <div className="podcast-link-item__hidden-text">{name}</div>
             </Link>
           ))
       }

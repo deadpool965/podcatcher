@@ -10,6 +10,12 @@
   font-family: 'Arial';
 }
 
+.app *:focus {
+  outline-color: #00a5ff;
+  outline-width: medium;
+  outline-style: dashed;
+}
+
 .app.app--no-outline *:focus {
   outline: none;
 }

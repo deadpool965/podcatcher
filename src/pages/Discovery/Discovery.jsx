@@ -143,9 +143,7 @@ function Discovery({ history, location }) {
       </form>
       {query.q
         ? (
-          <div
-            aria-label={`Results for "${query.q}"`}
-          >
+          <div>
             <h2 className="discovery-page__title">
               {`Results for "${query.q}"`}
             </h2>
@@ -157,9 +155,7 @@ function Discovery({ history, location }) {
           </div>
         )
         : (
-          <div
-            aria-label={`Popular Podcasts in ${countryName}`}
-          >
+          <div>
             <h2 className="discovery-page__title">
               {`Popular Podcasts in ${countryName}`}
             </h2>

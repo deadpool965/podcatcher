@@ -122,16 +122,10 @@ function PodcastPage({
         </div>
         <div className="podcast-page__summary__content">
           <h2 className="podcast-page__summary__content__title">{data.collectionName || ''}</h2>
-          <div
-            className="podcast-page__summary__content__artist"
-            aria-label="Artist name"
-          >
+          <div className="podcast-page__summary__content__artist">
             {data.artistName || ''}
           </div>
-          <div
-            className="podcast-page__summary__content__genre"
-            aria-label="Genre"
-          >
+          <div className="podcast-page__summary__content__genre">
             {data.genres ? data.genres[0] : 'Loading...'}
           </div>
         </div>
@@ -223,7 +217,7 @@ function PodcastPage({
                   return (
                     <li
                       key={created || title}
-                      aria-label={`Play ${title}`}
+                      aria-label={title}
                     >
                       <Episode episode={episode} />
                     </li>

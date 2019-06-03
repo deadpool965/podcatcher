@@ -22,7 +22,6 @@ function Episode({ episode }) {
           <div>
             <div
               className="episode__release-date"
-              aria-label="Release date"
             >
               {(new Date(created)).toGMTString()}
             </div>

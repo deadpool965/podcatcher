@@ -20,7 +20,10 @@ function Episode({ episode }) {
             <PlayButton episode={episode} />
           </div>
           <div>
-            <div className="episode__release-date">
+            <div
+              className="episode__release-date"
+              aria-label="Release date"
+            >
               {(new Date(created)).toGMTString()}
             </div>
             <h3 className="episode__title">

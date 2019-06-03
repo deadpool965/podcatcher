@@ -31,6 +31,7 @@ function EpisodeDescription({
           ? 'episode-description--expanded'
           : ''
       }`}
+      aria-label="Episode Description"
     >
       <div
         ref={wrapper}
@@ -39,11 +40,15 @@ function EpisodeDescription({
       {overflow && expanded === false
         ? (
           <Fragment>
-            <div className="episode-description__shade" />
+            <div
+              className="episode-description__shade"
+              aria-hidden
+            />
             <button
               type="button"
               className="episode-description__read-more-btn"
               onClick={expand}
+              aria-hidden
             >
               Read More
             </button>

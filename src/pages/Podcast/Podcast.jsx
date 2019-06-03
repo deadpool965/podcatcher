@@ -116,21 +116,32 @@ function PodcastPage({
           <img
             className="podcast-page__summary__image-wrapper__image"
             src={data.artworkUrl600 || ''}
-            alt={data.collectionName || 'Loading'}
+            alt={`Logo of ${data.collectionName}` || 'Loading image...'}
             onLoad={onImageLoad}
           />
         </div>
         <div className="podcast-page__summary__content">
           <h2 className="podcast-page__summary__content__title">{data.collectionName || ''}</h2>
-          <div className="podcast-page__summary__content__artist">{data.artistName || ''}</div>
-          <div className="podcast-page__summary__content__genre">
+          <div
+            className="podcast-page__summary__content__artist"
+            aria-label="Artist name"
+          >
+            {data.artistName || ''}
+          </div>
+          <div
+            className="podcast-page__summary__content__genre"
+            aria-label="Genre"
+          >
             {data.genres ? data.genres[0] : 'Loading...'}
           </div>
         </div>
       </div>
       <div className="podcast-page__episodes">
         <div className="podcast-page__episodes__content">
-          <div style={{ marginBottom: '32px' }}>
+          <form
+            style={{ marginBottom: '32px' }}
+            aria-label="Search for Episodes"
+          >
             <Grid columns="auto min-content">
               <TextInput
                 id="q"
@@ -149,7 +160,7 @@ function PodcastPage({
                   id="limit-btn"
                   type="button"
                   className="podcast-page__search-tools__limit-btn"
-                  aria-label="Limit"
+                  aria-label="Change Limit"
                   onClick={() => setShowLimitMenu(true)}
                 >
                   {limit}
@@ -158,23 +169,23 @@ function PodcastPage({
                   className="podcast-page__search-tools__order-btn"
                   type="button"
                   onClick={toggleOrder}
-                  aria-label={`Order ${
-                    order === 'DESC'
-                      ? 'Ascending'
-                      : 'Descending'
-                  }`}
+                  aria-label="Change Order"
                 >
                   <i
                     className={
                       'icon '
                       + `ion-md-arrow-round-${order === 'DESC' ? 'down' : 'up'}`
                     }
+                    aria-hidden
                   />
                 </button>
               </div>
             </Grid>
-          </div>
-          <ul className="podcast-page__episode-list">
+          </form>
+          <ul
+            className="podcast-page__episode-list"
+            aria-label="Podcast episodes"
+          >
             {episodes.length === 0
               ? <Spinner />
               : episodes
@@ -210,7 +221,10 @@ function PodcastPage({
                 .map((episode) => {
                   const { title, created } = episode;
                   return (
-                    <li key={created || title}>
+                    <li
+                      key={created || title}
+                      aria-label={`Play ${title}`}
+                    >
                       <Episode episode={episode} />
                     </li>
                   );

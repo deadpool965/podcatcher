@@ -64,7 +64,12 @@ function TextInput({
         )
         : null}
       {(icon && !clearButton) || (icon && clearButton && !defaultValue)
-        ? <i className={`text-input__icon icon ion-md-${icon}`} />
+        ? (
+          <i
+            className={`text-input__icon icon ion-md-${icon}`}
+            aria-hidden
+          />
+        )
         : null}
     </div>
   );

@@ -74,7 +74,10 @@ function PlayButton({
       role="button"
       tabIndex={waiting ? '-1' : '0'}
     >
-      <i className={`icon ion-md-${icon}`} />
+      <i
+        className={`icon ion-md-${icon}`}
+        aria-hidden
+      />
     </a>
   );
 }

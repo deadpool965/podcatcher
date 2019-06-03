@@ -4,7 +4,11 @@ import './Header.css';
 
 function Header() {
   return (
-    <header className="header">
+    <header
+      className="header"
+      role="navigation"
+      aria-label="Header"
+    >
       <Link
         to="/"
         className="header__title"

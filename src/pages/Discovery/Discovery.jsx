@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import TextInput from '../../components/TextInput/TextInput';
 import PodcastGrid from '../../components/PodcastGrid/PodcastGrid';
@@ -81,12 +81,12 @@ function Discovery({ history, location }) {
       .then(result => result.json())
       .then(data => setTopChartsPodcasts(data));
 
-      const code = query.country || MY_CONTRY;
-      const country = countries
-        .find(c => c.value === code);
-      if (country) {
-        setCountryName(country.label);
-      }
+    const code = query.country || MY_CONTRY;
+    const country = countries
+      .find(c => c.value === code);
+    if (country) {
+      setCountryName(country.label);
+    }
   }, [query.country]);
 
   useEffect(() => {
@@ -119,11 +119,12 @@ function Discovery({ history, location }) {
       <form
         onSubmit={handleSubmit}
         className="discovery-page__form"
+        aria-label="Search podcasts"
       >
         <TextInput
           name="q"
           placeholder="Search"
-          ariaLabel="Search"
+          ariaLabel="Search by name"
           defaultValue={q}
           onChange={handleChange}
           clearButton
@@ -142,7 +143,9 @@ function Discovery({ history, location }) {
       </form>
       {query.q
         ? (
-          <Fragment>
+          <div
+            aria-label={`Results for "${query.q}"`}
+          >
             <h2 className="discovery-page__title">
               {`Results for "${query.q}"`}
             </h2>
@@ -151,16 +154,19 @@ function Discovery({ history, location }) {
                 searchResults={searchResults}
               />
             }
-          </Fragment>
+          </div>
         )
         : (
-          <Fragment>
+          <div
+            aria-label={`Popular Podcasts in ${countryName}`}
+          >
             <h2 className="discovery-page__title">
-              {`Popular Podcasts in ${countryName}`}</h2>
+              {`Popular Podcasts in ${countryName}`}
+            </h2>
             <PodcastGrid
               podcasts={topChartsPodcasts}
             />
-          </Fragment>
+          </div>
         )}
     </div>
   );

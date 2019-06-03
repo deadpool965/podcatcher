@@ -43,7 +43,11 @@ function App() {
             <Header />
           </Container>
           <Container>
-            <main className="app__main">
+            <main
+              className="app__main"
+              role="main"
+              aria-label="Content"
+            >
               <Route
                 path="/"
                 exact

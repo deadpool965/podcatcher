@@ -125,7 +125,11 @@ function Player() {
   if (!playback.episode) return null;
 
   return (
-    <div className="player">
+    <div
+      className="player"
+      role="navigation"
+      aria-label="Player Navigation"
+    >
       <Modal
         title="Set Timer"
         open={showTimerDialog}
@@ -192,7 +196,12 @@ function Player() {
                 style={{ fontSize: '24px' }}
               />
             </Button>
-            <div className="player__title">{playback.episode.title}</div>
+            <div
+              className="player__title"
+              aria-label="Playing"
+            >
+              {playback.episode.title}
+            </div>
             {expanded
               ? null
               : (
@@ -211,7 +220,10 @@ function Player() {
                   columns="min-content auto min-content"
                 >
                   <div>
-                    <div className="player__time-display">
+                    <div
+                      className="player__time-display"
+                      aria-label="Current Time"
+                    >
                       {currentTime}
                     </div>
                   </div>
@@ -226,7 +238,10 @@ function Player() {
                     />
                   </div>
                   <div>
-                    <div className="player__time-display">
+                    <div
+                      className="player__time-display"
+                      aria-label="Duration"
+                    >
                       {duration}
                     </div>
                   </div>
@@ -239,10 +254,13 @@ function Player() {
                   <div>
                     <Button
                       id="timer-btn"
-                      ariaLabel="Timer"
+                      ariaLabel="Set Timer"
                       onClick={() => setShowTimerDialog(true)}
                     >
-                      <i className="icon ion-md-timer" />
+                      <i
+                        className="icon ion-md-timer"
+                        aria-hidden
+                      />
                     </Button>
                   </div>
                   <div>

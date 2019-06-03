@@ -132,56 +132,56 @@ function Player() {
     });
   }
 
+  function shortcutsPressed({ key, target }) {
+    const ignoreTargets = ['INPUT', 'SELECT', 'TEXTAREA'];
+    const { tagName } = target;
+    if (ignoreTargets.indexOf(tagName) > -1) return;
+    switch (key) {
+      case 'P':
+      case 'p':
+        if (playback.status === PLAYBACK_STATUS.PLAYING) {
+          dispatchPlayback({
+            type: PLAYBACK_ACTION_TYPE.REQUEST_PAUSE,
+          });
+        } else if (playback.status === PLAYBACK_STATUS.PAUSED) {
+          dispatchPlayback({
+            type: PLAYBACK_ACTION_TYPE.REQUEST_PLAY,
+          });
+        }
+        break;
+      case ',':
+        rewind();
+        break;
+      case '.':
+        fastforward();
+        break;
+      case '1':
+        setPlaybackRate(1);
+        break;
+      case '2':
+        setPlaybackRate(1.25);
+        break;
+      case '3':
+        setPlaybackRate(1.75);
+        break;
+      case '4':
+        setPlaybackRate(2);
+        break;
+      default:
+        break;
+    }
+  }
+
   useEffect(() => {
     if (!playback.episode) {
       return () => {};
-    }
-
-    function shortcutsPressed({ key, target }) {
-      const ignoreTargets = ['INPUT', 'SELECT', 'TEXTAREA'];
-      const { tagName } = target;
-      if (ignoreTargets.indexOf(tagName) > -1) return;
-      switch (key) {
-        case 'P':
-        case 'p':
-          if (playback.status === PLAYBACK_STATUS.PLAYING) {
-            dispatchPlayback({
-              type: PLAYBACK_ACTION_TYPE.REQUEST_PAUSE,
-            });
-          } else if (playback.status === PLAYBACK_STATUS.PAUSED) {
-            dispatchPlayback({
-              type: PLAYBACK_ACTION_TYPE.REQUEST_PLAY,
-            });
-          }
-          break;
-        case ',':
-          rewind();
-          break;
-        case '.':
-          fastforward();
-          break;
-        case '1':
-          setPlaybackRate(1);
-          break;
-        case '2':
-          setPlaybackRate(1.25);
-          break;
-        case '3':
-          setPlaybackRate(1.75);
-          break;
-        case '4':
-          setPlaybackRate(2);
-          break;
-        default:
-          break;
-      }
     }
 
     window.addEventListener('keydown', shortcutsPressed);
     return () => {
       window.removeEventListener('keydown', shortcutsPressed);
     };
-  }, [playback.episode, playback.status]);
+  });
 
   if (!playback.episode) return null;
 

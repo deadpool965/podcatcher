@@ -8,7 +8,7 @@
     }
   ],
   "start_url": ".",
-  "display": "fullscreen",
+  "display": "standalone",
   "theme_color": "#F9AA33",
   "background_color": "#232F34"
 }

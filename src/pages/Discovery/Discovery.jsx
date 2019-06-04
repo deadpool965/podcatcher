@@ -8,6 +8,7 @@ import Metadata from '../../components/Metadata/Metadata';
 import MY_CONTRY from '../../libs/myCountry';
 import countries from '../../libs/countries';
 import queryParser from '../../libs/queryParser';
+import api from '../../libs/api';
 import './Discovery.css';
 
 
@@ -77,7 +78,7 @@ function Discovery({ history, location }) {
 
   const [topChartsPodcasts, setTopChartsPodcasts] = useState(generatePodcastPlaceholders(30));
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}topcharts?limit=30&country=${query.country || MY_CONTRY}`)
+    api(`topcharts?limit=30&country=${query.country || MY_CONTRY}`)
       .then(result => result.json())
       .then(data => setTopChartsPodcasts(data));
 
@@ -92,7 +93,7 @@ function Discovery({ history, location }) {
   useEffect(() => {
     if (!query.q) return;
     setSearchResults(null);
-    fetch(`${process.env.REACT_APP_API}search?term=${query.q}&limit=30&media=podcast`)
+    api(`search?term=${query.q}&limit=30&media=podcast`)
       .then(result => result.json())
       .then((data) => {
         setSearchResults(

@@ -1,11 +1,8 @@
 const express = require('express');
-const dotenv = require('dotenv');
 const compression = require('compression');
 const zlib = require('zlib');
 const { readFileSync } = require('fs');
 const cors = require('./server/middlewares/cors');
-
-dotenv.config();
 
 const app = express();
 app.use(
@@ -33,8 +30,5 @@ app.get('/api/topcharts', cors, topCharts);
 app.use(express.static('./build'));
 app.get('*', (req, res) => res.send(indexFile));
 
-if (!process.env.SERVER_PORT) {
-  throw new Error('Rename env file to .env and enter your credentials');
-}
-
-app.listen(process.env.SERVER_PORT, () => console.log(`Ready on ${process.env.SERVER_PORT}`));
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`Ready on ${PORT}`));

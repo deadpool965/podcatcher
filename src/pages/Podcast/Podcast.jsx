@@ -8,6 +8,7 @@ import Grid from '../../components/Grid/Grid';
 import Modal from '../../components/Modal/Modal';
 import Button from '../../components/Button/Button';
 import Metadata from '../../components/Metadata/Metadata';
+import api from '../../libs/api';
 import './Podcast.css';
 
 const LIMIT_OPTIONS = [
@@ -40,11 +41,11 @@ function PodcastPage({
     .trim();
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API}podcast/${id}`)
+    api(`podcast/${id}`)
       .then(res => res.json())
       .then((res) => {
         setData(res);
-        return fetch(`${process.env.REACT_APP_API}episodes/${id}`);
+        return api(`episodes/${id}`);
       })
       .then(res => res.json())
       .then(res => setEpisodes(res));

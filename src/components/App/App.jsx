@@ -11,6 +11,7 @@ import './App.css';
 
 function App() {
   const [tabNavigation, setTabNavigation] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
 
   useEffect(() => {
     function enableTabNavigation({ key }) {
@@ -23,21 +24,30 @@ function App() {
       setTabNavigation(false);
     }
 
+    function touchNavigation() {
+      disableTabNavigation();
+      if (isTouch === true) return;
+      setIsTouch(true);
+    }
+
     document.addEventListener('keydown', enableTabNavigation);
     document.addEventListener('mousemove', disableTabNavigation);
-    document.addEventListener('touchstart', disableTabNavigation);
+    document.addEventListener('touchstart', touchNavigation);
 
     return () => {
       document.removeEventListener('keydown', enableTabNavigation);
       document.removeEventListener('mousemove', disableTabNavigation);
       document.removeEventListener('touchstart', disableTabNavigation);
     };
-  }, [tabNavigation]);
+  }, [tabNavigation, isTouch]);
 
   return (
     <BrowserRouter>
       <Store>
-        <div className={`app ${tabNavigation ? '' : 'app--no-outline'}`}>
+        <div className={`app
+          ${tabNavigation ? '' : 'app--no-outline'}
+          ${isTouch ? 'is-touch' : 'is-not-touch'}`}
+        >
           <Player />
           <Container>
             <Header />

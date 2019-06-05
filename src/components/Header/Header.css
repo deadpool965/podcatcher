@@ -3,9 +3,10 @@
   text-decoration: none;
 }
 
-.header__title:hover,
-.header__title:focus {
-  color: var(--accent-color-light);
+.header__title:hover {
+  animation-name: titleFlash;
+  animation-duration: .3s;
+  animation-timing-function: ease-in-out;
 }
 
 .header__title__h1 {
@@ -13,4 +14,14 @@
   font-family: 'Bungee', 'Impact' !important;
   margin: 0px;
   line-height: 75px;
+}
+
+@keyframes titleFlash {
+  0% {
+    color: #FFF;
+  }
+
+  100% {
+    color: var(--accent-color);
+  }
 }

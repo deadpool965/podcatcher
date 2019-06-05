@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './Button.css';
 
@@ -8,13 +8,35 @@ function Button({
   fullWidth,
   ariaLabel,
   id,
+  transparent,
+  lightText,
+  circle,
 }) {
+  const [flashAni, setFlashAni] = useState(false);
+
+  function onButtonClick(evt) {
+    evt.persist();
+    onClick(evt);
+    setFlashAni(true);
+  }
+
+  function onAnimationEnd() {
+    setFlashAni(false);
+  }
+
   return (
     <button
       id={id}
-      className={`button ${fullWidth ? 'button--full-width' : ''}`}
+      className={'button '
+        + `${fullWidth ? 'button--full-width' : ''} `
+        + `${flashAni ? 'button--flash-ani' : ''} `
+        + `${transparent ? 'button--transparent ' : ''}`
+        + `${lightText ? 'button--light-text ' : ''}`
+        + `${circle ? 'button--circle ' : ''}`
+      }
       type="button"
-      onClick={onClick}
+      onClick={onButtonClick}
+      onAnimationEnd={onAnimationEnd}
       aria-label={ariaLabel}
     >
       {children}
@@ -28,12 +50,18 @@ Button.propTypes = {
   fullWidth: PropTypes.bool,
   ariaLabel: PropTypes.string.isRequired,
   id: PropTypes.string,
+  transparent: PropTypes.bool,
+  lightText: PropTypes.bool,
+  circle: PropTypes.bool,
 };
 
 Button.defaultProps = {
   onClick: () => { },
   fullWidth: false,
   id: null,
+  transparent: false,
+  lightText: false,
+  circle: false,
 };
 
 export default Button;

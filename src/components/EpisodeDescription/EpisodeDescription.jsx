@@ -32,10 +32,6 @@ function EpisodeDescription({
           : ''
       }`}
     >
-      <div
-        ref={wrapper}
-        dangerouslySetInnerHTML={{ __html: text }}
-      />
       {overflow && expanded === false
         ? (
           <Fragment>
@@ -54,6 +50,10 @@ function EpisodeDescription({
           </Fragment>
         )
         : null}
+      <div
+        ref={wrapper}
+        dangerouslySetInnerHTML={{ __html: text }}
+      />
     </div>
   );
 }

@@ -9,11 +9,60 @@
   color: var(--main-bg-color);
 }
 
-.button:hover {
+.is-not-touch .button:hover {
   background-color: var(--accent-color-light);
+}
+
+.is-touch .button--flash-ani {
+  animation-name: flashButtonAccentColor;
+  animation-duration: .3s;
+  animation-timing-function: ease-in-out;
+  will-change: transform;
 }
 
 .button--full-width {
   width: 100%;
   color: var(--main-bg-color);
+}
+
+.button--transparent {
+  background-color: transparent;
+}
+
+.is-touch .button--flash-ani.button--transparent {
+  animation-name: flashButtonTransparent;
+}
+
+.button--light-text {
+  color: var(--text-color);
+}
+
+.button--circle {
+  width: 40px;
+  height: 40px;
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+}
+
+@keyframes flashButtonAccentColor {
+  0% {
+    background-color: #FFF;
+  }
+
+  100% {
+    background-color: var(--accent-color);
+  }
+}
+
+@keyframes flashButtonTransparent {
+  0% {
+    background-color: #FFF;
+  }
+
+  100% {
+    background-color: transparent;
+  }
 }

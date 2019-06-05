@@ -359,6 +359,16 @@ function Player() {
             : null}
         </Grid>
       </Container>
+      {playback.status === PLAYBACK_STATUS.WAITING
+        ? (
+          <div
+            className="player__activity"
+            aria-hidden
+          >
+            <div className="player__activity__bar" />
+          </div>
+        )
+        : null}
     </div>
   );
 }

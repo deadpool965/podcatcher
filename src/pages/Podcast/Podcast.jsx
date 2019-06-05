@@ -151,20 +151,23 @@ function PodcastPage({
                 delayChange
               />
               <div className="podcast-page__search-tools">
-                <button
+                <Button
                   id="limit-btn"
-                  type="button"
-                  className="podcast-page__search-tools__limit-btn"
                   aria-label="Change Limit"
                   onClick={() => setShowLimitMenu(true)}
+                  transparent
+                  lightText
+                  circle
                 >
                   {limit}
-                </button>
-                <button
-                  className="podcast-page__search-tools__order-btn"
-                  type="button"
+                </Button>
+                <Button
+                  id="order-btn"
                   onClick={toggleOrder}
                   aria-label="Change Order"
+                  transparent
+                  lightText
+                  circle
                 >
                   <i
                     className={
@@ -173,7 +176,7 @@ function PodcastPage({
                     }
                     aria-hidden
                   />
-                </button>
+                </Button>
               </div>
             </Grid>
           </form>

@@ -24,11 +24,27 @@
   pointer-events: none;
 }
 
-.mini-play-button:hover {
-  background-color: rgba(255, 255, 255, .1);
+.is-not-touch .mini-play-button:hover {
+  background-color: var(--accent-bg-color);
+}
+
+.is-touch .mini-play-button:hover {
+  animation-name: flashPlayButton;
+  animation-duration: .3s;
+  animation-timing-function: ease-in-out;
 }
 
 .mini-play-button--large {
   width: 45px;
   height: 45px;
+}
+
+@keyframes flashPlayButton {
+  0% {
+    background-color: #FFF;
+  }
+
+  100% {
+    background-color: transparent;
+  }
 }

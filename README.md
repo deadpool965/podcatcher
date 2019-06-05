@@ -12,7 +12,7 @@ Podcast PWA
 - [ ] - Playback proxy alternative
 - [x] - Cache
 - [ ] - Google Ads
-- [ ] - Google Analytics
+- [x] - Google Analytics
 - [x] - Dynamic Sitemap (SEO)
 - [ ] - PWA config (icons, config files and stuff)
 - [ ] - About page (version, release notes, creator info, donate button, source-code, roadmap)

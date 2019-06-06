@@ -7,6 +7,7 @@ const CACHE_NAME = 'CACHE_NAME';
 const urlsToCache = [
   '/',
   'https://fonts.googleapis.com/css?family=Bungee&font-display=swap',
+  'https://fonts.gstatic.com/s/bungee/v4/N0bU2SZBIuF2PU_0DXR1.woff2',
   'https://unpkg.com/ionicons@4.5.5/dist/css/ionicons.min.css',
   'https://unpkg.com/ionicons@4.5.5/dist/fonts/ionicons.woff2?v=4.5.4',
   'https://unpkg.com/ionicons@4.5.5/dist/fonts/ionicons.woff2',

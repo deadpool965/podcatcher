@@ -37,6 +37,14 @@
   color: var(--text-color);
 }
 
+.button--accent-text {
+  color: var(--accent-color);
+}
+
+.is-not-touch .button--pointy:hover {
+  background-color: var(--text-color);
+}
+
 .button--circle {
   width: 40px;
   height: 40px;
@@ -45,6 +53,10 @@
   align-items: center;
   justify-content: center;
   border-radius: 100%;
+}
+
+.button--pointy {
+  border-radius: 0px;
 }
 
 .button--small {

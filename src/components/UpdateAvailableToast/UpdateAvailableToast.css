@@ -1,0 +1,25 @@
+.update-available-toast {
+  display: block;
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translate(-50%, 32px);
+  background-color: #2d2d2d;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+  transition: opacity .3s ease-in-out,
+    transform .3s ease-in-out;
+  box-shadow: 0px 5px 6px rgba(0, 0, 0, .3);
+}
+
+.update-available-toast--show {
+  opacity: 1;
+  transform: translate(-50%, 0px);
+  pointer-events: auto;
+}
+
+.update-available-toast__description {
+  text-align: center;
+}

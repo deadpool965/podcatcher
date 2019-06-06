@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import TextInput from '../../components/TextInput/TextInput';
 import PodcastGrid from '../../components/PodcastGrid/PodcastGrid';
 import Button from '../../components/Button/Button';
 import Spinner from '../../components/Spinner/Spinner';
 import Metadata from '../../components/Metadata/Metadata';
+import OfflineAlert from '../../components/OfflineAlert/OfflineAlert';
 import MY_CONTRY from '../../libs/myCountry';
 import countries from '../../libs/countries';
 import queryParser from '../../libs/queryParser';
@@ -77,9 +78,11 @@ function Discovery({ history, location }) {
   }
 
   const [topChartsPodcasts, setTopChartsPodcasts] = useState(generatePodcastPlaceholders(30));
+  const [topChartsOffline, setTopChartsOffline] = useState(false);
   useEffect(() => {
     api(`topcharts?limit=30&country=${query.country || MY_CONTRY}`)
-      .then(data => setTopChartsPodcasts(data));
+      .then(data => setTopChartsPodcasts(data))
+      .catch(() => setTopChartsOffline(true));
 
     const code = query.country || MY_CONTRY;
     const country = countries
@@ -89,9 +92,11 @@ function Discovery({ history, location }) {
     }
   }, [query.country]);
 
+  const [searchResultsOffline, setSearchResultsOffline] = useState(false);
   useEffect(() => {
     if (!query.q) return;
     setSearchResults(null);
+    setSearchResultsOffline(false);
     api(`search?term=${query.q}&limit=30&media=podcast`)
       .then((data) => {
         setSearchResults(
@@ -106,7 +111,8 @@ function Discovery({ history, location }) {
               return podcast;
             }),
         );
-      });
+      })
+      .catch(() => setSearchResultsOffline(true));
   }, [query.q]);
 
   return (
@@ -143,24 +149,36 @@ function Discovery({ history, location }) {
       {query.q
         ? (
           <div>
-            <h2 className="discovery-page__title">
-              {`Results for "${query.q}"`}
-            </h2>
-            {
-              <PodcastResults
-                searchResults={searchResults}
-              />
-            }
+            {searchResultsOffline
+              ? <OfflineAlert />
+              : (
+                <Fragment>
+                  <h2 className="discovery-page__title">
+                    {`Results for "${query.q}"`}
+                  </h2>
+                  {
+                    <PodcastResults
+                      searchResults={searchResults}
+                    />
+                  }
+                </Fragment>
+              )}
           </div>
         )
         : (
           <div>
-            <h2 className="discovery-page__title">
-              {`Popular Podcasts in ${countryName}`}
-            </h2>
-            <PodcastGrid
-              podcasts={topChartsPodcasts}
-            />
+            {topChartsOffline
+              ? <OfflineAlert />
+              : (
+                <Fragment>
+                  <h2 className="discovery-page__title">
+                    {`Popular Podcasts in ${countryName}`}
+                  </h2>
+                  <PodcastGrid
+                    podcasts={topChartsPodcasts}
+                  />
+                </Fragment>
+              )}
           </div>
         )}
     </div>

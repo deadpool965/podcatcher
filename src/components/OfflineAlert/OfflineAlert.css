@@ -1,0 +1,21 @@
+.offline-alert {
+  margin: 32px 0px;
+}
+
+.offline-alert__icon {
+  font-size: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.offline-alert__description {
+  font-size: 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.offline-alert__description b {
+  display: block;
+  margin-bottom: 8px;
+}

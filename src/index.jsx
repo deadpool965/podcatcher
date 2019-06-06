@@ -20,7 +20,34 @@ window.addEventListener('load', () => {
 });
 
 if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js');
-  });
+  navigator
+    .serviceWorker
+    .register('/sw.js')
+    .then((reg) => {
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+
+        newWorker.addEventListener('statechange', () => {
+          if (
+            newWorker.state === 'installed'
+            && navigator.serviceWorker.controller
+          ) {
+            window.dispatchEvent(new CustomEvent('update-available'));
+          }
+        });
+
+        window.addEventListener('update-requested', () => {
+          newWorker.postMessage({ action: 'skipWaiting' });
+        });
+      });
+    });
+
+  let refreshing = false;
+  navigator
+    .serviceWorker
+    .addEventListener('controllerchange', () => {
+      if (refreshing) return;
+      window.location.reload();
+      refreshing = true;
+    });
 }

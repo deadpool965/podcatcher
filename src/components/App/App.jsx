@@ -4,6 +4,7 @@ import Player from '../Player/Player';
 import InstallBanner from '../InstallBanner/InstallBanner';
 import Container from '../Container/Container';
 import Header from '../Header/Header';
+import UpdateAvailableToast from '../UpdateAvailableToast/UpdateAvailableToast';
 import DiscoveryPage from '../../pages/Discovery/Discovery';
 import PodcastPage from '../../pages/Podcast/Podcast';
 import InstallIOS from '../../pages/InstallIOS/InstallIOS';
@@ -50,6 +51,7 @@ function App() {
           ${tabNavigation ? '' : 'app--no-outline'}
           ${isTouch ? 'is-touch' : 'is-not-touch'}`}
         >
+          <UpdateAvailableToast />
           <Player />
           <Route
             path="/"

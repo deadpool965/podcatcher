@@ -10,17 +10,16 @@ export default url => new Promise((resolve, reject) => {
     .then((res) => {
       resolve(res);
       localForage
-        .setItem(parsedUrl, res, (err) => {
-          if (err) console.log(err);
-        });
+        .setItem(parsedUrl, res);
     })
     .catch((e) => {
       localForage
         .getItem(parsedUrl, (err, cache) => {
-          if (err) {
+          if (err || !cache) {
             reject(e);
             return;
           }
+
           resolve(cache);
         });
     });

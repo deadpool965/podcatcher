@@ -10,7 +10,9 @@ function Button({
   id,
   transparent,
   lightText,
+  accentText,
   circle,
+  pointy,
   small,
 }) {
   const [flashAni, setFlashAni] = useState(false);
@@ -33,9 +35,11 @@ function Button({
         + `${flashAni ? 'button--flash-ani' : ''} `
         + `${transparent ? 'button--transparent ' : ''}`
         + `${lightText ? 'button--light-text ' : ''}`
+        + `${accentText ? 'button--accent-text ' : ''}`
         + `${circle ? 'button--circle ' : ''}`
-        + `${circle && small ? 'button--small-circle' : ''}`
-        + `${!circle && small ? 'button--small' : ''}`
+        + `${pointy ? 'button--pointy ' : ''}`
+        + `${circle && small ? 'button--small-circle ' : ''}`
+        + `${!circle && small ? 'button--small ' : ''}`
       }
       type="button"
       onClick={onButtonClick}
@@ -57,6 +61,8 @@ Button.propTypes = {
   lightText: PropTypes.bool,
   circle: PropTypes.bool,
   small: PropTypes.bool,
+  accentText: PropTypes.bool,
+  pointy: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -65,7 +71,9 @@ Button.defaultProps = {
   id: null,
   transparent: false,
   lightText: false,
+  accentText: false,
   circle: false,
+  pointy: false,
   small: false,
   ariaLabel: null,
 };

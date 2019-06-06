@@ -47,6 +47,16 @@
   border-radius: 100%;
 }
 
+.button--small {
+  font-size: 14px;
+  height: 30px;
+}
+
+.button--small-circle {
+  width: 20px;
+  height: 20px;
+}
+
 @keyframes flashButtonAccentColor {
   0% {
     background-color: #FFF;

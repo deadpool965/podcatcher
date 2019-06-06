@@ -11,6 +11,7 @@ function Button({
   transparent,
   lightText,
   circle,
+  small,
 }) {
   const [flashAni, setFlashAni] = useState(false);
 
@@ -33,6 +34,8 @@ function Button({
         + `${transparent ? 'button--transparent ' : ''}`
         + `${lightText ? 'button--light-text ' : ''}`
         + `${circle ? 'button--circle ' : ''}`
+        + `${circle && small ? 'button--small-circle' : ''}`
+        + `${!circle && small ? 'button--small' : ''}`
       }
       type="button"
       onClick={onButtonClick}
@@ -48,11 +51,12 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
   fullWidth: PropTypes.bool,
-  ariaLabel: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string,
   id: PropTypes.string,
   transparent: PropTypes.bool,
   lightText: PropTypes.bool,
   circle: PropTypes.bool,
+  small: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -62,6 +66,8 @@ Button.defaultProps = {
   transparent: false,
   lightText: false,
   circle: false,
+  small: false,
+  ariaLabel: null,
 };
 
 export default Button;

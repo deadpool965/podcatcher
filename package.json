@@ -26,7 +26,8 @@
     "start": "react-scripts build && node server",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "debug": "node --nolazy --inspect-brk=9229 server.js"
   },
   "eslintConfig": {
     "extends": "react-app"

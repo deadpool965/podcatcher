@@ -8,7 +8,7 @@ function UpdateAvailableToast() {
 
   function requestUpdate() {
     setShow(false);
-    window.dispatchEvent(new CustomEvent('update-request'));
+    window.dispatchEvent(new CustomEvent('update-requested'));
   }
 
   function showToast() {

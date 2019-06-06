@@ -79,7 +79,6 @@ function Discovery({ history, location }) {
   const [topChartsPodcasts, setTopChartsPodcasts] = useState(generatePodcastPlaceholders(30));
   useEffect(() => {
     api(`topcharts?limit=30&country=${query.country || MY_CONTRY}`)
-      .then(result => result.json())
       .then(data => setTopChartsPodcasts(data));
 
     const code = query.country || MY_CONTRY;
@@ -94,7 +93,6 @@ function Discovery({ history, location }) {
     if (!query.q) return;
     setSearchResults(null);
     api(`search?term=${query.q}&limit=30&media=podcast`)
-      .then(result => result.json())
       .then((data) => {
         setSearchResults(
           data

@@ -42,12 +42,10 @@ function PodcastPage({
 
   useEffect(() => {
     api(`podcast/${id}`)
-      .then(res => res.json())
       .then((res) => {
         setData(res);
         return api(`episodes/${id}`);
       })
-      .then(res => res.json())
       .then(res => setEpisodes(res));
   }, [id]);
 

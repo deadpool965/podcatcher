@@ -6,36 +6,3 @@
   margin: 0px;
   line-height: 75px;
 }
-
-.nav {
-  border-bottom: solid thin rgba(255, 255, 255, .1);
-  margin-top: -16px;
-  margin-bottom: 16px;
-}
-
-.nav__list {
-  display: grid;
-  grid-template-columns: min-content auto;
-  padding: 0px;
-  margin: 0px;
-  list-style: none;
-  display: grid;
-}
-
-.nav__link {
-  display: block;
-  white-space: nowrap;
-  text-decoration: none;
-  color: var(--accent-color);
-  padding: 16px;
-  box-sizing: border-box;
-  border-bottom: solid thin rgba(0, 0, 0, 0);
-}
-
-.nav__list-item:first-child .nav__link {
-  padding-left: 0px;
-}
-
-.nav__list-item:last-child .nav__link {
-  padding-right: 0px;
-}

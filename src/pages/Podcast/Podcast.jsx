@@ -1,4 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useContext,
+} from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Spinner from '../../components/Spinner/Spinner';
@@ -10,6 +14,7 @@ import Button from '../../components/Button/Button';
 import Metadata from '../../components/Metadata/Metadata';
 import OfflineAlert from '../../components/OfflineAlert/OfflineAlert';
 import api from '../../libs/api';
+import { PodcastDataContext } from '../../libs/Store';
 import './Podcast.css';
 
 const LIMIT_OPTIONS = [
@@ -27,7 +32,7 @@ function PodcastPage({
 }) {
   const { id } = match.params;
   const [search, setSearch] = useState('');
-  const [data, setData] = useState({});
+  const [data, setData] = useContext(PodcastDataContext);
   const [dataError, setDataError] = useState(false);
   const [episodes, setEpisodes] = useState([]);
   const [episodesError, setEpisodesError] = useState(false);
@@ -44,6 +49,7 @@ function PodcastPage({
     .trim();
 
   useEffect(() => {
+    setData({});
     api(`podcast/${id}`)
       .then((res) => {
         setData(res);
@@ -52,7 +58,7 @@ function PodcastPage({
           .catch(() => setEpisodesError(true));
       })
       .catch(() => setDataError(true));
-  }, [id]);
+  }, [id, setData]);
 
   function onImageLoad({ target }) {
     const image = target;

@@ -2,8 +2,10 @@ import React, {
   createContext,
   useReducer,
   useEffect,
+  useState,
 } from 'react';
 import PropTypes from 'prop-types';
+import localForage from 'localforage';
 
 export const PLAYBACK_STATUS = {
   IDLE: 'idle',
@@ -125,8 +127,56 @@ const playbackReducer = (state, action) => {
   }
 };
 
+export const PodcastDataContext = createContext(null);
+
+export const SUBSCRIPTIONS_ACTION_TYPE = {
+  SUBSCRIBE: 'SUBSCRIBE',
+  UNSUBSCRIBE: 'UNSUBSCRIBE',
+  LOAD: 'LOAD',
+};
+
+const subscriptionsReducer = (state, action) => {
+  let r;
+  switch (action.type) {
+    case SUBSCRIPTIONS_ACTION_TYPE.SUBSCRIBE:
+      r = [
+        ...state,
+        action.payload,
+      ];
+      break;
+    case SUBSCRIPTIONS_ACTION_TYPE.UNSUBSCRIBE:
+      r = [...state]
+        .filter(item => item.id !== action.payload);
+      break;
+    case SUBSCRIPTIONS_ACTION_TYPE.LOAD:
+      r = [
+        ...state,
+        ...action.payload,
+      ];
+      break;
+    default:
+      break;
+  }
+
+  if (r) {
+    localForage.setItem('subscriptions', r);
+    return r;
+  }
+
+  return [...state];
+};
+
+const defaultSubscriptions = [];
+
+export const SubscriptionsContext = createContext([]);
+
 function Store({ children }) {
   const [playback, dispatchPlayback] = useReducer(playbackReducer, defaultPlayback);
+  const [podcastData, setPodcastData] = useState({});
+  const [subscriptions, dispatchSubscriptions] = useReducer(
+    subscriptionsReducer,
+    defaultSubscriptions,
+  );
 
   function onDurationChange() {
     dispatchPlayback({
@@ -203,9 +253,24 @@ function Store({ children }) {
     };
   }, []);
 
+  useEffect(() => {
+    localForage
+      .getItem('subscriptions', (err, payload) => {
+        if (err || !payload) return;
+        dispatchSubscriptions({
+          type: SUBSCRIPTIONS_ACTION_TYPE.LOAD,
+          payload,
+        });
+      });
+  }, []);
+
   return (
     <PlaybackContext.Provider value={[playback, dispatchPlayback]}>
-      {children}
+      <PodcastDataContext.Provider value={[podcastData, setPodcastData]}>
+        <SubscriptionsContext.Provider value={[subscriptions, dispatchSubscriptions]}>
+          {children}
+        </SubscriptionsContext.Provider>
+      </PodcastDataContext.Provider>
     </PlaybackContext.Provider>
   );
 }

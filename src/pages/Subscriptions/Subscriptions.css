@@ -1,0 +1,12 @@
+.subscriptions-page__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+}
+
+.subscriptions-page__empty .icon {
+  font-size: 50px;
+  margin-bottom: 16px;
+}

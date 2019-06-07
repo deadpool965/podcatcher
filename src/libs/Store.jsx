@@ -216,7 +216,7 @@ function Store({ children }) {
           type: PLAYBACK_ACTION_TYPE.UPDATE_STATUS,
           payload: PLAYBACK_STATUS.PLAYING,
         });
-      });
+      }, { once: true });
     }, { once: true });
   }
 

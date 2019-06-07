@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Player from '../Player/Player';
-import InstallBanner from '../InstallBanner/InstallBanner';
 import Container from '../Container/Container';
 import Header from '../Header/Header';
 import UpdateAvailableToast from '../UpdateAvailableToast/UpdateAvailableToast';
@@ -53,11 +52,6 @@ function App() {
         >
           <UpdateAvailableToast />
           <Player />
-          <Route
-            path="/"
-            exact
-            render={props => <InstallBanner {...props} />}
-          />
           <Container>
             <Header />
           </Container>

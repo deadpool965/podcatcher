@@ -204,10 +204,20 @@ function Store({ children }) {
   }
 
   function onPlaying() {
-    dispatchPlayback({
-      type: PLAYBACK_ACTION_TYPE.UPDATE_STATUS,
-      payload: PLAYBACK_STATUS.PLAYING,
-    });
+    // On iOS the event 'playing' is fired
+    // much before the audio is actually playing.
+    // Also, the duration changes before
+    // the audio is played as well.
+    // To fix this, we are going to listen to
+    // timeUpdate event twice before dispatching onPlaying.
+    playbackAudio.addEventListener('timeupdate', () => {
+      playbackAudio.addEventListener('timeupdate', () => {
+        dispatchPlayback({
+          type: PLAYBACK_ACTION_TYPE.UPDATE_STATUS,
+          payload: PLAYBACK_STATUS.PLAYING,
+        });
+      });
+    }, { once: true });
   }
 
   function onRateChange() {

@@ -52,9 +52,10 @@ function App() {
         >
           <UpdateAvailableToast />
           <Player />
-          <Container>
-            <Header />
-          </Container>
+          <Route
+            path="/"
+            render={props => <Header {...props} />}
+          />
           <Container>
             <main
               className="app__main"

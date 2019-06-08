@@ -50,6 +50,9 @@ const playbackReducer = (state, action) => {
         .enclosures[0]
         .url
         .replace(/^http:\/\//, 'https://');
+      if (localStorage[playbackAudio.src]) {
+        playbackAudio.currentTime = localStorage[playbackAudio.src];
+      }
       playbackAudio.play();
       return {
         ...state,
@@ -61,6 +64,11 @@ const playbackReducer = (state, action) => {
       };
 
     case PLAYBACK_ACTION_TYPE.REQUEST_PLAY:
+      if (localStorage[playbackAudio.src]) {
+        if (`${playbackAudio.currentTime}` !== localStorage[playbackAudio.src]) {
+          playbackAudio.currentTime = localStorage[playbackAudio.src];
+        }
+      }
       playbackAudio.play();
       return state;
 
@@ -83,6 +91,11 @@ const playbackReducer = (state, action) => {
       };
 
     case PLAYBACK_ACTION_TYPE.UPDATE_CURRENT_TIME:
+      if (action.payload === playbackAudio.duration) {
+        localStorage.removeItem(playbackAudio.src);
+      } else {
+        localStorage.setItem(playbackAudio.src, action.payload);
+      }
       return {
         ...state,
         currentTime: action.payload,

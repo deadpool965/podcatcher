@@ -25,7 +25,7 @@
 }
 
 .is-not-touch .mini-play-button:hover {
-  background-color: var(--accent-bg-color);
+  background-color: rgba(255, 255, 255, .3);
 }
 
 .is-touch .mini-play-button:hover {

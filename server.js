@@ -3,6 +3,7 @@ const compression = require('compression');
 const zlib = require('zlib');
 const { readFileSync } = require('fs');
 const cors = require('./server/middlewares/cors');
+const https = require('./server/middlewares/https');
 
 const app = express();
 app.use(
@@ -12,6 +13,8 @@ app.use(
     },
   ),
 );
+app.use(cors);
+app.use(https);
 
 const indexFile = (() => readFileSync('./build/index.html', { encoding: 'utf-8' }))();
 
@@ -25,10 +28,10 @@ const sitemap = require('./server/routes/sitemap');
 app.get('/robots.txt', (req, res) => res.status(404).end());
 app.get('/sitemap.xml', sitemap);
 app.get('/sw.js', sw);
-app.get('/api/podcast/:id', cors, find);
-app.get('/api/episodes/:id', cors, episode);
-app.get('/api/search', cors, search);
-app.get('/api/topcharts', cors, topCharts);
+app.get('/api/podcast/:id', find);
+app.get('/api/episodes/:id', episode);
+app.get('/api/search', search);
+app.get('/api/topcharts', topCharts);
 app.use(express.static('./build'));
 app.get('*', (req, res) => res.send(indexFile));
 

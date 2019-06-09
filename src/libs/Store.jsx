@@ -50,10 +50,6 @@ const playbackReducer = (state, action) => {
         .enclosures[0]
         .url
         .replace(/^http:\/\//, 'https://');
-      if (localStorage[playbackAudio.src]) {
-        playbackAudio.currentTime = localStorage[playbackAudio.src];
-      }
-      playbackAudio.play();
       return {
         ...state,
         episode: action.payload,

@@ -50,6 +50,7 @@ const playbackReducer = (state, action) => {
         .enclosures[0]
         .url
         .replace(/^http:\/\//, 'https://');
+      playbackAudio.play();
       return {
         ...state,
         episode: action.payload,

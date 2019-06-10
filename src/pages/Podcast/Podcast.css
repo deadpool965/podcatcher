@@ -60,6 +60,8 @@
 
 .podcast-page__summary__content__title {
   margin: 0px;
+  overflow: hidden;
+  max-height: 60px;
 }
 
 .podcast-page__summary__content__artist {

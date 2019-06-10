@@ -1,0 +1,8 @@
+.offline-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+  height: 30px;
+  font-size: 13px;
+}

@@ -1,9 +1,28 @@
-import React, { useEffect } from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import localForage from 'localforage';
 import './PodcastGrid.css';
 
 function PodcastGrid({ podcasts }) {
+  const [offlinePodcasts, setOfflinePodcasts] = useState([]);
+
+  useEffect(() => {
+    if (offlinePodcasts.length > 0) return;
+    localForage
+      .keys()
+      .then((keys) => {
+        setOfflinePodcasts(
+          keys
+            .filter(key => /\/api\/podcast\/\d+$/.test(key))
+            .map(key => key.split('/').slice(-1)[0]),
+        );
+      });
+  }, [offlinePodcasts]);
+
   useEffect(() => {
     function onImageLoad(e) {
       const image = e.target;
@@ -50,7 +69,9 @@ function PodcastGrid({ podcasts }) {
             <Link
               key={id}
               to={`/${id}`}
-              className="podcast-link-item"
+              className={`podcast-link-item
+                ${offlinePodcasts.indexOf(id) > -1 ? 'podcast-link-item--cached' : ''}
+              `}
             >
               <img
                 className="podcast-link-item__img"

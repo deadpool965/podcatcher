@@ -5,6 +5,7 @@ import Player from '../Player/Player';
 import Container from '../Container/Container';
 import Header from '../Header/Header';
 import UpdateAvailableToast from '../UpdateAvailableToast/UpdateAvailableToast';
+import OfflineBanner from '../OfflineBanner/OfflineBanner';
 import DiscoveryPage from '../../pages/Discovery/Discovery';
 import PodcastPage from '../../pages/Podcast/Podcast';
 import InstallIOS from '../../pages/InstallIOS/InstallIOS';
@@ -16,6 +17,7 @@ import './App.css';
 function App() {
   const [tabNavigation, setTabNavigation] = useState(false);
   const [isTouch, setIsTouch] = useState(false);
+  const [isOffline, setIsOffline] = useState(false);
 
   useEffect(() => {
     function enableTabNavigation({ key }) {
@@ -45,16 +47,37 @@ function App() {
     };
   }, [tabNavigation, isTouch]);
 
+  useEffect(() => {
+    function offline() {
+      setIsOffline(true);
+    }
+
+    function online() {
+      setIsOffline(false);
+    }
+
+    window.addEventListener('online', online);
+    window.addEventListener('offline', offline);
+    return () => {
+      window.removeEventListener('online', online);
+      window.removeEventListener('offline', offline);
+    };
+  }, [isOffline]);
+
   return (
     <BrowserRouter>
       <LastLocationProvider>
         <Store>
           <div className={`app
-            ${tabNavigation ? '' : 'app--no-outline'}
-            ${isTouch ? 'is-touch' : 'is-not-touch'}`}
+            ${tabNavigation ? '' : 'app--no-outline '}
+            ${isTouch ? 'is-touch ' : 'is-not-touch '}
+            ${isOffline ? 'is-offline ' : ''}`}
           >
             <UpdateAvailableToast />
             <Player />
+            {isOffline
+              ? <OfflineBanner />
+              : null}
             <Header />
             <Container>
               <main

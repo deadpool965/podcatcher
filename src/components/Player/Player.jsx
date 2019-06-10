@@ -36,6 +36,7 @@ function Player() {
   const [expanded, setExpanded] = useState(false);
   const [showTimerDialog, setShowTimerDialog] = useState(false);
   const [showPlaybackRateDialog, setShowPlaybackRateDialog] = useState(false);
+  const [showErrorDialog, setShowErrorDialog] = useState(false);
   const [playback, dispatchPlayback] = useContext(PlaybackContext);
 
   function formatTimeOutput(s) {
@@ -183,6 +184,18 @@ function Player() {
     };
   });
 
+  function hideErrorDialog() {
+    setShowErrorDialog(false);
+    dispatchPlayback({
+      type: PLAYBACK_ACTION_TYPE.RESET,
+    });
+  }
+
+  useEffect(() => {
+    if (playback.status !== PLAYBACK_STATUS.ERROR) return;
+    setShowErrorDialog(true);
+  }, [playback.status, showErrorDialog]);
+
   if (!playback.episode) return null;
 
   return (
@@ -238,6 +251,14 @@ function Player() {
               );
             })}
         </ul>
+      </Modal>
+      <Modal
+        title="Error!"
+        open={showErrorDialog}
+        onClose={hideErrorDialog}
+      >
+        Something went wrong with the audio stream.
+        Check your Internet connection and try again.
       </Modal>
       <Container>
         <Grid

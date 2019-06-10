@@ -12,6 +12,7 @@ export const PLAYBACK_STATUS = {
   WAITING: 'waiting',
   PAUSED: 'paused',
   PLAYING: 'playing',
+  ERROR: 'error',
 };
 
 export const PLAYBACK_ACTION_TYPE = {
@@ -26,6 +27,7 @@ export const PLAYBACK_ACTION_TYPE = {
   UPDATE_DURATION: 'update-duration',
   SET_TIMER: 'set-timer',
   UNSET_TIMER: 'unset-timer',
+  RESET: 'reset',
 };
 
 const playbackAudio = new Audio();
@@ -132,6 +134,9 @@ const playbackReducer = (state, action) => {
         timer: null,
       };
 
+    case PLAYBACK_ACTION_TYPE.RESET:
+      return { ...defaultPlayback };
+
     default:
       return state;
   }
@@ -203,7 +208,10 @@ function Store({ children }) {
   }
 
   function onError() {
-
+    dispatchPlayback({
+      type: PLAYBACK_ACTION_TYPE.UPDATE_STATUS,
+      payload: PLAYBACK_STATUS.ERROR,
+    });
   }
 
   function onPause() {

@@ -51,11 +51,12 @@ function Nav() {
         render={({ match }) => {
           switch (true) {
             case match.params.page === undefined
-              || match.params.page === 'subscriptions': // HOME / SUBSCRIPTIONS
+              || match.params.page === 'subscriptions'
+              || match.params.page === 'downloads': // HOME / SUBSCRIPTIONS / DOWNLOADS
               return (
                 <Container noPadding>
                   <Grid
-                    columns="1fr 1fr"
+                    columns="1fr 1fr 1fr"
                     style={{ gridGap: '0px' }}
                   >
                     <NavLink
@@ -73,6 +74,14 @@ function Nav() {
                       activeClassName="nav__tab-item--active"
                     >
                       Subscriptions
+                    </NavLink>
+                    <NavLink
+                      to="/downloads"
+                      exact
+                      className="nav__tab-item"
+                      activeClassName="nav__tab-item--active"
+                    >
+                      Downloads
                     </NavLink>
                   </Grid>
                 </Container>

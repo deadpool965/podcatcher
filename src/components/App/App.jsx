@@ -97,6 +97,12 @@ function App() {
                     <SubscriptionsPage />
                   </Route>
                   <Route
+                    path="/downloads"
+                    exact
+                  >
+                    <SubscriptionsPage />
+                  </Route>
+                  <Route
                     path="/install-ios"
                     exact
                   >

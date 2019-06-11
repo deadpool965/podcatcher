@@ -11,7 +11,17 @@ module.exports = (req, res) => {
     return;
   }
 
-  request(url)
+  request({
+    url,
+    headers: Object
+      .keys(req.headers)
+      .filter(key => key !== 'host')
+      .reduce((prev, key) => {
+        const headers = prev;
+        headers[key] = req.headers[key];
+        return headers;
+      }, {}),
+  })
     .on('error', () => {
       res
         .status(404)

@@ -24,6 +24,7 @@ const episode = require('./server/routes/episode');
 const search = require('./server/routes/search');
 const topCharts = require('./server/routes/topCharts');
 const sitemap = require('./server/routes/sitemap');
+const proxy = require('./server/routes/proxy');
 
 app.get('/robots.txt', (req, res) => res.status(404).end());
 app.get('/sitemap.xml', sitemap);
@@ -32,6 +33,7 @@ app.get('/api/podcast/:id', find);
 app.get('/api/episodes/:id', episode);
 app.get('/api/search', search);
 app.get('/api/topcharts', topCharts);
+app.get('/api/proxy', proxy);
 app.use(express.static('./build'));
 app.get('*', (req, res) => res.send(indexFile));
 

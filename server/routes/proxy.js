@@ -11,16 +11,22 @@ module.exports = (req, res) => {
     return;
   }
 
+  const userIP = req.ip;
+  const headers = Object
+    .keys(req.headers)
+    .filter(key => key !== 'host')
+    .reduce((prev, key) => {
+      const hds = prev;
+      hds[key] = req.headers[key];
+      return hds;
+    }, {});
+  headers['X-Real-IP'] = userIP;
+  headers['X-Forwarded-For'] = userIP;
+  headers.Forwarded = `for="${userIP}"`;
+
   request({
     url,
-    headers: Object
-      .keys(req.headers)
-      .filter(key => key !== 'host')
-      .reduce((prev, key) => {
-        const headers = prev;
-        headers[key] = req.headers[key];
-        return headers;
-      }, {}),
+    headers,
   })
     .on('error', () => {
       res

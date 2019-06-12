@@ -20,6 +20,12 @@
   color: rgba(255, 255, 255, .3);
 }
 
+.is-offline .episode--downloaded .episode__play .mini-play-button {
+  pointer-events: auto;
+  border: solid 2px var(--accent-color);
+  color: var(--accent-color);
+}
+
 .mini-play-button--dark {
   border: solid 2px var(--main-bg-color);
   color: var(--main-bg-color);

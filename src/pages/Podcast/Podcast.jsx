@@ -256,7 +256,10 @@ function PodcastPage({
                               key={created || title}
                               aria-label={title}
                             >
-                              <Episode episode={episode} />
+                              <Episode
+                                episode={episode}
+                                podcast={data}
+                              />
                             </li>
                           );
                         })}

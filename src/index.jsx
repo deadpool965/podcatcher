@@ -6,6 +6,13 @@ import App from './components/App/App';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
+if (navigator.storage && navigator.storage.persist) {
+  navigator
+    .storage
+    .persist()
+    .then(persistent => console.log('persistent storage', persistent));
+}
+
 window.addEventListener('load', () => {
   const styles = [
     'https://fonts.googleapis.com/css?family=Bungee&font-display=swap',

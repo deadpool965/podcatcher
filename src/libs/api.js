@@ -1,16 +1,20 @@
 import localForage from 'localforage';
 
-export default url => new Promise((resolve, reject) => {
-  const parsedUrl = /localhost/.test(window.location.hostname)
-    ? `http://localhost:3001/api/${url}`
-    : `/api/${url}`;
+export const BASE_URL = /localhost/.test(window.location.hostname)
+  ? 'http://localhost:3001/api/'
+  : '/api/';
+
+export default (url, options = { cache: true }) => new Promise((resolve, reject) => {
+  const parsedUrl = `${BASE_URL}${url}`;
 
   fetch(parsedUrl)
     .then(res => res.json())
     .then((res) => {
       resolve(res);
-      localForage
-        .setItem(parsedUrl, res);
+      if (options.cache) {
+        localForage
+          .setItem(parsedUrl, res);
+      }
     })
     .catch((e) => {
       localForage

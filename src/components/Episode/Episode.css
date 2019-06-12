@@ -20,6 +20,10 @@
   color: rgba(255, 255, 255, .3);
 }
 
+.is-offline .episode--downloaded .episode__title {
+  color: var(--accent-color);
+}
+
 .episode__description {
   max-width: 100%;
   height: 100px;

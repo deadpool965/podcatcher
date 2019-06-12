@@ -45,29 +45,33 @@ const defaultPlayback = {
 export const PlaybackContext = createContext(defaultPlayback);
 
 const playbackReducer = (state, action) => {
+  let src;
   switch (action.type) {
     case PLAYBACK_ACTION_TYPE.REQUEST_LOAD:
-      playbackAudio.src = action
+      src = action
         .payload
         .enclosures[0]
-        .url
-        .replace(/^http:\/\//, 'https://');
-      playbackAudio.play();
+        .url;
+      localForage
+        .getItem('downloads', (err, value) => {
+          const item = value instanceof Array
+            && value.find(i => i.url === src);
+          if (err || !item || !item.blob) {
+            playbackAudio.src = src.replace(/^http:\/\//, 'https://');
+            playbackAudio.play();
+            return;
+          }
+
+          playbackAudio.src = URL.createObjectURL(item.blob);
+          playbackAudio.play();
+        });
       return {
         ...state,
         episode: action.payload,
-        protocolOverride: /^http:\/\//.test(action
-          .payload
-          .enclosures[0]
-          .url),
+        protocolOverride: /^http:\/\//.test(src),
       };
 
     case PLAYBACK_ACTION_TYPE.REQUEST_PLAY:
-      if (localStorage[playbackAudio.src]) {
-        if (`${playbackAudio.currentTime}` !== localStorage[playbackAudio.src]) {
-          playbackAudio.currentTime = localStorage[playbackAudio.src];
-        }
-      }
       playbackAudio.play();
       return state;
 
@@ -92,8 +96,6 @@ const playbackReducer = (state, action) => {
     case PLAYBACK_ACTION_TYPE.UPDATE_CURRENT_TIME:
       if (action.payload === playbackAudio.duration) {
         localStorage.removeItem(playbackAudio.src);
-      } else {
-        localStorage.setItem(playbackAudio.src, action.payload);
       }
       return {
         ...state,
@@ -185,12 +187,78 @@ const defaultSubscriptions = [];
 
 export const SubscriptionsContext = createContext([]);
 
+export const OFFLINE_EPISODES_ACTION_TYPE = {
+  LOAD: 'LOAD',
+  ADD: 'ADD',
+  REMOVE: 'REMOVE',
+  UPDATE: 'UPDATE',
+  SYNC_WITH_DATABASE: 'SYNC-WITH-DATABASE',
+};
+
+export const OfflineEpisodesContext = createContext([]);
+
+const offlineEpisodesReducer = (state, action) => {
+  let r;
+
+  switch (action.type) {
+    case OFFLINE_EPISODES_ACTION_TYPE.LOAD:
+      r = action.payload;
+      break;
+
+    case OFFLINE_EPISODES_ACTION_TYPE.ADD:
+      r = [
+        ...state,
+        action.payload,
+      ];
+      break;
+
+    case OFFLINE_EPISODES_ACTION_TYPE.UPDATE:
+      r = [...state]
+        .map((episode) => {
+          if (episode.url === action.payload.url) {
+            return action.payload;
+          }
+
+          return episode;
+        });
+      break;
+
+    case OFFLINE_EPISODES_ACTION_TYPE.REMOVE:
+      r = [...state]
+        .filter(e => e.url !== action.payload.url);
+      break;
+
+    case OFFLINE_EPISODES_ACTION_TYPE.SYNC_WITH_DATABASE:
+      r = [...state]
+        .map((item) => {
+          // Delete request before syncing to
+          // database. Database cannot store
+          // request. (obviously)
+          const ep = item;
+          delete ep.request;
+          return ep;
+        });
+      localForage.setItem('downloads', r);
+      break;
+
+    default:
+      r = state;
+      break;
+  }
+
+  return r;
+};
+
 function Store({ children }) {
   const [playback, dispatchPlayback] = useReducer(playbackReducer, defaultPlayback);
   const [podcastData, setPodcastData] = useState({});
   const [subscriptions, dispatchSubscriptions] = useReducer(
     subscriptionsReducer,
     defaultSubscriptions,
+  );
+  const [offlineEpisodes, dispatchOfflineEpisodes] = useReducer(
+    offlineEpisodesReducer,
+    [],
   );
 
   function onDurationChange() {
@@ -292,11 +360,24 @@ function Store({ children }) {
       });
   }, []);
 
+  useEffect(() => {
+    localForage
+      .getItem('downloads', (err, payload) => {
+        if (err || !payload) return;
+        dispatchOfflineEpisodes({
+          type: OFFLINE_EPISODES_ACTION_TYPE.LOAD,
+          payload,
+        });
+      });
+  }, []);
+
   return (
     <PlaybackContext.Provider value={[playback, dispatchPlayback]}>
       <PodcastDataContext.Provider value={[podcastData, setPodcastData]}>
         <SubscriptionsContext.Provider value={[subscriptions, dispatchSubscriptions]}>
-          {children}
+          <OfflineEpisodesContext.Provider value={[offlineEpisodes, dispatchOfflineEpisodes]}>
+            {children}
+          </OfflineEpisodesContext.Provider>
         </SubscriptionsContext.Provider>
       </PodcastDataContext.Provider>
     </PlaybackContext.Provider>

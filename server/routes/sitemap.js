@@ -1,5 +1,11 @@
-const countries = require('../libs/countries');
 const fetch = require('../libs/fetch');
+
+// We could simply import all countries. Such as this:
+// const countries = require('../libs/countries');
+// However, it seems to be a bit too much for google.
+// So we are going to select a few countries, and
+// expand the list in a later date.
+const countries = ['us', 'br', 'gb'];
 
 const getTopChartIds = async (ids = [], index = 0) => {
   const country = countries[index];

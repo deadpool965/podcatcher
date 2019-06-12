@@ -18,6 +18,8 @@ import './Episode.css';
 function Episode({
   episode,
   podcast,
+  showPodcastName,
+  noDescription,
 }) {
   const {
     title,
@@ -67,17 +69,12 @@ function Episode({
         type: OFFLINE_EPISODES_ACTION_TYPE.UPDATE,
         payload: offlineEpisode,
       });
-
-      // Delete request before syncing to
-      // database. Database cannot store
-      // request. (obviously)
-      delete offlineEpisode.request;
       dispatchOfflineEpisodes({
         type: OFFLINE_EPISODES_ACTION_TYPE.SYNC_WITH_DATABASE,
       });
     }, false);
 
-    oReq.addEventListener('error', (evt) => {
+    oReq.addEventListener('error', () => {
       dispatchOfflineEpisodes({
         type: OFFLINE_EPISODES_ACTION_TYPE.REMOVE,
         payload: offlineEpisode,
@@ -159,7 +156,7 @@ function Episode({
             : null}
         </Grid>
       </Modal>
-      <Grid rows="auto auto">
+      <Grid rows={`auto ${noDescription ? '' : 'auto'}`}>
         <Grid columns="35px auto min-content">
           <div className="episode__play">
             <PlayButton episode={episode} />
@@ -169,19 +166,30 @@ function Episode({
               className="episode__release-date"
             >
               {
+                (showPodcastName
+                && downloaded
+                && downloaded.blob)
+                || (showPodcastName
+                && !downloaded)
+                  ? podcast.collectionName
+                  : null
+              }
+              {
                 downloaded
                 && !downloaded.blob
                   ? `Downloading... ${downloaded.progress}%`
                   : null
               }
               {
-                downloaded
+                !showPodcastName
+                && downloaded
                 && downloaded.blob
                   ? 'Downloaded'
                   : null
               }
               {
-                !downloaded
+                !showPodcastName
+                && !downloaded
                   ? (new Date(created)).toGMTString().substr(0, 16)
                   : null
               }
@@ -206,9 +214,13 @@ function Episode({
             </Button>
           </div>
         </Grid>
-        <EpisodeDescription
-          text={description}
-        />
+        {noDescription
+          ? null
+          : (
+            <EpisodeDescription
+              text={description}
+            />
+          )}
       </Grid>
     </div>
   );
@@ -225,6 +237,13 @@ Episode.propTypes = {
     collectionId: PropTypes.number,
     artworkUrl100: PropTypes.string,
   }).isRequired,
+  showPodcastName: PropTypes.bool,
+  noDescription: PropTypes.bool,
+};
+
+Episode.defaultProps = {
+  showPodcastName: false,
+  noDescription: false,
 };
 
 export default Episode;

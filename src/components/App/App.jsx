@@ -8,8 +8,8 @@ import UpdateAvailableToast from '../UpdateAvailableToast/UpdateAvailableToast';
 import OfflineBanner from '../OfflineBanner/OfflineBanner';
 import DiscoveryPage from '../../pages/Discovery/Discovery';
 import PodcastPage from '../../pages/Podcast/Podcast';
-import InstallIOS from '../../pages/InstallIOS/InstallIOS';
 import SubscriptionsPage from '../../pages/Subscriptions/Subscriptions';
+import Downloads from '../../pages/Downloads/Downloads';
 import Footer from '../Footer/Footer';
 import Store from '../../libs/Store';
 import './App.css';
@@ -100,13 +100,7 @@ function App() {
                     path="/downloads"
                     exact
                   >
-                    <SubscriptionsPage />
-                  </Route>
-                  <Route
-                    path="/install-ios"
-                    exact
-                  >
-                    <InstallIOS />
+                    <Downloads />
                   </Route>
                   <Route
                     path="/:id/:limit?"

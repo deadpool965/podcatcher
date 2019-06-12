@@ -24,13 +24,13 @@ function Episode({
     created,
     description,
   } = episode;
-
+  const { url } = episode.enclosures[0];
   const [showOptionsDialog, setShowOptionsDialog] = useState(false);
   const [offlineEpisodes, dispatchOfflineEpisodes] = useContext(OfflineEpisodesContext);
+  const downloaded = offlineEpisodes
+    .find(ep => ep.url === url);
 
   function download() {
-    const { url } = episode.enclosures[0];
-
     const offlineEpisode = {
       episode,
       podcast,
@@ -85,7 +85,7 @@ function Episode({
   }
 
   return (
-    <div className="episode">
+    <div className={`episode ${downloaded && downloaded.blob ? 'episode--downloaded' : ''}`}>
       <Modal
         title="Options"
         open={showOptionsDialog}

@@ -31,22 +31,23 @@ function Episode({
     .find(ep => ep.url === url);
 
   function download() {
+    const oReq = new XMLHttpRequest();
+    oReq.responseType = 'blob';
+
     const offlineEpisode = {
       episode,
       podcast,
       url,
       progress: 0,
       blob: null,
-      createTime: (new Date()).toString(),
+      createTime: new Date() - 1,
+      request: oReq,
     };
 
     dispatchOfflineEpisodes({
       type: OFFLINE_EPISODES_ACTION_TYPE.ADD,
       payload: offlineEpisode,
     });
-
-    const oReq = new XMLHttpRequest();
-    oReq.responseType = 'blob';
 
     oReq.addEventListener('progress', ({
       loaded,
@@ -66,21 +67,50 @@ function Episode({
         type: OFFLINE_EPISODES_ACTION_TYPE.UPDATE,
         payload: offlineEpisode,
       });
+
+      // Delete request before syncing to
+      // database. Database cannot store
+      // request. (obviously)
+      delete offlineEpisode.request;
       dispatchOfflineEpisodes({
         type: OFFLINE_EPISODES_ACTION_TYPE.SYNC_WITH_DATABASE,
       });
     }, false);
 
     oReq.addEventListener('error', (evt) => {
-      console.log('error', evt, oReq); 
+      dispatchOfflineEpisodes({
+        type: OFFLINE_EPISODES_ACTION_TYPE.REMOVE,
+        payload: offlineEpisode,
+      });
     }, false);
 
     oReq.addEventListener('abort', () => {
-      console.log('abort');
+      dispatchOfflineEpisodes({
+        type: OFFLINE_EPISODES_ACTION_TYPE.REMOVE,
+        payload: offlineEpisode,
+      });
     }, false);
 
     oReq.open('get', `${BASE_URL}proxy?url=${encodeURI(url)}`);
     oReq.send();
+    setShowOptionsDialog(false);
+  }
+
+  function remove() {
+    if (!downloaded) return;
+    dispatchOfflineEpisodes({
+      type: OFFLINE_EPISODES_ACTION_TYPE.REMOVE,
+      payload: downloaded,
+    });
+    dispatchOfflineEpisodes({
+      type: OFFLINE_EPISODES_ACTION_TYPE.SYNC_WITH_DATABASE,
+    });
+    setShowOptionsDialog(false);
+  }
+
+  function abort() {
+    if (!downloaded || !downloaded.request) return;
+    downloaded.request.abort();
     setShowOptionsDialog(false);
   }
 
@@ -92,16 +122,41 @@ function Episode({
         onClose={() => setShowOptionsDialog(false)}
       >
         <Grid>
-          <Button
-            onClick={download}
-          >
-            <i
-              aria-hidden
-              className="icon ion-md-cloud-download"
-              style={{ marginRight: '8px' }}
-            />
-            Download
-          </Button>
+          {downloaded && downloaded.blob
+            ? (
+              <Button
+                onClick={remove}
+              >
+                <i
+                  aria-hidden
+                  className="icon ion-md-trash"
+                  style={{ marginRight: '8px' }}
+                />
+                Delete Download
+              </Button>
+            )
+            : null}
+          {downloaded && !downloaded.blob
+            ? (
+              <Button onClick={abort}>
+                {`(${downloaded.progress}%) Cancel Download`}
+              </Button>
+            )
+            : null}
+          {!downloaded
+            ? (
+              <Button
+                onClick={download}
+              >
+                <i
+                  aria-hidden
+                  className="icon ion-md-cloud-download"
+                  style={{ marginRight: '8px' }}
+                />
+                Download
+              </Button>
+            )
+            : null}
         </Grid>
       </Modal>
       <Grid rows="auto auto">
@@ -113,7 +168,23 @@ function Episode({
             <div
               className="episode__release-date"
             >
-              {(new Date(created)).toGMTString()}
+              {
+                downloaded
+                && !downloaded.blob
+                  ? `Downloading... ${downloaded.progress}%`
+                  : null
+              }
+              {
+                downloaded
+                && downloaded.blob
+                  ? 'Downloaded'
+                  : null
+              }
+              {
+                !downloaded
+                  ? (new Date(created)).toGMTString().substr(0, 16)
+                  : null
+              }
             </div>
             <h3 className="episode__title">
               {title}

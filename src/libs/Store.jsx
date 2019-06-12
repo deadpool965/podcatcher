@@ -208,7 +208,6 @@ const offlineEpisodesReducer = (state, action) => {
         ...state,
         action.payload,
       ];
-      console.log(r);
       break;
 
     case OFFLINE_EPISODES_ACTION_TYPE.UPDATE:

@@ -45,29 +45,33 @@ const defaultPlayback = {
 export const PlaybackContext = createContext(defaultPlayback);
 
 const playbackReducer = (state, action) => {
+  let src;
   switch (action.type) {
     case PLAYBACK_ACTION_TYPE.REQUEST_LOAD:
-      playbackAudio.src = action
+      src = action
         .payload
         .enclosures[0]
-        .url
-        .replace(/^http:\/\//, 'https://');
-      playbackAudio.play();
+        .url;
+      localForage
+        .getItem('downloads', (err, value) => {
+          const item = value instanceof Array
+            && value.find(i => i.url === src);
+          if (err || !item || !item.blob) {
+            playbackAudio.src = src.replace(/^http:\/\//, 'https://');
+            playbackAudio.play();
+            return;
+          }
+
+          playbackAudio.src = URL.createObjectURL(item.blob);
+          playbackAudio.play();
+        });
       return {
         ...state,
         episode: action.payload,
-        protocolOverride: /^http:\/\//.test(action
-          .payload
-          .enclosures[0]
-          .url),
+        protocolOverride: /^http:\/\//.test(src),
       };
 
     case PLAYBACK_ACTION_TYPE.REQUEST_PLAY:
-      if (localStorage[playbackAudio.src]) {
-        if (`${playbackAudio.currentTime}` !== localStorage[playbackAudio.src]) {
-          playbackAudio.currentTime = localStorage[playbackAudio.src];
-        }
-      }
       playbackAudio.play();
       return state;
 
@@ -92,8 +96,6 @@ const playbackReducer = (state, action) => {
     case PLAYBACK_ACTION_TYPE.UPDATE_CURRENT_TIME:
       if (action.payload === playbackAudio.duration) {
         localStorage.removeItem(playbackAudio.src);
-      } else {
-        localStorage.setItem(playbackAudio.src, action.payload);
       }
       return {
         ...state,

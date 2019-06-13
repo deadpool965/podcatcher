@@ -9,7 +9,7 @@ Podcast player PWA
 - [x] - Podcast Page
 - [x] - Podcast Episode List
 - [x] - Player
-- [ ] - Playback proxy alternative
+- [x] - Playback proxy alternative
 - [x] - Cache
 - [ ] - Google Adsense
 - [x] - Google Analytics
@@ -19,19 +19,19 @@ Podcast player PWA
 
 ### 1.1 User Interactions
 - [ ] - Login
-- [ ] - Subscribe to Podcast
-- [ ] - Subscribed Podcasts Page
+- [x] - Subscribe to Podcast
+- [x] - Subscribed Podcasts Page
 
 ### 1.x Incremental Updates
 - [x] - Timer
-- [ ] - Discovery Page (most listened)
+- [x] - Discovery Page (most listened)
 - [ ] - Rich discovery page (seach by year, categories and language)
 - [ ] - Multimedia controls on Locked Screen
 - [ ] - Mark podcasts as listened
 - [ ] - New Podcasts section
 - [ ] - Resume podcasts where you left
 - [x] - Offline App Navigation
-- [ ] - Offline Podcast Audio
+- [x] - Offline Podcast Audio
 - [ ] - Push Notification for New Episodes
 - [ ] - Background Sync (automatically download new episodes)
 - [ ] - "No Ad" in-app purchace

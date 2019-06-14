@@ -29,7 +29,7 @@ Podcast player PWA
 - [ ] - Multimedia controls on Locked Screen
 - [ ] - Mark podcasts as listened
 - [ ] - New Podcasts section
-- [ ] - Resume podcasts where you left
+- [x] - Resume podcasts where you left
 - [x] - Offline App Navigation
 - [x] - Offline Podcast Audio
 - [ ] - Push Notification for New Episodes

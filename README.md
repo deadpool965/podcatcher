@@ -26,7 +26,7 @@ Podcast player PWA
 - [x] - Timer
 - [x] - Discovery Page (most listened)
 - [ ] - Rich discovery page (seach by year, categories and language)
-- [ ] - Multimedia controls on Locked Screen
+- [x] - Multimedia controls on Locked Screen
 - [ ] - Mark podcasts as listened
 - [ ] - New Podcasts section
 - [x] - Resume podcasts where you left

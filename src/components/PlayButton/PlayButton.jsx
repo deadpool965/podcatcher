@@ -9,6 +9,7 @@ import './PlayButton.css';
 
 function PlayButton({
   episode,
+  podcast,
   theme,
   large,
 }) {
@@ -49,7 +50,10 @@ function PlayButton({
 
     dispatchPlayback({
       type: PLAYBACK_ACTION_TYPE.REQUEST_LOAD,
-      payload: episode,
+      payload: {
+        episode,
+        podcast,
+      },
     });
   }
 
@@ -85,6 +89,15 @@ function PlayButton({
 PlayButton.propTypes = {
   episode: PropTypes.shape({
     title: PropTypes.string,
+  }).isRequired,
+  podcast: PropTypes.shape({
+    artistName: PropTypes.string,
+    collectionId: PropTypes.number,
+    collectionName: PropTypes.string,
+    artworkUrl30: PropTypes.string,
+    artworkUrl60: PropTypes.string,
+    artworkUrl100: PropTypes.string,
+    artworkUrl600: PropTypes.string,
   }).isRequired,
   theme: PropTypes.oneOf(['light', 'dark']),
   large: PropTypes.bool,

@@ -286,6 +286,7 @@ function Player() {
               : (
                 <PlayButton
                   episode={playback.episode}
+                  podcast={playback.podcast}
                   theme="dark"
                 />
               )
@@ -350,6 +351,7 @@ function Player() {
                   </div>
                   <PlayButton
                     episode={playback.episode}
+                    podcast={playback.podcast}
                     theme="dark"
                     large
                   />

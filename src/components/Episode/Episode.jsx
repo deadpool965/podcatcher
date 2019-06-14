@@ -160,7 +160,12 @@ function Episode({
         <Grid columns={`35px auto ${downloaded ? 'min-content' : ''}`}>
           <div className="episode__play">
             {downloaded && downloaded.blob
-              ? <PlayButton episode={episode} />
+              ? (
+                <PlayButton
+                  episode={episode}
+                  podcast={podcast}
+                />
+              )
               : (
                 <Button
                   transparent
@@ -266,7 +271,11 @@ Episode.propTypes = {
   podcast: PropTypes.shape({
     artistName: PropTypes.string,
     collectionId: PropTypes.number,
+    collectionName: PropTypes.string,
+    artworkUrl30: PropTypes.string,
+    artworkUrl60: PropTypes.string,
     artworkUrl100: PropTypes.string,
+    artworkUrl600: PropTypes.string,
   }).isRequired,
   showPodcastName: PropTypes.bool,
   noDescription: PropTypes.bool,

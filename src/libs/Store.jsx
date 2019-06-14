@@ -35,6 +35,7 @@ const playbackAudio = new Audio();
 const defaultPlayback = {
   status: PLAYBACK_STATUS.IDLE,
   episode: null,
+  podcast: null,
   currentTime: 0,
   playbackRate: 1,
   duration: 0,
@@ -50,6 +51,7 @@ const playbackReducer = (state, action) => {
     case PLAYBACK_ACTION_TYPE.REQUEST_LOAD:
       src = action
         .payload
+        .episode
         .enclosures[0]
         .url;
       localForage
@@ -68,7 +70,8 @@ const playbackReducer = (state, action) => {
         });
       return {
         ...state,
-        episode: action.payload,
+        episode: action.payload.episode,
+        podcast: action.payload.podcast,
         protocolOverride: /^http:\/\//.test(src),
       };
 
@@ -355,6 +358,56 @@ function Store({ children }) {
       playbackAudio.removeEventListener('waiting', onWaiting);
     };
   }, []);
+
+  useEffect(() => {
+    if (playback.episode && playback.podcast && 'mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new window.MediaMetadata({
+        title: playback.episode.title,
+        artist: playback.podcast.artistName,
+        album: playback.podcast.collectionName,
+        artwork: [
+          { src: playback.podcast.artworkUrl30, sizes: '30x30', type: 'image/png' },
+          { src: playback.podcast.artworkUrl60, sizes: '60x60', type: 'image/png' },
+          { src: playback.podcast.artworkUrl100, sizes: '100x100', type: 'image/png' },
+          { src: playback.podcast.artworkUrl600, sizes: '600x600', type: 'image/png' },
+        ],
+      });
+
+      if (playback.status === PLAYBACK_STATUS.PAUSED
+        || playback.status === PLAYBACK_STATUS.PLAYING) {
+        navigator.mediaSession.playbackState = playback.status;
+      } else {
+        navigator.mediaSession.playbackState = 'none';
+      }
+
+      navigator.mediaSession.setActionHandler('play', () => {
+        dispatchPlayback({
+          type: PLAYBACK_ACTION_TYPE.REQUEST_PLAY,
+        });
+      });
+      navigator.mediaSession.setActionHandler('pause', () => {
+        dispatchPlayback({
+          type: PLAYBACK_ACTION_TYPE.REQUEST_PAUSE,
+        });
+      });
+      navigator.mediaSession.setActionHandler('seekbackward', () => {
+        let currentTime = playbackAudio.currentTime - 15;
+        if (currentTime < 0) currentTime = 0;
+        dispatchPlayback({
+          type: PLAYBACK_ACTION_TYPE.REQUEST_SEEK,
+          payload: currentTime,
+        });
+      });
+      navigator.mediaSession.setActionHandler('seekforward', () => {
+        let currentTime = playbackAudio.currentTime + 15;
+        if (currentTime > playbackAudio.duration) currentTime = playbackAudio.duration;
+        dispatchPlayback({
+          type: PLAYBACK_ACTION_TYPE.REQUEST_SEEK,
+          payload: currentTime,
+        });
+      });
+    }
+  }, [playback.episode, playback.podcast, playback.status]);
 
   useEffect(() => {
     localForage

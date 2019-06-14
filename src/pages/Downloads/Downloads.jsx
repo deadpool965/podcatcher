@@ -24,7 +24,6 @@ function Downloads() {
   return (
     <div className="downloads-page">
       {offlineEpisodes
-        .reverse()
         .map(({
           episode,
           podcast,

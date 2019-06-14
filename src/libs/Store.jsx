@@ -63,6 +63,7 @@ const playbackReducer = (state, action) => {
           }
 
           playbackAudio.src = URL.createObjectURL(item.blob);
+          playbackAudio.currentTime = localStorage.getItem(src) || 0;
           playbackAudio.play();
         });
       return {
@@ -94,8 +95,14 @@ const playbackReducer = (state, action) => {
       };
 
     case PLAYBACK_ACTION_TYPE.UPDATE_CURRENT_TIME:
+      src = state
+        .episode
+        .enclosures[0]
+        .url;
       if (action.payload === playbackAudio.duration) {
-        localStorage.removeItem(playbackAudio.src);
+        localStorage.removeItem(src);
+      } else {
+        localStorage.setItem(src, action.payload);
       }
       return {
         ...state,

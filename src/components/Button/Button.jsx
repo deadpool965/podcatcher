@@ -14,6 +14,7 @@ function Button({
   circle,
   pointy,
   small,
+  border,
 }) {
   const [flashAni, setFlashAni] = useState(false);
 
@@ -40,6 +41,7 @@ function Button({
         + `${pointy ? 'button--pointy ' : ''}`
         + `${circle && small ? 'button--small-circle ' : ''}`
         + `${!circle && small ? 'button--small ' : ''}`
+        + `${border ? 'button--border ' : ''}`
       }
       type="button"
       onClick={onButtonClick}
@@ -63,6 +65,7 @@ Button.propTypes = {
   small: PropTypes.bool,
   accentText: PropTypes.bool,
   pointy: PropTypes.bool,
+  border: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -76,6 +79,7 @@ Button.defaultProps = {
   pointy: false,
   small: false,
   ariaLabel: null,
+  border: false,
 };
 
 export default Button;

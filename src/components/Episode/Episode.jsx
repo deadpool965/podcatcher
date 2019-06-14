@@ -157,9 +157,36 @@ function Episode({
         </Grid>
       </Modal>
       <Grid rows={`auto ${noDescription ? '' : 'auto'}`}>
-        <Grid columns="35px auto min-content">
+        <Grid columns={`35px auto ${downloaded ? 'min-content' : ''}`}>
           <div className="episode__play">
-            <PlayButton episode={episode} />
+            {downloaded && downloaded.blob
+              ? <PlayButton episode={episode} />
+              : (
+                <Button
+                  transparent
+                  circle
+                  accentText
+                  border
+                  onClick={() => {
+                    if (downloaded) return;
+                    download();
+                  }}
+                  ariaLabel="Download"
+                >
+                  {downloaded
+                    ? (
+                      <span style={{ fontSize: 12 }}>
+                        {`${downloaded.progress}%`}
+                      </span>
+                    )
+                    : (
+                      <i
+                        className="icon ion-md-cloud-download"
+                        aria-hidden
+                      />
+                    )}
+                </Button>
+              )}
           </div>
           <div>
             <div
@@ -175,12 +202,6 @@ function Episode({
                   : null
               }
               {
-                downloaded
-                && !downloaded.blob
-                  ? `Downloading... ${downloaded.progress}%`
-                  : null
-              }
-              {
                 !showPodcastName
                 && downloaded
                 && downloaded.blob
@@ -188,8 +209,15 @@ function Episode({
                   : null
               }
               {
-                !showPodcastName
-                && !downloaded
+                (
+                  !showPodcastName
+                  && !downloaded
+                )
+                || (
+                  !showPodcastName
+                  && downloaded
+                  && !downloaded.blob
+                )
                   ? (new Date(created)).toGMTString().substr(0, 16)
                   : null
               }
@@ -198,21 +226,24 @@ function Episode({
               {title}
             </h3>
           </div>
-          <div className="episode__play">
-            <Button
-              ariaLabel="More"
-              transparent
-              small
-              accentText
-              circle
-              onClick={() => setShowOptionsDialog(true)}
-            >
-              <i
-                aria-hidden
-                className="icon ion-md-more"
-              />
-            </Button>
-          </div>
+          {downloaded
+            ? (
+              <div className="episode__play">
+                <Button
+                  ariaLabel="More"
+                  transparent
+                  small
+                  accentText
+                  circle
+                  onClick={() => setShowOptionsDialog(true)}
+                >
+                  <i
+                    aria-hidden
+                    className="icon ion-md-more"
+                  />
+                </Button>
+              </div>
+            ) : null}
         </Grid>
         {noDescription
           ? null

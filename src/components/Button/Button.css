@@ -8,6 +8,8 @@
   color: var(--main-bg-color);
   white-space: nowrap;
   height: 40px;
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .is-not-touch .button:hover {
@@ -72,6 +74,10 @@
 .button--small-circle {
   width: 20px;
   height: 20px;
+}
+
+.button--border {
+  border: solid 2px var(--accent-color);
 }
 
 @keyframes flashButtonAccentColor {

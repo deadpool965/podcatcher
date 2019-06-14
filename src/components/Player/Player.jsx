@@ -33,7 +33,7 @@ const SPEED_OPTIONS = [
 ];
 
 function Player() {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const [showTimerDialog, setShowTimerDialog] = useState(false);
   const [showPlaybackRateDialog, setShowPlaybackRateDialog] = useState(false);
   const [showErrorDialog, setShowErrorDialog] = useState(false);

@@ -13,6 +13,8 @@ if (navigator.storage && navigator.storage.persist) {
     .then(persistent => console.log('persistent storage', persistent));
 }
 
+window.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
 window.addEventListener('load', () => {
   const styles = [
     'https://fonts.googleapis.com/css?family=Bungee&font-display=swap',

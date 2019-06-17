@@ -159,9 +159,9 @@ function Episode({
         </Grid>
       </Modal>
       <Grid rows={`auto ${noDescription ? '' : 'auto'}`}>
-        <Grid columns={`35px auto ${downloaded ? 'min-content' : ''}`}>
+        <Grid columns={`35px auto ${downloaded || window.isMobile === false ? 'min-content' : ''}`}>
           <div className="episode__play">
-            {downloaded && downloaded.blob
+            {(downloaded && downloaded.blob) || (!window.isMobile && !downloaded)
               ? (
                 <PlayButton
                   episode={episode}
@@ -233,7 +233,7 @@ function Episode({
               {title}
             </h3>
           </div>
-          {downloaded
+          {downloaded || !window.isMobile
             ? (
               <div className="episode__play">
                 <Button

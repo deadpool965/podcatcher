@@ -106,8 +106,18 @@ function Episode({
   }
 
   function abort() {
-    if (!downloaded || !downloaded.request) return;
-    downloaded.request.abort();
+    if (!downloaded) return;
+    if (downloaded.request && downloaded.request.abort) {
+      downloaded.request.abort();
+    } else {
+      dispatchOfflineEpisodes({
+        type: OFFLINE_EPISODES_ACTION_TYPE.REMOVE,
+        payload: downloaded,
+      });
+      dispatchOfflineEpisodes({
+        type: OFFLINE_EPISODES_ACTION_TYPE.SYNC_WITH_DATABASE,
+      });
+    }
     setShowOptionsDialog(false);
   }
 

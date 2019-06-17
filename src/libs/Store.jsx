@@ -239,16 +239,22 @@ const offlineEpisodesReducer = (state, action) => {
       break;
 
     case OFFLINE_EPISODES_ACTION_TYPE.SYNC_WITH_DATABASE:
-      r = [...state]
-        .map((item) => {
-          // Delete request before syncing to
-          // database. Database cannot store
-          // request. (obviously)
-          const ep = item;
-          delete ep.request;
-          return ep;
-        });
-      localForage.setItem('downloads', r);
+      // We dont update the database
+      // if theres a download in progress.
+      if (state.find(item => Boolean(item.blob) === false)) {
+        r = state;
+      } else {
+        r = [...state]
+          .map((item) => {
+            // Delete request before syncing to
+            // database. Database cannot store
+            // request. (obviously)
+            const ep = item;
+            delete ep.request;
+            return ep;
+          });
+        localForage.setItem('downloads', r);
+      }
       break;
 
     default:

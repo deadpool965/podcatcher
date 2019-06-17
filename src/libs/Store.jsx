@@ -245,6 +245,7 @@ const offlineEpisodesReducer = (state, action) => {
         r = state;
       } else {
         r = [...state]
+          .filter(item => Boolean(item.blob))
           .map((item) => {
             // Delete request before syncing to
             // database. Database cannot store

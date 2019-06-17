@@ -81,13 +81,6 @@ function Episode({
       });
     }, false);
 
-    oReq.addEventListener('abort', () => {
-      dispatchOfflineEpisodes({
-        type: OFFLINE_EPISODES_ACTION_TYPE.REMOVE,
-        payload: offlineEpisode,
-      });
-    }, false);
-
     oReq.open('get', `${BASE_URL}proxy?url=${encodeURI(url)}`);
     oReq.send();
     setShowOptionsDialog(false);
@@ -109,15 +102,14 @@ function Episode({
     if (!downloaded) return;
     if (downloaded.request && downloaded.request.abort) {
       downloaded.request.abort();
-    } else {
-      dispatchOfflineEpisodes({
-        type: OFFLINE_EPISODES_ACTION_TYPE.REMOVE,
-        payload: downloaded,
-      });
-      dispatchOfflineEpisodes({
-        type: OFFLINE_EPISODES_ACTION_TYPE.SYNC_WITH_DATABASE,
-      });
     }
+    dispatchOfflineEpisodes({
+      type: OFFLINE_EPISODES_ACTION_TYPE.REMOVE,
+      payload: downloaded,
+    });
+    dispatchOfflineEpisodes({
+      type: OFFLINE_EPISODES_ACTION_TYPE.SYNC_WITH_DATABASE,
+    });
     setShowOptionsDialog(false);
   }
 

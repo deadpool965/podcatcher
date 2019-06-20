@@ -52,12 +52,13 @@ const strings = new LocalizedStrings({
     logoOfX: 'Logo of {0}',
     loadingImage: 'Loading image...',
     searchForEpisodes: 'Search For Episodes',
-    searchEpisode: 'Buscar episódio',
+    searchEpisode: 'Search episode',
     changeLimit: 'Change Limit',
     changeOrder: 'Change Order',
     podcastEpisodes: 'Podcast Episodes',
     showMoreEpisodes: 'Show More Episodes',
     pause: 'Pause',
+    selectLanguage: 'Select Language',
   },
   pt: {
     header: 'Cabeçalho',
@@ -116,10 +117,14 @@ const strings = new LocalizedStrings({
     podcastEpisodes: 'Episódios do Podcast',
     showMoreEpisodes: 'Mostrar Mais Episódios',
     pause: 'Pausar',
+    selectLanguage: 'Selecionar Idioma',
   },
 });
 
-export const AVAILABLE_LANGUAGES = ['en', 'pt'];
+export const AVAILABLE_LANGUAGES = [
+  { id: 'en', value: 'English' },
+  { id: 'pt', value: 'Português' },
+];
 
 const browserLanguage = /^[a-z]{2}-[A-Z]{2}$/.test(navigator.language)
   ? navigator.language.split('-')[0]
@@ -127,7 +132,9 @@ const browserLanguage = /^[a-z]{2}-[A-Z]{2}$/.test(navigator.language)
 
 const preferredLanguage = localStorage.lang || browserLanguage;
 
-const language = AVAILABLE_LANGUAGES.indexOf(preferredLanguage) !== -1
+export const language = AVAILABLE_LANGUAGES
+  .map(l => l.id)
+  .indexOf(preferredLanguage) !== -1
   ? preferredLanguage
   : 'en';
 
@@ -135,7 +142,7 @@ strings.setLanguage(language);
 
 export const changeLanguage = (lang) => {
   localStorage.setItem('lang', lang);
-  strings.changeLanguage(lang);
+  strings.setLanguage(lang);
 };
 
 export default strings;

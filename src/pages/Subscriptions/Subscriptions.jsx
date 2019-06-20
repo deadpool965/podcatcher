@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { SubscriptionsContext } from '../../libs/Store';
 import PodcastGrid from '../../components/PodcastGrid/PodcastGrid';
+import strings from '../../libs/language';
 import './Subscriptions.css';
 
 function SubscriptionsPage() {
@@ -19,7 +20,7 @@ function SubscriptionsPage() {
               />
             </div>
             <div>
-              No podcasts subscribed
+              {strings.noPodcastsSubscribed}
             </div>
           </div>
         )}

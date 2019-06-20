@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Episode from '../../components/Episode/Episode';
 import { OfflineEpisodesContext } from '../../libs/Store';
+import strings from '../../libs/language';
 import './Downloads.css';
 
 function Downloads() {
@@ -15,7 +16,7 @@ function Downloads() {
           />
         </div>
         <div>
-          No downloaded episodes found
+          {strings.noDownloadedEpisodesFound}
         </div>
       </div>
     );

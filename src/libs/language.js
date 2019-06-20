@@ -59,6 +59,8 @@ const strings = new LocalizedStrings({
     showMoreEpisodes: 'Show More Episodes',
     pause: 'Pause',
     selectLanguage: 'Select Language',
+    noDownloadedEpisodesFound: 'No downloaded episodes found.',
+    noPodcastsSubscribed: 'No podcasts subscribed.',
   },
   pt: {
     header: 'Cabeçalho',
@@ -118,6 +120,8 @@ const strings = new LocalizedStrings({
     showMoreEpisodes: 'Mostrar Mais Episódios',
     pause: 'Pausar',
     selectLanguage: 'Selecionar Idioma',
+    noDownloadedEpisodesFound: 'Nenhum episódio baixado foi encontrado.',
+    noPodcastsSubscribed: 'Nenhuma inscrição encontrada',
   },
 });
 

@@ -41,3 +41,9 @@
   align-items: center;
   justify-content: center;
 }
+
+.is-offline .episode__play .button {
+  color: var(--mute-color);
+  border: solid 2px var(--mute-color);
+  pointer-events: none;
+}

@@ -103,7 +103,11 @@ function PodcastPage({
         ? (
           <Metadata
             title={`PodCatcher - ${data.collectionName}`}
-            description={strings.formatString(strings.podcastMetaDescription, episodes.length, data.collectionName)}
+            description={strings.formatString(
+              strings.podcastMetaDescription,
+              episodes.length,
+              data.collectionName,
+            )}
           />
         )
         : null}
@@ -138,7 +142,9 @@ function PodcastPage({
               <img
                 className="podcast-page__summary__image-wrapper__image"
                 src={data.artworkUrl600 || ''}
-                alt={data && data.collectionName ? strings.formatString(strings.logoOfX, data.collectionName) : strings.loadingImage}
+                alt={data && data.collectionName
+                  ? strings.formatString(strings.logoOfX, data.collectionName)
+                  : strings.loadingImage}
                 onLoad={onImageLoad}
               />
             )}

@@ -10,6 +10,7 @@
 .range__path {
   width: 100%;
   border: solid thin #000;
+  pointer-events: none;
 }
 
 .range__handle {

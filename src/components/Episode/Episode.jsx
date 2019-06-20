@@ -13,6 +13,7 @@ import {
   OFFLINE_EPISODES_ACTION_TYPE,
 } from '../../libs/Store';
 import { BASE_URL } from '../../libs/api';
+import strings from '../../libs/language';
 import './Episode.css';
 
 function Episode({
@@ -116,7 +117,7 @@ function Episode({
   return (
     <div className={`episode ${downloaded && downloaded.blob ? 'episode--downloaded' : ''}`}>
       <Modal
-        title="Options"
+        title={strings.options}
         open={showOptionsDialog}
         onClose={() => setShowOptionsDialog(false)}
       >
@@ -131,14 +132,14 @@ function Episode({
                   className="icon ion-md-trash"
                   style={{ marginRight: '8px' }}
                 />
-                Delete Download
+                {strings.deleteDownload}
               </Button>
             )
             : null}
           {downloaded && !downloaded.blob
             ? (
               <Button onClick={abort}>
-                {`(${downloaded.progress}%) Cancel Download`}
+                {strings.formatString(strings.cancelDownload, downloaded.progress)}
               </Button>
             )
             : null}
@@ -152,7 +153,7 @@ function Episode({
                   className="icon ion-md-cloud-download"
                   style={{ marginRight: '8px' }}
                 />
-                Download
+                {strings.download}
               </Button>
             )
             : null}
@@ -178,7 +179,7 @@ function Episode({
                     if (downloaded) return;
                     download();
                   }}
-                  ariaLabel="Download"
+                  ariaLabel={strings.download}
                 >
                   {downloaded
                     ? (
@@ -212,7 +213,7 @@ function Episode({
                 !showPodcastName
                 && downloaded
                 && downloaded.blob
-                  ? 'Downloaded'
+                  ? strings.downloaded
                   : null
               }
               {

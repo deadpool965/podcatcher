@@ -5,6 +5,7 @@ import {
   PLAYBACK_ACTION_TYPE,
   PLAYBACK_STATUS,
 } from '../../libs/Store';
+import strings from '../../libs/language';
 import './PlayButton.css';
 
 function PlayButton({
@@ -74,7 +75,7 @@ function PlayButton({
       `}
       onClick={onClick}
       onKeyDown={onPressSpace}
-      aria-label={`Play ${title}`}
+      aria-label={isMyEpisode && isPlaying ? strings.pause : strings.formatString(strings.playTitle, title)}
       role="button"
       tabIndex={waiting ? '-1' : '0'}
     >

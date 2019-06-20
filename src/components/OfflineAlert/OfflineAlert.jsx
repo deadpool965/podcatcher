@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from '../Grid/Grid';
+import strings from '../../libs/language';
 import './OfflineAlert.css';
 
 function OfflineAlert() {
@@ -13,8 +14,12 @@ function OfflineAlert() {
           />
         </div>
         <div className="offline-alert__description">
-          <b>You are offline.</b>
-          The network could not be reached.
+          <b>
+            {strings.youAreOffline}
+            .
+          </b>
+          {strings.networkCouldNotBeReached}
+          .
         </div>
       </Grid>
     </div>

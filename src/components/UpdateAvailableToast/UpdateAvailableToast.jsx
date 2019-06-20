@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../Button/Button';
 import Grid from '../Grid/Grid';
+import strings from '../../libs/language';
 import './UpdateAvailableToast.css';
 
 function UpdateAvailableToast() {
@@ -34,7 +35,8 @@ function UpdateAvailableToast() {
         }}
       >
         <div className="update-available-toast__description">
-          Update available.
+          {strings.updateAvailable}
+          .
         </div>
         <div>
           <Button
@@ -44,7 +46,7 @@ function UpdateAvailableToast() {
             accentText
             pointy
           >
-            Refresh
+            {strings.refresh}
           </Button>
         </div>
       </Grid>

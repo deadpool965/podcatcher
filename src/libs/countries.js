@@ -62,7 +62,7 @@ export default [{
   label: 'Botswana',
   value: 'bw',
 }, {
-  label: 'Brazil',
+  label: 'Brasil',
   value: 'br',
 }, {
   label: 'British Virgin Islands',

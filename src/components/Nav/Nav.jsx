@@ -13,6 +13,7 @@ import {
   PodcastDataContext,
   SUBSCRIPTIONS_ACTION_TYPE,
 } from '../../libs/Store';
+import strings from '../../libs/language';
 import './Nav.css';
 
 function Nav() {
@@ -65,7 +66,7 @@ function Nav() {
                       className="nav__tab-item"
                       activeClassName="nav__tab-item--active"
                     >
-                      Discover
+                      {strings.discover}
                     </NavLink>
                     <NavLink
                       to="/subscriptions"
@@ -73,7 +74,7 @@ function Nav() {
                       className="nav__tab-item"
                       activeClassName="nav__tab-item--active"
                     >
-                      Subscriptions
+                      {strings.subscriptions}
                     </NavLink>
                     <NavLink
                       to="/downloads"
@@ -81,7 +82,7 @@ function Nav() {
                       className="nav__tab-item"
                       activeClassName="nav__tab-item--active"
                     >
-                      Downloads
+                      {strings.downloads}
                     </NavLink>
                   </Grid>
                 </Container>
@@ -99,7 +100,7 @@ function Nav() {
                         className="icon ion-ios-arrow-back"
                         style={{ marginRight: '8px' }}
                       />
-                      Return
+                      {strings.return}
                     </Link>
                     <div />
                     <div className="nav__center">
@@ -117,7 +118,7 @@ function Nav() {
                                 className="icon ion-md-heart-dislike"
                                 style={{ marginRight: '8px' }}
                               />
-                              Unsubscribe
+                              {strings.unsubscribe}
                             </Button>
                           )
                           : (
@@ -132,7 +133,7 @@ function Nav() {
                                 className="icon ion-md-heart"
                                 style={{ marginRight: '8px' }}
                               />
-                              Subscribe
+                              {strings.subscribe}
                             </Button>
                           )
                       }
@@ -153,7 +154,7 @@ function Nav() {
                         className="icon ion-ios-arrow-back"
                         style={{ marginRight: '8px' }}
                       />
-                      Return
+                      {strings.return}
                     </Link>
                     <div />
                   </Grid>

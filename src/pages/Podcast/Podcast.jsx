@@ -15,6 +15,7 @@ import Metadata from '../../components/Metadata/Metadata';
 import OfflineAlert from '../../components/OfflineAlert/OfflineAlert';
 import api from '../../libs/api';
 import { PodcastDataContext } from '../../libs/Store';
+import strings from '../../libs/language';
 import './Podcast.css';
 
 const LIMIT_OPTIONS = [
@@ -102,12 +103,12 @@ function PodcastPage({
         ? (
           <Metadata
             title={`PodCatcher - ${data.collectionName}`}
-            description={`Listen to ${episodes.length} episodes of ${data.collectionName} on PodCatcher`}
+            description={strings.formatString(strings.podcastMetaDescription, episodes.length, data.collectionName)}
           />
         )
         : null}
       <Modal
-        title="Select Limit"
+        title={strings.selectLimit}
         onClose={onLimitDialogClose}
         open={showLimitMenu}
       >
@@ -120,7 +121,7 @@ function PodcastPage({
                     type="button"
                     onClick={() => changeLimit(l)}
                     fullWidth
-                    ariaLabel={`Show ${l} results`}
+                    ariaLabel={strings.formatString(strings.showXResults, l)}
                   >
                     {l}
                   </Button>
@@ -137,7 +138,7 @@ function PodcastPage({
               <img
                 className="podcast-page__summary__image-wrapper__image"
                 src={data.artworkUrl600 || ''}
-                alt={`Logo of ${data.collectionName}` || 'Loading image...'}
+                alt={data && data.collectionName ? strings.formatString(strings.logoOfX, data.collectionName) : strings.loadingImage}
                 onLoad={onImageLoad}
               />
             )}
@@ -165,15 +166,15 @@ function PodcastPage({
             <div className="podcast-page__episodes__content">
               <form
                 style={{ marginBottom: '32px' }}
-                aria-label="Search for Episodes"
+                aria-label={strings.searchForEpisodes}
               >
                 <Grid columns="auto min-content">
                   <TextInput
                     id="q"
                     name="q"
-                    ariaLabel="Search Episode"
+                    ariaLabel={strings.searchEpisode}
                     icon="search"
-                    placeholder="Search Episode"
+                    placeholder={strings.searchEpisode}
                     defaultValue={search}
                     onChange={handleSearchChange}
                     clearButton
@@ -183,7 +184,7 @@ function PodcastPage({
                   <div className="podcast-page__search-tools">
                     <Button
                       id="limit-btn"
-                      aria-label="Change Limit"
+                      aria-label={strings.changeLimit}
                       onClick={() => setShowLimitMenu(true)}
                       transparent
                       lightText
@@ -194,7 +195,7 @@ function PodcastPage({
                     <Button
                       id="order-btn"
                       onClick={toggleOrder}
-                      aria-label="Change Order"
+                      aria-label={strings.changeOrder}
                       transparent
                       lightText
                       circle
@@ -215,7 +216,7 @@ function PodcastPage({
                 : (
                   <ul
                     className="podcast-page__episode-list"
-                    aria-label="Podcast episodes"
+                    aria-label={strings.podcastEpisodes}
                   >
                     {episodes.length === 0
                       ? <Spinner />
@@ -272,7 +273,7 @@ function PodcastPage({
                       to={`/${id}/${parseInt(limit, 10) + 50}`}
                       className="podcast-page__read-more__button"
                     >
-                      Show More Episodes
+                      {strings.showMoreEpisodes}
                       <i className="podcast-page__read-more__button__icon icon ion-md-arrow-dropdown" />
                     </Link>
                   </div>

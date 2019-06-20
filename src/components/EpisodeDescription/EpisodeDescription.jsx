@@ -5,6 +5,7 @@ import React, {
   useRef,
 } from 'react';
 import PropTypes from 'prop-types';
+import strings from '../../libs/language';
 import './EpisodeDescription.css';
 
 function EpisodeDescription({
@@ -45,7 +46,7 @@ function EpisodeDescription({
               onClick={expand}
               aria-hidden
             >
-              Read More
+              {strings.readMore}
             </button>
           </Fragment>
         )

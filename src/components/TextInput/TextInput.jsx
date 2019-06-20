@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+import strings from '../../libs/language';
 import './TextInput.css';
 
 function TextInput({
@@ -52,7 +53,7 @@ function TextInput({
         ? (
           <button
             type="button"
-            aria-label="Clear"
+            aria-label={strings.clear}
             className="text-input__clear-btn"
             onClick={clearInput}
           >

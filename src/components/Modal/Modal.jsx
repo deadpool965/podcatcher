@@ -12,6 +12,7 @@ import React, {
   useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
+import strings from '../../libs/language';
 import './Modal.css';
 
 function Modal({
@@ -75,7 +76,7 @@ function Modal({
             </div>
             <button
               type="button"
-              aria-label="Close"
+              aria-label={strings.close}
               onClick={onClose}
               className="modal__close-btn"
             >

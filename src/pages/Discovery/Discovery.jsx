@@ -10,6 +10,7 @@ import MY_CONTRY from '../../libs/myCountry';
 import countries from '../../libs/countries';
 import queryParser from '../../libs/queryParser';
 import api from '../../libs/api';
+import strings from '../../libs/language';
 import './Discovery.css';
 
 
@@ -19,7 +20,7 @@ function PodcastResults({ searchResults }) {
   }
 
   if (searchResults.length === 0) {
-    return <span>No results found.</span>;
+    return <span>{strings.noResultsFound}</span>;
   }
 
   return (
@@ -119,17 +120,17 @@ function Discovery({ history, location }) {
     <div className="discovery-page">
       <Metadata
         title={`PodCatcher ${countryName ? ` (${countryName})` : ''}`}
-        description="PodCatcher is a free podcast player for the web. Listen to podcasts on or phone or desktop."
+        description={strings.metaDescription}
       />
       <form
         onSubmit={handleSubmit}
         className="discovery-page__form"
-        aria-label="Search podcasts"
+        aria-label={strings.searchPodcasts}
       >
         <TextInput
           name="q"
-          placeholder="Search"
-          ariaLabel="Search by name"
+          placeholder={strings.search}
+          ariaLabel={strings.searchByName}
           defaultValue={q}
           onChange={handleChange}
           clearButton
@@ -138,7 +139,7 @@ function Discovery({ history, location }) {
         <Button
           fullWidth
           onClick={handleSubmit}
-          ariaLabel="Search"
+          ariaLabel={strings.search}
         >
           <i
             className="icon ion-md-search"
@@ -154,7 +155,7 @@ function Discovery({ history, location }) {
               : (
                 <Fragment>
                   <h2 className="discovery-page__title">
-                    {`Results for "${query.q}"`}
+                    {strings.formatString(strings.resultsForX, query.q)}
                   </h2>
                   {
                     <PodcastResults
@@ -172,7 +173,7 @@ function Discovery({ history, location }) {
               : (
                 <Fragment>
                   <h2 className="discovery-page__title">
-                    {`Popular Podcasts in ${countryName}`}
+                    {strings.formatString(strings.popularPodcastsInX, countryName || '')}
                   </h2>
                   <PodcastGrid
                     podcasts={topChartsPodcasts}

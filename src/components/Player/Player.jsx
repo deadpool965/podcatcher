@@ -15,6 +15,7 @@ import Grid from '../Grid/Grid';
 import PlayButton from '../PlayButton/PlayButton';
 import Modal from '../Modal/Modal';
 import Range from '../Range/Range';
+import strings from '../../libs/language';
 import './Player.css';
 
 const TIMER_OPTIONS = [
@@ -202,10 +203,10 @@ function Player() {
     <div
       className="player"
       role="navigation"
-      aria-label="Player Navigation"
+      aria-label={strings.playerNavigation}
     >
       <Modal
-        title="Set Timer"
+        title={strings.setTimer}
         open={showTimerDialog}
         onClose={hideTimerDialog}
       >
@@ -213,8 +214,8 @@ function Player() {
           {TIMER_OPTIONS
             .map((time) => {
               const label = time === 0
-                ? 'Off'
-                : `${time} minutes`;
+                ? strings.timerOff
+                : strings.formatString(strings.xMinutes, time);
               return (
                 <li key={time}>
                   <Button
@@ -230,7 +231,7 @@ function Player() {
         </ul>
       </Modal>
       <Modal
-        title="Set Playback Rate"
+        title={strings.setPlaybackRate}
         open={showPlaybackRateDialog}
         onClose={hidePlaybackRateDialog}
       >
@@ -253,12 +254,11 @@ function Player() {
         </ul>
       </Modal>
       <Modal
-        title="Error!"
+        title={strings.error}
         open={showErrorDialog}
         onClose={hideErrorDialog}
       >
-        Something went wrong with the audio stream.
-        Check your Internet connection and try again.
+        {strings.errorAudioStream}
       </Modal>
       <Container>
         <Grid
@@ -271,7 +271,7 @@ function Player() {
           >
             <Button
               onClick={toggleExpand}
-              ariaLabel={expanded ? 'Collapse Player' : 'Expand Player'}
+              ariaLabel={expanded ? strings.collapsePlayer : strings.expandPlayer}
             >
               <i
                 className={`icon ion-md-arrow-drop${expanded ? 'up' : 'down'}`}
@@ -312,7 +312,7 @@ function Player() {
                       min={0}
                       max={playback.duration}
                       step={15}
-                      label="Progress Bar"
+                      label={strings.progressBar}
                       onChange={onProgressChange}
                     />
                   </div>
@@ -332,7 +332,7 @@ function Player() {
                   <div>
                     <Button
                       id="timer-btn"
-                      ariaLabel="Set Timer"
+                      ariaLabel={strings.setTimer}
                       onClick={() => setShowTimerDialog(true)}
                     >
                       <i
@@ -343,7 +343,7 @@ function Player() {
                   </div>
                   <div>
                     <Button
-                      ariaLabel="Rewind 15 seconds"
+                      ariaLabel={strings.rewind15Seconds}
                       onClick={rewind}
                     >
                       <i className="icon ion-md-rewind" />
@@ -357,7 +357,7 @@ function Player() {
                   />
                   <div>
                     <Button
-                      ariaLabel="Fastforward 15 seconds"
+                      ariaLabel={strings.Fastforward15Seconds}
                       onClick={fastforward}
                     >
                       <i className="icon ion-md-fastforward" />
@@ -366,7 +366,7 @@ function Player() {
                   <div>
                     <Button
                       id="playback-rate-btn"
-                      ariaLabel="Change playback rate"
+                      ariaLabel={strings.setPlaybackRate}
                       onClick={() => setShowPlaybackRateDialog(true)}
                     >
                       <b>

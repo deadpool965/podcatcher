@@ -5,6 +5,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import localForage from 'localforage';
+import strings from '../../libs/language';
 import './PodcastGrid.css';
 
 function PodcastGrid({ podcasts }) {
@@ -76,7 +77,7 @@ function PodcastGrid({ podcasts }) {
               <img
                 className="podcast-link-item__img"
                 data-src={artworkUrl100}
-                alt={name || 'Loading'}
+                alt={name || strings.loading}
                 aria-hidden
               />
               <div className="podcast-link-item__hidden-text">{name}</div>

@@ -10,6 +10,7 @@
     "eslint-config-synacor": "^3.0.4",
     "express": "^4.16.4",
     "intersection-observer": "^0.7.0",
+    "linkifyjs": "^2.1.8",
     "localforage": "^1.7.3",
     "node-cache": "^4.2.0",
     "nodemon": "^1.19.0",

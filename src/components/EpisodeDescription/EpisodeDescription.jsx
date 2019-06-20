@@ -5,6 +5,7 @@ import React, {
   useRef,
 } from 'react';
 import PropTypes from 'prop-types';
+import linkifyHtml from 'linkifyjs/html';
 import strings from '../../libs/language';
 import './EpisodeDescription.css';
 
@@ -16,8 +17,22 @@ function EpisodeDescription({
   const wrapper = useRef();
 
   useEffect(() => {
-    const { clientHeight } = wrapper.current;
-    setOverflow(clientHeight > 100);
+    const $wrapper = wrapper.current;
+    const $content = document.createElement('div');
+
+    const formattedText = linkifyHtml(
+      text
+        .replace(/<script(\s|\S)*?<\/script>/gi, '')
+        .replace(/<style(\s|\S)*?<\/style>/gi, '')
+        .replace(/style="(\s|\S)*?"/gi, '')
+        .replace(/style='(\s|\S)*?'/gi, '')
+        .replace(/<img(\s|\S)*?\/>/gi, '')
+        .replace(/<!--(\s|\S)*?-->/gi, ''),
+    );
+
+    $content.innerHTML = formattedText;
+    $wrapper.appendChild($content);
+    setOverflow($content.clientHeight > 100);
   }, []);
 
   function expand() {
@@ -51,10 +66,7 @@ function EpisodeDescription({
           </Fragment>
         )
         : null}
-      <div
-        ref={wrapper}
-        dangerouslySetInnerHTML={{ __html: text }}
-      />
+      <div ref={wrapper} />
     </div>
   );
 }

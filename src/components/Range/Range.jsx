@@ -12,6 +12,7 @@ function Range({
 }) {
   const [isBrowsing, setIsBrowsing] = useState(false);
   const [percentage, setPercentage] = useState((value / max) * 100);
+  const wrapper = useRef();
   const handle = useRef();
   const path = useRef();
 
@@ -35,6 +36,17 @@ function Range({
   function onMouseDown(evt) {
     evt.persist();
     setIsBrowsing(true);
+  }
+
+  function onMouseClick(evt) {
+    if (window.isMobile) return;
+    const { clientX, target } = evt;
+    if (target !== wrapper.current) return;
+    const rect = target.getBoundingClientRect();
+    const { left, width } = rect;
+    const x = Math.round(clientX - left);
+    const pct = x / width;
+    onChange(pct * max);
   }
 
   useEffect(() => {
@@ -77,7 +89,11 @@ function Range({
   }, [isBrowsing, onChange, percentage, max]);
 
   return (
-    <div className="range">
+    <div
+      className="range"
+      onClick={onMouseClick}
+      ref={wrapper}
+    >
       <div
         ref={path}
         className="range__path"

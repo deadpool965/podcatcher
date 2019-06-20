@@ -3,6 +3,8 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  height: 20px;
+  cursor: pointer;
 }
 
 .range__path {

@@ -33,7 +33,7 @@ function EpisodeDescription({
     $content.innerHTML = formattedText;
     $wrapper.appendChild($content);
     setOverflow($content.clientHeight > 100);
-  }, []);
+  }, [text, setOverflow]);
 
   function expand() {
     setExpanded(true);

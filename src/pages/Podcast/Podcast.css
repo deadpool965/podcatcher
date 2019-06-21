@@ -55,7 +55,7 @@
 
 .podcast-page__summary__content {
   display: grid;
-  grid-template-rows: min-content auto 18px;
+  grid-template-rows: min-content auto min-content;
 }
 
 .podcast-page__summary__content__title {
@@ -70,6 +70,19 @@
 
 .podcast-page__summary__content__genre {
   color: var(--mute-color);
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.podcast-page__summary__content__genre__content {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  position: absolute;
+  left: 0%;
+  width: 100%;
 }
 
 .podcast-page__episode-list {

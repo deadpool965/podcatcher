@@ -49,6 +49,13 @@ function PodcastPage({
     .toLowerCase()
     .trim();
 
+  function refresh() {
+    setEpisodes([]);
+    api(`episodes/${id}`)
+      .then(e => setEpisodes(e))
+      .catch(() => setEpisodesError(true));
+  }
+
   useEffect(() => {
     setData({});
     api(`podcast/${id}`)
@@ -160,9 +167,27 @@ function PodcastPage({
               ? 'Sorry, something went wrong. We could not reach the network'
               : data.artistName || ''}
           </div>
-          <div className="podcast-page__summary__content__genre">
-            {genre()}
-          </div>
+          <Grid columns="auto min-content">
+            <div className="podcast-page__summary__content__genre">
+              <div className="podcast-page__summary__content__genre__content">
+                {genre()}
+              </div>
+            </div>
+            <div>
+              <Button
+                small
+                transparent
+                accentText
+                onClick={refresh}
+              >
+                <i
+                  className="icon ion-md-refresh"
+                  style={{ marginRight: '8px' }}
+                />
+                {strings.refresh}
+              </Button>
+            </div>
+          </Grid>
         </div>
       </div>
       {dataError

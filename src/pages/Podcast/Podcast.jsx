@@ -14,7 +14,11 @@ import Button from '../../components/Button/Button';
 import Metadata from '../../components/Metadata/Metadata';
 import OfflineAlert from '../../components/OfflineAlert/OfflineAlert';
 import api from '../../libs/api';
-import { PodcastDataContext } from '../../libs/Store';
+import {
+  PodcastDataContext,
+  SubscriptionsContext,
+  SUBSCRIPTIONS_ACTION_TYPE,
+} from '../../libs/Store';
 import strings from '../../libs/language';
 import './Podcast.css';
 
@@ -34,6 +38,7 @@ function PodcastPage({
   const { id } = match.params;
   const [search, setSearch] = useState('');
   const [data, setData] = useContext(PodcastDataContext);
+  const [, dispatchSubscriptions] = useContext(SubscriptionsContext);
   const [dataError, setDataError] = useState(false);
   const [episodes, setEpisodes] = useState([]);
   const [episodesError, setEpisodesError] = useState(false);
@@ -67,6 +72,14 @@ function PodcastPage({
       })
       .catch(() => setDataError(true));
   }, [id, setData]);
+
+  useEffect(() => {
+    if (!data.collectionId) return;
+    dispatchSubscriptions({
+      type: SUBSCRIPTIONS_ACTION_TYPE.UPDATE_POSITION,
+      payload: `${data.collectionId}`,
+    });
+  }, [data, dispatchSubscriptions]);
 
   function onImageLoad({ target }) {
     const image = target;

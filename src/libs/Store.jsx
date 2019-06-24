@@ -159,16 +159,19 @@ export const PodcastDataContext = createContext(null);
 export const SUBSCRIPTIONS_ACTION_TYPE = {
   SUBSCRIBE: 'SUBSCRIBE',
   UNSUBSCRIBE: 'UNSUBSCRIBE',
+  UPDATE_POSITION: 'UPDATE_POSITION',
   LOAD: 'LOAD',
 };
 
 const subscriptionsReducer = (state, action) => {
   let r;
+  let subscribedPodcast;
+
   switch (action.type) {
     case SUBSCRIPTIONS_ACTION_TYPE.SUBSCRIBE:
       r = [
-        ...state,
         action.payload,
+        ...state,
       ];
       break;
     case SUBSCRIPTIONS_ACTION_TYPE.UNSUBSCRIBE:
@@ -180,6 +183,15 @@ const subscriptionsReducer = (state, action) => {
         ...state,
         ...action.payload,
       ];
+      break;
+    case SUBSCRIPTIONS_ACTION_TYPE.UPDATE_POSITION:
+      subscribedPodcast = state.find(item => item.id === action.payload);
+      if (subscribedPodcast) {
+        r = [
+          subscribedPodcast,
+          ...state.filter(item => item.id !== action.payload),
+        ];
+      }
       break;
     default:
       break;

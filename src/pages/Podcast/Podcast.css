@@ -11,6 +11,12 @@
   }
 }
 
+.podcast-page__summary__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .podcast-page__summary__image-wrapper {
   display: block;
   position: relative;

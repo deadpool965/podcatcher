@@ -155,19 +155,21 @@ function PodcastPage({
         </ul>
       </Modal>
       <div className="podcast-page__summary">
-        <div className="podcast-page__summary__image-wrapper">
-          {dataError
-            ? <i className="icon ion-ios-wifi" aria-hidden />
-            : (
-              <img
-                className="podcast-page__summary__image-wrapper__image"
-                src={data.artworkUrl600 || ''}
-                alt={data && data.collectionName
-                  ? strings.formatString(strings.logoOfX, data.collectionName)
-                  : strings.loadingImage}
-                onLoad={onImageLoad}
-              />
-            )}
+        <div className="podcast-page__summary__image">
+          <div className="podcast-page__summary__image-wrapper">
+            {dataError
+              ? <i className="icon ion-ios-wifi" aria-hidden />
+              : (
+                <img
+                  className="podcast-page__summary__image-wrapper__image"
+                  src={data.artworkUrl600 || ''}
+                  alt={data && data.collectionName
+                    ? strings.formatString(strings.logoOfX, data.collectionName)
+                    : strings.loadingImage}
+                  onLoad={onImageLoad}
+                />
+              )}
+          </div>
         </div>
         <div className="podcast-page__summary__content">
           <h2 className="podcast-page__summary__content__title">

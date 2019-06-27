@@ -27,7 +27,7 @@ Podcast player PWA
 - [x] - Discovery Page (most listened)
 - [ ] - Rich discovery page (seach by year, categories and language)
 - [x] - Multimedia controls on Locked Screen
-- [ ] - Mark podcasts as listened
+- [x] - Mark podcasts as listened
 - [ ] - New Podcasts section
 - [x] - Resume podcasts where you left
 - [x] - Offline App Navigation

@@ -169,8 +169,26 @@ const subscriptionsReducer = (state, action) => {
 
   switch (action.type) {
     case SUBSCRIPTIONS_ACTION_TYPE.SUBSCRIBE:
+      subscribedPodcast = action.payload;
+      subscribedPodcast.subscriptionDate = new Date() - 1;
+      subscribedPodcast.listened = [];
+
+      // Validation.
+      // Payload Scheme: { id: String, name: String, artworkUrl100: String };
+      if (!subscribedPodcast.id || typeof subscribedPodcast.id !== 'string') {
+        throw new Error('Invalid prop `id`');
+      }
+
+      if (!subscribedPodcast.name || typeof subscribedPodcast.name !== 'string') {
+        throw new Error('Invalid prop `name`');
+      }
+
+      if (!subscribedPodcast.artworkUrl100 || typeof subscribedPodcast.artworkUrl100 !== 'string') {
+        throw new Error('Invalid prop `artworkUrl100`');
+      }
+
       r = [
-        action.payload,
+        subscribedPodcast,
         ...state,
       ];
       break;
@@ -182,7 +200,14 @@ const subscriptionsReducer = (state, action) => {
       r = [
         ...state,
         ...action.payload,
-      ];
+      ]
+        .map((item) => {
+          // migration
+          const sub = item;
+          if (!sub.subscriptionDate) sub.subscriptionDate = new Date() - 1;
+          if (!sub.listened) sub.listened = [];
+          return sub;
+        });
       break;
     case SUBSCRIPTIONS_ACTION_TYPE.UPDATE_POSITION:
       subscribedPodcast = state.find(item => item.id === action.payload);

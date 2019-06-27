@@ -16,6 +16,18 @@
   color: var(--accent-color);
 }
 
+.episode__title__new-marker {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background-color: #00a5ff;
+  border-radius: 100%;
+  margin-right: 8px;
+  margin-bottom: 5px;
+  overflow: hidden;
+  color: #00a5ff;
+}
+
 .is-offline .episode__title {
   color: rgba(255, 255, 255, .3);
 }

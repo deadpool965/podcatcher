@@ -61,6 +61,8 @@ const strings = new LocalizedStrings({
     selectLanguage: 'Select Language',
     noDownloadedEpisodesFound: 'No downloaded episodes found.',
     noPodcastsSubscribed: 'No podcasts subscribed.',
+    more: 'More',
+    newEpisode: 'New!',
   },
   pt: {
     header: 'Cabeçalho',
@@ -122,6 +124,8 @@ const strings = new LocalizedStrings({
     selectLanguage: 'Selecionar Idioma',
     noDownloadedEpisodesFound: 'Nenhum episódio baixado foi encontrado.',
     noPodcastsSubscribed: 'Nenhuma inscrição encontrada',
+    more: 'Mais',
+    newEpisode: 'Novo!',
   },
 });
 

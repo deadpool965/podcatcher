@@ -10,6 +10,7 @@ import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
 import {
   OfflineEpisodesContext,
+  SubscriptionsContext,
   OFFLINE_EPISODES_ACTION_TYPE,
 } from '../../libs/Store';
 import { BASE_URL } from '../../libs/api';
@@ -30,8 +31,14 @@ function Episode({
   const { url } = episode.enclosures[0];
   const [showOptionsDialog, setShowOptionsDialog] = useState(false);
   const [offlineEpisodes, dispatchOfflineEpisodes] = useContext(OfflineEpisodesContext);
+  const [subscriptions] = useContext(SubscriptionsContext);
   const downloaded = offlineEpisodes
     .find(ep => ep.url === url);
+
+  const subscription = subscriptions.find(sub => sub.id === `${podcast.collectionId}`);
+  const afterSub = subscription && episode.created > subscription.subscriptionDate;
+  const listened = afterSub && subscription.listened.indexOf(`${podcast.collectionId}`) === -1;
+  const newEpisode = afterSub && listened;
 
   function download() {
     const oReq = new XMLHttpRequest();
@@ -231,6 +238,14 @@ function Episode({
               }
             </div>
             <h3 className="episode__title">
+              {newEpisode
+                ? (
+                  <span className="episode__title__new-marker">
+                    {strings.newEpisode}
+                    {' '}
+                  </span>
+                )
+                : null}
               {title}
             </h3>
           </div>
@@ -238,7 +253,7 @@ function Episode({
             ? (
               <div className="episode__play">
                 <Button
-                  ariaLabel="More"
+                  ariaLabel={strings.more}
                   transparent
                   small
                   accentText

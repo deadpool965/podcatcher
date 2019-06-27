@@ -2,8 +2,10 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   PlaybackContext,
+  SubscriptionsContext,
   PLAYBACK_ACTION_TYPE,
   PLAYBACK_STATUS,
+  SUBSCRIPTIONS_ACTION_TYPE,
 } from '../../libs/Store';
 import strings from '../../libs/language';
 import './PlayButton.css';
@@ -16,6 +18,7 @@ function PlayButton({
 }) {
   const { title } = episode;
   const [playback, dispatchPlayback] = useContext(PlaybackContext);
+  const [, dispatchSubscriptions] = useContext(SubscriptionsContext);
 
   const isMyEpisode = playback.episode
     && playback.episode.title === title;
@@ -48,6 +51,14 @@ function PlayButton({
       });
       return;
     }
+
+    dispatchSubscriptions({
+      type: SUBSCRIPTIONS_ACTION_TYPE.MARK_AS_LISTENED,
+      payload: {
+        podcastId: `${podcast.collectionId}`,
+        episodeId: `${episode.created}`,
+      },
+    });
 
     dispatchPlayback({
       type: PLAYBACK_ACTION_TYPE.REQUEST_LOAD,

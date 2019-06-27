@@ -160,6 +160,7 @@ export const SUBSCRIPTIONS_ACTION_TYPE = {
   SUBSCRIBE: 'SUBSCRIBE',
   UNSUBSCRIBE: 'UNSUBSCRIBE',
   UPDATE_POSITION: 'UPDATE_POSITION',
+  MARK_AS_LISTENED: 'MARK_AS_LISTENED',
   LOAD: 'LOAD',
 };
 
@@ -192,10 +193,12 @@ const subscriptionsReducer = (state, action) => {
         ...state,
       ];
       break;
+
     case SUBSCRIPTIONS_ACTION_TYPE.UNSUBSCRIBE:
       r = [...state]
         .filter(item => item.id !== action.payload);
       break;
+
     case SUBSCRIPTIONS_ACTION_TYPE.LOAD:
       r = [
         ...state,
@@ -209,12 +212,33 @@ const subscriptionsReducer = (state, action) => {
           return sub;
         });
       break;
+
     case SUBSCRIPTIONS_ACTION_TYPE.UPDATE_POSITION:
       subscribedPodcast = state.find(item => item.id === action.payload);
       if (subscribedPodcast) {
         r = [
           subscribedPodcast,
           ...state.filter(item => item.id !== action.payload),
+        ];
+      }
+      break;
+
+    case SUBSCRIPTIONS_ACTION_TYPE.MARK_AS_LISTENED:
+      // Validation.
+      // Payload Scheme: { podcastId: String, episodeId: String };
+      // Obs: Episode ID is the `created` attribute from the API.
+      if (!action.payload) throw new Error('Invalid parameter `payload`');
+      if (!action.payload.podcastId) throw new Error('Invalid parameter `podcastId`');
+      if (!action.payload.episodeId) throw new Error('Invalid parameter `episodeId`');
+
+      subscribedPodcast = state.find(item => item.id === action.payload.podcastId);
+      if (subscribedPodcast) {
+        if (subscribedPodcast.listened.indexOf(action.payload.episodeId) === -1) {
+          subscribedPodcast.listened.push(action.payload.episodeId);
+        }
+        r = [
+          subscribedPodcast,
+          ...state.filter(item => item.id !== action.payload.podcastId),
         ];
       }
       break;

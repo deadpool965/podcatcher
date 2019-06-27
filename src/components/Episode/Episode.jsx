@@ -12,6 +12,7 @@ import {
   OfflineEpisodesContext,
   SubscriptionsContext,
   OFFLINE_EPISODES_ACTION_TYPE,
+  SUBSCRIPTIONS_ACTION_TYPE,
 } from '../../libs/Store';
 import { BASE_URL } from '../../libs/api';
 import strings from '../../libs/language';
@@ -31,13 +32,13 @@ function Episode({
   const { url } = episode.enclosures[0];
   const [showOptionsDialog, setShowOptionsDialog] = useState(false);
   const [offlineEpisodes, dispatchOfflineEpisodes] = useContext(OfflineEpisodesContext);
-  const [subscriptions] = useContext(SubscriptionsContext);
+  const [subscriptions, dispatchSubscriptions] = useContext(SubscriptionsContext);
   const downloaded = offlineEpisodes
     .find(ep => ep.url === url);
 
   const subscription = subscriptions.find(sub => sub.id === `${podcast.collectionId}`);
   const afterSub = subscription && episode.created > subscription.subscriptionDate;
-  const listened = afterSub && subscription.listened.indexOf(`${podcast.collectionId}`) === -1;
+  const listened = afterSub && subscription.listened.indexOf(`${episode.created}`) === -1;
   const newEpisode = afterSub && listened;
 
   function download() {
@@ -121,6 +122,17 @@ function Episode({
     setShowOptionsDialog(false);
   }
 
+  function markAsListened() {
+    dispatchSubscriptions({
+      type: SUBSCRIPTIONS_ACTION_TYPE.MARK_AS_LISTENED,
+      payload: {
+        podcastId: subscription.id,
+        episodeId: `${episode.created}`,
+      },
+    });
+    setShowOptionsDialog(false);
+  }
+
   return (
     <div className={`episode ${downloaded && downloaded.blob ? 'episode--downloaded' : ''}`}>
       <Modal
@@ -164,10 +176,24 @@ function Episode({
               </Button>
             )
             : null}
+          {newEpisode
+            ? (
+              <Button
+                onClick={markAsListened}
+              >
+                <i
+                  aria-hidden
+                  className="icon ion-md-checkmark"
+                  style={{ marginRight: '8px' }}
+                />
+                {strings.markAsListened}
+              </Button>
+            )
+            : null}
         </Grid>
       </Modal>
       <Grid rows={`auto ${noDescription ? '' : 'auto'}`}>
-        <Grid columns={`35px auto ${downloaded || window.isMobile === false ? 'min-content' : ''}`}>
+        <Grid columns={`35px auto ${downloaded || window.isMobile === false || newEpisode ? 'min-content' : ''}`}>
           <div className="episode__play">
             {(downloaded && downloaded.blob) || (!window.isMobile && !downloaded)
               ? (
@@ -249,7 +275,7 @@ function Episode({
               {title}
             </h3>
           </div>
-          {downloaded || !window.isMobile
+          {downloaded || !window.isMobile || newEpisode
             ? (
               <div className="episode__play">
                 <Button

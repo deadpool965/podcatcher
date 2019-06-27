@@ -63,6 +63,7 @@ const strings = new LocalizedStrings({
     noPodcastsSubscribed: 'No podcasts subscribed.',
     more: 'More',
     newEpisode: 'New!',
+    markAsListened: 'Mark as listened',
   },
   pt: {
     header: 'Cabeçalho',
@@ -126,6 +127,7 @@ const strings = new LocalizedStrings({
     noPodcastsSubscribed: 'Nenhuma inscrição encontrada',
     more: 'Mais',
     newEpisode: 'Novo!',
+    markAsListened: 'Marcar como ouvido',
   },
 });
 

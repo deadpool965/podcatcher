@@ -86,7 +86,9 @@ function PlayButton({
       `}
       onClick={onClick}
       onKeyDown={onPressSpace}
-      aria-label={isMyEpisode && isPlaying ? strings.pause : strings.formatString(strings.playTitle, title)}
+      aria-label={isMyEpisode && isPlaying
+        ? strings.pause
+        : strings.formatString(strings.playTitle, title)}
       role="button"
       tabIndex={waiting ? '-1' : '0'}
     >
